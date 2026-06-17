@@ -1,0 +1,32 @@
+ahotts-g2p
+Copyright 2026 TigreGotico
+
+This product includes software developed by TigreGotico
+(https://github.com/TigreGotico/ahotts-g2p).
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+------------------------------------------------------------------------------
+Algorithm credit / upstream acknowledgement
+------------------------------------------------------------------------------
+
+The grapheme-to-phoneme rules, syllabification, lexical-stress assignment and
+the bundled Basque dictionary (eu_dicc.dic) implemented in this package are
+derived from the design and linguistic behaviour of:
+
+    AhoTTS -- Aholab Signal Processing Laboratory,
+    University of the Basque Country (UPV/EHU)
+    https://aholab.ehu.eus/
+    https://github.com/aholab/AhoTTS
+
+AhoTTS is distributed by Aholab under the GNU GPL.
+
+This package is an INDEPENDENT, CLEAN-ROOM PURE-PYTHON REIMPLEMENTATION. No
+AhoTTS source code (C/C++) is copied, linked, vendored, or otherwise included.
+The algorithms were reimplemented from scratch in Python from the documented
+behaviour and the public source's design, in the same spirit as the pycotovia
+reimplementation of Cotovia. The package contains only original Python code
+plus the dictionary data file, which is read at runtime from its on-disk HDIC
+binary format.
+
+This acknowledgement does not imply endorsement by Aholab or UPV/EHU.

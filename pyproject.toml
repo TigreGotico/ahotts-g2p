@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ahotts_g2p"
+dynamic = ["version"]
+description = "Pure-Python, zero-dependency AhoTTS grapheme-to-phoneme (G2P) for Basque and Spanish"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "TigreGotico", email = "jarbasai@mailfence.com" }
+]
+keywords = [
+    "g2p", "phonemizer", "tts", "basque", "euskara", "spanish",
+    "ahotts", "phonemes", "ipa", "sampa",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/TigreGotico/ahotts-g2p"
+Repository = "https://github.com/TigreGotico/ahotts-g2p"
+Issues = "https://github.com/TigreGotico/ahotts-g2p/issues"
+
+[project.scripts]
+ahotts-g2p = "ahotts_g2p.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["ahotts_g2p*"]
+
+[tool.setuptools.package-data]
+ahotts_g2p = ["*.dic"]
+
+[tool.setuptools.dynamic]
+version = { attr = "ahotts_g2p.version.__version__" }
