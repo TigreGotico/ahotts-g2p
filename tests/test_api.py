@@ -12,6 +12,11 @@ def test_exports():
     assert set(ahotts_g2p.__all__) == {"phonemize", "SAMPA_TO_IPA", "__version__"}
 
 
+def test_supported_langs_and_versions():
+    assert ahotts_g2p.SUPPORTED_LANGS == ("eu", "es")
+    assert ahotts_g2p.SUPPORTED_VERSIONS == ("v1", "v2", "v3")
+
+
 def test_phonemize_returns_str():
     out = phonemize("Kaixo mundua")
     assert isinstance(out, str)
@@ -28,17 +33,18 @@ def test_phonemize_basic_value():
     assert phonemize("Bai.") == "bAj ."
 
 
-@pytest.mark.parametrize("lang", ["es", "fr", "EN"])
+@pytest.mark.parametrize("lang", ["fr", "EN", "pt", "xx"])
 def test_unsupported_lang_raises(lang):
     with pytest.raises(ValueError):
         phonemize("hola", lang=lang)
 
 
-@pytest.mark.parametrize("version", ["v1", "v2", "V0", "x"])
+@pytest.mark.parametrize("version", ["v0", "V4", "x", "4"])
 def test_unsupported_version_raises(version):
     with pytest.raises(ValueError):
         phonemize("kaixo", version=version)
 
 
 def test_version_string_is_alpha():
-    assert ahotts_g2p.__version__.startswith("0.0.1")
+    assert ahotts_g2p.__version__.startswith("0.1.0")
+    assert "a" in ahotts_g2p.__version__

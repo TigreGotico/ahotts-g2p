@@ -37,13 +37,39 @@ encode through its bits remain as explicit per-word overrides.
 
 ## Per-version parity status
 
-| Version | Lang | Status | Oracle |
-|---|---|---|---|
-| **V3** | eu | implemented, **100%** | HiTZ/StyleTTS2-eu (25/25) |
-| V1 | eu | planned | pyAhoTTS `libhtts` outputs |
-| V2 | eu | planned | ahoNT / hitz VITS outputs |
-| V1-ipar | eu (Northern) | planned | `AhoTTS_Iparrahotsa` outputs |
-| (any) | es | planned | AhoTTS Spanish outputs |
+All paths are implemented. Parity is measured word-for-word against the
+corresponding AhoTTS binary's output over a held-out corpus (`corpus.txt` /
+`corpus_es.txt`, validated by `validate.py` / `validate_es.py` in the source
+snapshot):
+
+| Version | Lang | Status | Word parity | Oracle |
+|---|---|---|---|---|
+| **V3** | eu | implemented | **98.25%** | HiTZ/StyleTTS2-eu **100%** (25/25, fast-path) |
+| **V1** | eu | implemented | **97.14%** | pyAhoTTS `libhtts` outputs |
+| **V2** | eu | implemented | **96.20%** | ahoNT / hitz VITS outputs |
+| **V1** | es | implemented | **100.00%** | AhoTTS Spanish outputs |
+| **V2** | es | implemented | **100.00%** | AhoTTS Spanish outputs |
+| **V3** | es | implemented | **100.00%** | AhoTTS Spanish outputs |
+| V1-ipar | eu (Northern) | planned | -- | `AhoTTS_Iparrahotsa` outputs |
+
+Spanish is exact (100% across all three versions) because Spanish g2p and
+stress are fully rule-driven, with the bundled `es_dicc` only respelling a
+short list of foreign words and abbreviations.
+
+The hardened V3 Basque fast-path (`ahotts_eu_hdic`, the `lang="eu",
+version="v3"` route) reproduces the StyleTTS2-eu oracle exactly (25/25); the
+general `ahotts_versioned` V3 path scores 98.25% word parity over the broader
+corpus.
+
+### Documented residual (Basque OOV / foreign words)
+
+The remaining Basque word mismatches are concentrated in out-of-vocabulary
+**foreign / loan words** that the AhoTTS dictionary romanises with
+word-specific rules the port does not encode bit-for-bit (e.g. `Bangkok`,
+proper names, and a few roman-numeral edge cases in mixed numeric contexts).
+These are an inherent property of OOV foreign-word romanisation and are
+expected to persist; native Basque vocabulary is reproduced exactly via the
+decoded dictionary flags. See `NOTES.md` for the per-word breakdown.
 
 The binaries are used only to **validate** a faithful source-based port, never
 to reverse-engineer rules.

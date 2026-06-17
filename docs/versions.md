@@ -33,16 +33,24 @@ codebase.
 V2 stands out: flat 2nd-syllable stress, no dictionary stress, full-vowel
 diphthongs.
 
-## Which version this release implements
+## What this release implements
 
-This release implements **V3** for Basque (`lang="eu"`, `version="v3"`, the
-defaults) -- the engine that phonemized `HiTZ/StyleTTS2-eu`. It reaches 100% on
-that model's test split (see [accuracy.md](accuracy.md)).
+This release is **version-aware across the full lineage**: `phonemize(text,
+lang, version)` accepts `lang` in `{eu, es}` and `version` in `{v1, v2, v3}`,
+each emulating the matching AhoTTS engine generation.
 
-The public API already accepts `version="v1"|"v2"` and `lang="es"`; those paths
-raise `ValueError` until the corresponding modules ship. The V1/V2 lineage and
-the Spanish module are reimplemented from the matching public AhoTTS source
-states and land in upcoming releases.
+- **Basque (`lang="eu"`):** `v3` (the default) is served by the hardened HDIC
+  fast-path that phonemized `HiTZ/StyleTTS2-eu` and reproduces that oracle
+  100%; `v1` and `v2` are served by the version-aware port (`ahotts_versioned`)
+  reimplemented from the matching public AhoTTS source states.
+- **Spanish (`lang="es"`):** `v1`/`v2`/`v3` are served by `es_phonemizer`.
+
+Each module is a clean-room Python reimplementation of the public AhoTTS C++
+source; the binaries are used only to **validate** parity, never to
+reverse-engineer rules. See [accuracy.md](accuracy.md) for the verified parity
+table.
+
+The `V1-ipar` (Northern / Iparrahotsa) path remains planned.
 
 ## Which model used which version
 

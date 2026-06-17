@@ -13,17 +13,17 @@ AhoTTS engine that phonemized the public HiTZ Basque voices.
 ## What it is
 
 - **Pure Python, stdlib only.** No compiler, no `swig`, no shared libraries.
-  The bundled Basque dictionary (`eu_dicc.dic`) is read straight from its HDIC
-  binary format with `struct`.
-- **Version-aware (planned).** AhoTTS has a real engine lineage -- V1
-  (pyAhoTTS `libhtts`), V2 (the `ahotts_common` rewrite, flat 2nd-syllable
-  stress) and V3 (`ahotts_common` with dictionary stress + the 2025 dict).
-  The public API takes a `version` parameter so you can pin behaviour. This
-  release ships **V3** Basque; V1/V2 and Spanish (`es`) land in upcoming
-  releases. See [docs/versions.md](docs/versions.md).
+  The bundled dictionaries (`eu_dicc_v1.dic`, `eu_dicc_v3.dic`, `es_dicc.dic`)
+  are read straight from their HDIC binary format with `struct`.
+- **Version-aware.** AhoTTS has a real engine lineage -- V1 (pyAhoTTS
+  `libhtts`), V2 (the `ahotts_common` rewrite, flat 2nd-syllable stress) and
+  V3 (`ahotts_common` with dictionary stress + the 2025 dict). The public API
+  takes a `version` parameter (`v1`/`v2`/`v3`) and a `lang` parameter
+  (`eu`/`es`) so you can pin behaviour. See [docs/versions.md](docs/versions.md).
 - **Accurate.** The V3 Basque path reproduces **100%** of the official
-  HiTZ/StyleTTS2-eu test split (25/25 lines, exact string match). See
-  [docs/accuracy.md](docs/accuracy.md).
+  HiTZ/StyleTTS2-eu test split (25/25 lines, exact string match); Spanish is
+  exact (100%) across all three versions, and the broader Basque corpus parity
+  is V1 97.14% / V2 96.20% / V3 98.25%. See [docs/accuracy.md](docs/accuracy.md).
 
 ## Install
 
@@ -48,8 +48,9 @@ phonemize("Bai.")
 phonemize("Ez, horrek ez du balio!")
 # 'Eʂ , Orek eʂ tU βalIo !'
 
-# version / lang are accepted now (V3 Basque today; V1/V2 + es later)
-phonemize("Kaixo mundua", lang="eu", version="v3")
+# version (v1/v2/v3) and lang (eu/es) select the engine generation
+phonemize("Kaixo mundua", lang="eu", version="v1")   # 'kajʃO mundUa'
+phonemize("Hola mundo.", lang="es", version="v1")    # 'Ola mUndo'
 ```
 
 CLI:

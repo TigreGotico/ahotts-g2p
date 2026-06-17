@@ -15,6 +15,12 @@ Pure-Python, zero-dependency AhoTTS grapheme-to-phoneme for Basque and Spanish.
 - [Licensing](licensing.md) -- Apache-2.0, the clean-room reimplementation, and
   the AhoTTS / Aholab credit.
 
+Port-engineering notes (clean-room source audit and per-language deltas):
+
+- [NOTES.md](NOTES.md) -- Basque V1/V2/V3 port notes and residual breakdown.
+- [NOTES_ES.md](NOTES_ES.md) -- Spanish port notes.
+- [SOURCE_PORT_AUDIT.md](SOURCE_PORT_AUDIT.md) -- C++ source -> Python audit.
+
 ## Quick start
 
 ```python
