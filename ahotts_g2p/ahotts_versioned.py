@@ -1966,7 +1966,10 @@ _LETTER_NAME = {
 _EU_VOWELS = set("aeiouáéíóúàèìòùü")
 # class-string tables (eu_pronun.cpp:176-193) -> class code (enum :199-217)
 _EU_GETGROUP = {
-    "n": 'N', "m": 'M', "b": 'O', "g": 'O', "w": 'W', "t": 'P', "k": 'P',
+    # eu_getGroup (eu_pronun.cpp:390-409) tests the class strings in order;
+    # `w` is in eu_ocluStr ("b g w") which is checked BEFORE eu_oclu4Str, so a
+    # single `w` resolves to OCLU ('O'), never the unreachable OCLU4 ('W').
+    "n": 'N', "m": 'M', "b": 'O', "g": 'O', "w": 'O', "t": 'P', "k": 'P',
     "d": 'P', "p": 'P', "tt": 'Q', "ñ": 'Ñ', "l": 'L', "r": 'R', "ll": 'D',
     "rr": 'E', "z": 'Z', "x": 'Z', "s": 'G', "tz": 'H', "ts": 'H', "tx": 'H',
     "j": 'I', "f": 'F', "y": 'Y',
@@ -2102,6 +2105,303 @@ def _is_syllabifiable(word):
     return True
 
 
+def _pronounce(tok):
+    """eu_cap.cpp::LangEU_TextToList::pronounce -- faithful port.
+
+    The OOV / foreign-word path: a word that is NOT a dictionary entry and is
+    NOT pronounceable as Basque (isPronun False) and whose capitalisation class
+    is 2 (Title) or 5 (lower) is rewritten by `pronounce()` into a spelling the
+    Basque g2p can read.  The rewritten spelling is then re-phonemised by the
+    normal grapheme->phoneme pass (so e.g. an initial `h`->`j` later surfaces as
+    [dj]/ɟ, intervocalic `r`->[ɾ], a vowelised `y`->[i], ...).
+
+    Returns the rewritten lowercase spelling string (to be fed back through
+    g2p), or None if the cell has no vowel at all (then the caller spells it).
+
+    Steps mirror eu_cap.cpp:203-792 one-for-one:
+      1. lower-case; build the v/c pattern.
+      2. `y` as vowel (->'i') in the C-y-V / C-y-C / word-final contexts.
+      3. no vowel at all -> return None (caller -> expandCell).
+      4. initial `s`+consonant(not h) -> prepend `e`  (s..->es..).
+      5. collapse doubled letters except rr/ll; ee->i, oo->u.
+      6. silent/foreign `h` and `c` rewrites (initial h->j, sh->x, ph->f,
+         chr->cr, chl->cl, ch->tx, ce/ci->z, ck->k, c->k).
+      7. m->n before a consonant; v/w/q realisations.
+      8. if now pronounceable, stop; else iteratively strip impronounceable
+         consonant clusters syllable-by-syllable, re-doubling rr/ll and
+         restoring a cut trailing s/n.
+    """
+    word = tok.lower()
+    n = len(word)
+    if n == 0:
+        return None
+    last_orig = word[-1]
+    pat = ['v' if c in AEIOU else 'c' for c in word]
+    word = list(word)
+    vowel = sum(1 for c in pat if c == 'v')
+
+    # --- step 2: y as vowel (eu_cap.cpp:243-290) ----------------------------
+    for i in range(n):
+        if word[i] != 'y':
+            continue
+        if i + 1 < n:
+            if pat[i + 1] == 'v':
+                if i - 2 >= 0:
+                    if pat[i - 2] == 'c' and pat[i - 1] == 'c':
+                        pat[i] = 'v'
+                        word[i] = 'i'
+                        vowel += 1
+                elif i - 1 >= 0 and pat[i - 1] == 'c':
+                    pat[i] = 'v'
+                    word[i] = 'i'
+                    vowel += 1
+            else:  # next is consonant
+                if pat[i + 1] == 'c':
+                    pat[i] = 'v'
+                    word[i] = 'i'
+                    vowel += 1
+        else:  # final y
+            pat[i] = 'v'
+            word[i] = 'i'
+            vowel += 1
+
+    # --- step 3: no vowel -> caller spells it (expandCell) -------------------
+    if not vowel:
+        return None
+
+    word = ''.join(word)
+
+    # --- step 4: leading s + consonant (not h) -> prepend e -----------------
+    # (eu_cap.cpp:354) uses pattern[1]/word[1] of the *post-y* word.
+    if len(word) >= 2 and word[0] == 's' and \
+            (word[1] not in AEIOU) and word[1] != 'h':
+        word = 'e' + word
+
+    # --- step 5: collapse doubles except rr/ll; ee->i oo->u -----------------
+    # (eu_cap.cpp:366-396)  `temp` tracks the previous *kept* char for r/l,
+    # reset to ' ' on a kept r or l so a third repeat is also kept.
+    temp = ' '
+    r = l = rr = ll = 0
+    out = []
+    for ch in word:
+        if ch != temp:
+            out.append(ch)
+            if ch == 'r':
+                r += 1
+                temp = ' '
+                if r == 2:
+                    rr += 1
+            elif ch == 'l':
+                l += 1
+                temp = ' '
+                if l == 2:
+                    ll += 1
+            else:
+                r = 0
+                temp = ch
+        else:
+            # a repeated char: dropped, but ee->i and oo->u rewrite the kept one
+            if ch == 'e':
+                out[-1] = 'i'
+            elif ch == 'o':
+                out[-1] = 'u'
+    word = ''.join(out)
+
+    # --- step 6: h / c rewrites (eu_cap.cpp:428-508) ------------------------
+    out = []
+    temp = ' '
+    i = 0
+    wl = len(word)
+    while i < wl:
+        ch = word[i]
+        nxt = word[i + 1] if i + 1 < wl else '\x00'
+        nxt_isv = nxt in AEIOU
+        if ch == 'h':
+            if temp == 'c':
+                if nxt == 'r':
+                    out[-1] = 'k'
+                    out.append('r')
+                    i += 1            # consume the r (handled here)
+                elif nxt == 'l':
+                    out[-1] = 'k'
+                    out.append('l')
+                    i += 1
+                # else: drop the h (ch already became t below? no) -- keep none
+            elif temp == 's':
+                if nxt_isv:
+                    out[-1] = 'x'      # sh+V -> x
+                # else: drop h
+            elif temp == 'p':
+                if nxt_isv:
+                    out[-1] = 'f'      # ph+V -> f
+                # else: drop h
+            elif temp == ' ':          # first letter
+                out.append('j')        # initial h -> j
+            # default: drop the h
+        elif ch == 'c':
+            if nxt == 'e' or nxt == 'i':
+                out.append('z')
+            elif nxt == 'h':
+                out.append('t')
+                out.append('x')        # ch -> tx (h handled as part of digraph)
+                # mark so the following 'h' (temp=='c' branch) is skipped: but
+                # we advance temp below; the h next iteration sees temp='c'?  In
+                # C the h after this c falls into case'h' temp='c' default ->
+                # dropped.  Here we already emitted tx, so skip the h.
+                i += 1
+            elif nxt == 'k':
+                i += 1                 # ck -> k (skip c, keep k next)
+            else:
+                out.append('k')
+        else:
+            out.append(ch)
+        temp = ch
+        i += 1
+    word = ''.join(out)
+
+    # --- step 7: m->n before C; v/w/q (eu_cap.cpp:514-595) ------------------
+    pat = ['v' if c in AEIOU else 'c' for c in word]
+    wl = len(word)
+    w = list(word)
+    for i in range(wl):
+        nxt_isv = (i + 1 < wl) and pat[i + 1] == 'v'
+        if w[i] == 'm':
+            if not nxt_isv:
+                w[i] = 'n'
+        elif w[i] == 'v':
+            if i + 1 == wl:
+                w[i] = 'f'
+            elif (not nxt_isv) and i == 0:
+                if i + 1 < wl and w[i + 1] not in ('l', 'r'):
+                    w[i] = 'u'
+                    pat[i] = 'v'
+                else:
+                    w[i] = 'b'
+            elif (not nxt_isv) and not (i - 1 >= 0 and pat[i - 1] == 'v'):
+                w[i] = 'u'
+                pat[i] = 'v'
+            elif not nxt_isv:
+                if i + 1 < wl and w[i + 1] not in ('l', 'r'):
+                    w[i] = 'f'
+                else:
+                    w[i] = 'b'
+            else:
+                w[i] = 'b'
+    word = ''.join(w)
+
+    # --- step 8: pronounceable now? else strip clusters --------------------
+    if _is_syllabifiable(word):
+        return word
+    return _pronounce_strip(word, rr, ll, last_orig)
+
+
+def _pronounce_strip(word, rr, ll, last_orig):
+    """eu_cap.cpp:617-788 -- iterative impronounceable-cluster removal.
+
+    Walk vowel by vowel; for each vowel-anchored span find the longest leading
+    pronounceable prefix (probing with "kal"+rest) and the longest trailing
+    pronounceable run (probing with +"za"), keep [startpoint, endpoint), force a
+    cut trailing `s`, then re-double rr/ll and restore a cut final s/n.
+    """
+    def chat(idx):                # word[idx] or NUL past the end (C ch=='\0')
+        return word[idx] if 0 <= idx < n else '\x00'
+
+    n = len(word)
+    pat = ['v' if c in AEIOU else 'c' for c in word]
+    new_word = []
+    prevvowel = -1
+    i = 0
+    while i < n:
+        if pat[i] == 'v':
+            # tempWord = chars (prevvowel, i]  (the consonant run + this vowel);
+            # j is its length (eu_cap.cpp:623-626).
+            j = 0
+            while (j + prevvowel) < i:
+                j += 1
+            seg = word[prevvowel + 1:prevvowel + 1 + j]
+            # <pronun> (eu_cap.cpp:631-645): start with p=seg; while NOT
+            # pronounceable set p="kal"+seg[k:] and k++ (so the first iteration
+            # tests "kal"+seg[1:]).  startpoint = prevvowel + k.
+            k = 1
+            cur = seg
+            while not _is_syllabifiable(cur):
+                cur = "kal" + seg[k:]
+                if not _is_syllabifiable(cur):
+                    # C: p is set to this; loop re-tests -> still false -> keep
+                    # going.  But it also resets the test string to seg[k:] for
+                    # the *next* iteration only via the kal-probe; faithfully we
+                    # just advance k and re-probe kal+seg[k:].
+                    k += 1
+                    if k > len(seg):
+                        break
+                else:
+                    k += 1
+                    break
+            startpoint = prevvowel + k
+            # <pronun2> (eu_cap.cpp:650-679): extend right while pronounceable.
+            def _pat_at(idx):
+                return pat[idx] if 0 <= idx < n else 'c'
+            while _is_syllabifiable(cur):
+                if _pat_at(prevvowel + j + 1) == 'v' \
+                        or chat(prevvowel + j + 1) == '\x00':
+                    j += 1
+                    break
+                # build the probe tempWord2 from startpoint.. (with a trailing
+                # "za" probe syllable unless we are at the word end).
+                probe = word[startpoint:prevvowel + j + 2]
+                if chat(prevvowel + j + 2) != '\x00':
+                    probe = probe + "za"
+                cur = probe
+                j += 1
+            endpoint = prevvowel + j
+            # <s> (eu_cap.cpp:684-708): a trailing impronounceable s is forced.
+            if prevvowel < 0:
+                prevvowel = 0
+            s = 0
+            kk = prevvowel + 1
+            while kk < n and pat[kk] == 'c':
+                if word[kk] == 's' and kk > endpoint:
+                    s = 1
+                kk += 1
+            piece = word[startpoint:endpoint]
+            if s:
+                piece = piece + 's'
+            new_word.append(piece)
+            prevvowel = i
+        i += 1
+    res = ''.join(new_word)
+
+    # <llrr2>: restore the rr/ll that the double-collapse removed.
+    temp = ' '
+    out = []
+    for idx, ch in enumerate(res):
+        if ch != temp:
+            out.append(ch)
+            src = word[idx] if idx < len(word) else ch
+            if src == 'r':
+                if rr > 0:
+                    rr -= 1
+                    temp = ' '
+                else:
+                    temp = ch
+            elif src == 'l':
+                if ll > 0:
+                    ll -= 1
+                    temp = ' '
+                else:
+                    temp = ch
+            else:
+                temp = ch
+    res = ''.join(out)
+
+    # <sn>: restore a final s/n cut by the cluster removal.
+    if last_orig == 's' and (not res or res[-1] != 's'):
+        res = res + 's'
+    elif last_orig == 'n' and (not res or res[-1] != 'n'):
+        res = res + 'n'
+    return res
+
+
 def _acronym_words(tok, lexicon):
     """An all-uppercase token (len>=2) -> spoken word list.
 
@@ -2119,10 +2419,159 @@ def _acronym_words(tok, lexicon):
     return [_LETTER_NAME[c] for c in tok.lower() if c in _LETTER_NAME]
 
 
+# ==========================================================================
+# preChop + expandGrp  (eu_wrdch.cpp / wordchop.cpp / eu_speller.cpp)
+# ==========================================================================
+# The C normaliser groups consecutive same-character-type runs into cells
+# (`preChop`, wordchop.cpp): a maximal whitespace-free span is a *group*, and
+# inside it each run of one chtype (LETTR/DIGIT/PUNTT/SYMBL) is a *cell*.  A
+# group whose cells are NOT a clean number / roman / date / time / abbreviation
+# falls through eu_normal.cpp to `mustExpand`->`expandGrp` (eu_speller.cpp),
+# which walks the cells and SPELLS each one char-by-char via `spellCell`
+# (eu_getchexp -> eu_symbolexp): a digit run becomes its digit names
+# (634 -> sei hiru lau), a punctuation cell becomes its symbolexp word
+# (- -> gidoia, . -> puntu), a non-pronounceable letter cell is spelled
+# (V -> uve), a pronounceable letter cell is read as a word (ak -> ak).
+# This reproduces that one path for the mixed alphanumeric / dotted groups that
+# the per-token expander above does not already cover, leaving every clean
+# word / number / roman / decline group for the unchanged pipeline.
+
+# eu_wrdch.cpp eu_chtype[256] -> the patsym character (chartype.h SyChType).
+# '"' (34) and "'" (39) are CHTYPE_NULL (dropped); space/tab/CR are DELIM.
+_EU_PATSYM_PUNTT = set("!()-,.:;?")          # eu_chtype rows -> CHTYPE_PUNTT
+_EU_PATSYM_SYMBL = set("#$%&*+/<=>@[\\]^_{|}~")  # -> CHTYPE_SYMBL
+_EU_PATSYM_NULL = set('"\'`')                # CHTYPE_NULL: skipped by preChop
+
+
+def _eu_patsym(ch):
+    if ch.isspace():
+        return 'd'                            # CHTYPE_DELIM (group break)
+    if ch in _EU_PATSYM_NULL:
+        return None                           # CHTYPE_NULL: ignored
+    if ch.isdigit():
+        return 'n'
+    if ch in _EU_PATSYM_PUNTT:
+        return 'p'
+    if ch in _EU_PATSYM_SYMBL:
+        return 's'
+    if ch.isalpha():
+        return 'l'
+    return None                               # other -> treated as NULL
+
+
+# eu_symbolexp[256] (symbolexp.c) digit + structural-punct rows: the spoken
+# words `spellCell` emits for a DIGIT or PUNTT cell.  Letter cells use
+# _LETTER_NAME (same table, rows A-Z/a-z).
+_GETCHEXP = {
+    '0': "zero", '1': "bat", '2': "bi", '3': "hiru", '4': "lau",
+    '5': "bost", '6': "sei", '7': "zazpi", '8': "zortzi", '9': "bederatzi",
+    '-': "gidoia", '.': "puntu", '/': "barra", ':': "bi puntu",
+    ';': "puntu eta koma", ',': "koma", '!': "harridura ikurra",
+    '?': "galdera ikurra", '(': "ireki parentesia", ')': "itxi parentesia",
+    '%': "ehuneko", '&': "eta", '#': "almohadilla", '$': "dolar",
+    '*': "izartxo", '+': "gehiketaren ikurra", '=': "berdin", '@': "arroba",
+    '<': "txikiago", '>': "handiago", '_': "beheko gidoia",
+    '[': "ireki markoa", ']': "itxi markoa", '{': "ireki giltza",
+    '}': "itxi giltza", '\\': "atzerantzako barra", '|': "barra bertikala",
+    '^': "azentu zirkunflexu", '~': "tilde",
+}
+
+
+def _eu_prechop(text):
+    """wordchop.cpp::preChop -> list of groups; each group is a list of
+    (cell_str, patsym) cells.  A group is a maximal whitespace-free span; cells
+    split on chtype change.  NULL chars (" ' `) are dropped (as the C does)."""
+    groups = []
+    cur = []                     # cells of the current group
+    cell = ''
+    cell_sym = None
+    for ch in text:
+        sym = _eu_patsym(ch)
+        if sym == 'd' or sym is None:
+            # group break (DELIM) or dropped (NULL).  A DELIM ends the group;
+            # a NULL just ends the current cell but keeps the group together
+            # (the C preChop drops NULL chars without breaking the group).
+            if cell:
+                cur.append((cell, cell_sym))
+                cell, cell_sym = '', None
+            if sym == 'd' and cur:
+                groups.append(cur)
+                cur = []
+            continue
+        if cell_sym == sym:
+            cell += ch
+        else:
+            if cell:
+                cur.append((cell, cell_sym))
+            cell, cell_sym = ch, sym
+    if cell:
+        cur.append((cell, cell_sym))
+    if cur:
+        groups.append(cur)
+    return groups
+
+
+def _expandgrp_words(cells, lexicon):
+    """eu_speller.cpp::expandGrp: spell each cell of a group.  digit/punct/symbl
+    cells -> spellCell (char-by-char via _GETCHEXP); letter cell -> read whole
+    if pronounceable (isPronun) else spelled char-by-char (_LETTER_NAME)."""
+    out = []
+    for s, sym in cells:
+        if sym == 'l':
+            norm = _normalize_word(s)
+            if norm in lexicon or _is_syllabifiable(norm):
+                out.append(s)                 # isPronun -> read as a word
+            else:
+                out.extend(_LETTER_NAME[c] for c in norm if c in _LETTER_NAME)
+        else:                                 # n / p / s -> spellCell
+            for c in s:
+                w = _GETCHEXP.get(c)
+                if w:
+                    out.extend(w.split())
+    return out
+
+
+def _merge_roman_dot(tokens):
+    """eu_romanhilvl + eu_decli: a roman numeral immediately followed by a
+    `.`+case-suffix (XX.aren, IV.a, XIII.ean) is read as an ORDINAL with the
+    suffix declined onto it, fused into one word (hogeigarrenaren, laugarrena).
+    Merge such `ROMAN . suffix` triples into a single synthetic token so the
+    expander declines and emits one word; a roman followed by `.` + a real word
+    (V.ak -> "uve puntuak") is NOT a declension and is left untouched."""
+    out = []
+    i = 0
+    n = len(tokens)
+    while i < n:
+        t = tokens[i]
+        if (i + 2 < n and tokens[i + 1] == '.'
+                and isinstance(t, str) and len(t) >= 2
+                and _roman_to_int(t) is not None
+                and tokens[i + 2].islower()
+                and tokens[i + 2] in _DECL_SUFFIX):
+            out.append(("\x00roman_dec", _roman_to_int(t), tokens[i + 2]))
+            i += 3
+            continue
+        out.append(t)
+        i += 1
+    return out
+
+
 def _expand_tokens(tokens, version):
     out = []
     lexicon = _dict_for(version)[0]
-    for t in _merge_thousands(tokens):
+    # V2 (flat ahotts/tts path) SPELLS a roman numeral letter-by-letter (XX ->
+    # "ixa ixa") and reads the dotted suffix separately, so the roman-ordinal
+    # declension fusion is V1/V3-only.
+    merged = _merge_thousands(tokens)
+    if version != "v2":
+        merged = _merge_roman_dot(merged)
+    for t in merged:
+        if isinstance(t, tuple) and t and t[0] == "\x00roman_dec":
+            words = number_to_basque_words(t[1], ordinal=True)
+            if words:
+                words[-1] = _decline(words[-1], t[2])
+            out.extend(words)
+            continue
         out.extend(_expand_one(t, lexicon, version=version))
     return out
 
@@ -2237,6 +2686,36 @@ def _expand_one(tok, lexicon, ordinal_dot=False, version="v1"):
         rn = _roman_to_int(tok)
         if rn is not None:
             return number_to_basque_words(rn, ordinal=True)
+    # OOV / foreign-word path (eu_normal.cpp:387/397 -> eu_cap.cpp::pronounce).
+    # A non-dict alphabetic token that is NOT pronounceable as Basque and whose
+    # capitalisation is class 2 (Title) or 5 (lower) is rewritten by pronounce()
+    # into a Basque-readable spelling; all-caps/mixed go through the speller
+    # (handled above by _acronym_words / the lone-letter branch).  Pronounceable
+    # words and dict words are read as-is.
+    # pronounce()/isPronun operate on the accent-folded word (symbolexp.c /
+    # eu_t2l fold Á..Ú and Â..Û to the bare vowel before g2p), so test and
+    # rewrite the normalised form -- otherwise an accented foreign vowel (nô)
+    # is mis-classified as a non-vowel and wrongly spelled.
+    norm_tok = _normalize_word(tok)
+    # isCap class 3 (eu_cap.cpp:103) -- a token with BOTH upper- and lower-case
+    # letters that is NOT simple Title-case (first cap, rest lower) -> expandCell
+    # if not pronounceable (DiPC -> "de i pe ze"; a pronounceable mixed-case
+    # name like NanoGUNE is read).
+    if tok.isalpha() and tok.lower() not in lexicon and norm_tok not in lexicon \
+            and not tok.islower() and not tok.isupper() \
+            and not (tok[:1].isupper() and tok[1:].islower()) \
+            and not _is_syllabifiable(norm_tok):
+        return [_LETTER_NAME[c] for c in norm_tok if c in _LETTER_NAME]
+    if tok.isalpha() and tok.lower() not in lexicon \
+            and norm_tok not in lexicon \
+            and (tok.islower() or (tok[:1].isupper() and tok[1:].islower())) \
+            and not _is_syllabifiable(norm_tok):
+        spelled = _pronounce(norm_tok)
+        if spelled is None:
+            # no vowel -> expandCell (spell letter by letter)
+            return [_LETTER_NAME[c] for c in norm_tok if c in _LETTER_NAME]
+        if spelled and spelled != norm_tok:
+            return [spelled]
     return [tok]
 
 
@@ -2327,6 +2806,25 @@ def _normalize_v3(text):
     text = re.sub(
         r'(\w)-(' + '|'.join(sorted(_DECL_SUFFIX, key=len, reverse=True)) +
         r')\b', r'\1\2', text)
+    # eu_romanhilvl + eu_decli: `ROMAN.suffix` (XX.aren, IV.a) is a roman ordinal
+    # with a glued case suffix -> the spoken ordinal+declension as one word, NOT
+    # "<roman> puntu <suffix>".  Resolve it before the dot-verbalisation pass so
+    # the `.` is not spoken as "puntu" (matches the binary normaliser).
+
+    def _roman_dot_sub(m):
+        rn = _roman_to_int(m.group(1))
+        suf = m.group(2)
+        # eu_romanhilvl.cpp::isRomanN: a single-character roman cell
+        # (strlen(str)==1) is NOT a roman numeral (V.ak, I.a stay un-fused and
+        # the letter is spelled + the dot verbalised); only a >=2-char roman
+        # (XX.aren, IV.a) becomes a declined ordinal.
+        if rn is None or len(m.group(1)) < 2 or suf.lower() not in _DECL_SUFFIX:
+            return m.group(0)
+        words = number_to_basque_words(rn, ordinal=True)
+        if words:
+            words[-1] = _decline(words[-1], suf)
+        return ' ' + ' '.join(words) + ' '
+    text = re.sub(r'\b([IVXLCDM]+)\.([a-z]+)\b', _roman_dot_sub, text)
     out = []
     n = len(text)
     for i, ch in enumerate(text):
@@ -2401,6 +2899,22 @@ def phonemize(text, version="v1"):
     keep_punct = cfg["keep_punct"]
 
     text = re.sub(r'\.{2,}', '.', text)
+    # symbolexp.c / eu_normal mid-glued colon: a ':' directly between two word
+    # characters (Zerrenda:Ipar, a:b) is verbalised "bi puntu" (two-point) on
+    # every path; a spaced/boundary colon is just a pause (dropped).  Applied
+    # before tokenising for all versions (the V3 -TxtMode=Word normaliser does
+    # the same rewrite).
+    text = re.sub(r'(?<=\w):(?=\w)', ' bi puntu ', text)
+    if not keep_punct:
+        # V1/V2 (libhtts transcribe) hyphen verbalisation: a citation hyphen
+        # GLUED to an opening quote and a word («-kuntza», "-tsi) is spoken
+        # "gidoia" (dash).  It must be the ASCII hyphen directly after a quote
+        # with no space, and directly before a word char.  A spaced parenthetical
+        # dash ( –ingurune ... espazialak– ) is NOT a citation hyphen (it has a
+        # space before/after) and is left alone; a hyphen between two word chars
+        # (behin-edo) is a compound join dropped at the token stage.  The V3
+        # modulo1y2 path drops the leading hyphen instead, so this is V1/V2-only.
+        text = re.sub(r'(?<=[«"“])-(?=\w)', ' gidoia ', text)
     if keep_punct:
         # V3: run the modulo1y2 text-normaliser (symbol verbalisation, quote /
         # dash rules) before tokenising, exactly as eu_phonemizer.normalize ->
