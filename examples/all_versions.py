@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Compare the AhoTTS engine versions on the same Basque text.
+"""Compare the AhoTTS engines on the same Basque text.
 
-V1 and V3 keep diphthong offglides and dictionary stress; V3 also emits
-punctuation as tokens.
+Both classic and modern keep diphthong offglides and dictionary stress; modern
+also emits punctuation as tokens.
 """
 from ahotts_g2p import phonemize
 
@@ -16,7 +16,7 @@ SENTENCES = [
 def main():
     for text in SENTENCES:
         print(text)
-        for version in ("v1", "v3"):
+        for version in ("classic", "modern"):
             print(f"  {version}: {phonemize(text, lang='eu', version=version)}")
         print()
 

@@ -20,7 +20,7 @@ SENTENCES = [
 def main():
     for text in SENTENCES:
         northern = phonemize(text, lang="eu", dialect="northern")
-        standard = phonemize(text, lang="eu", version="v1")
+        standard = phonemize(text, lang="eu", version="classic")
         print(text)
         print(f"  northern: {northern}")
         print(f"  standard: {standard}")
