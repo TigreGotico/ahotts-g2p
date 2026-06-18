@@ -8,13 +8,13 @@ match plus exact-line match.
 
 ## Per-version parity
 
-| Language | v1 | v3 |
+| Language | classic | modern |
 |---|---|---|
 | Spanish (`es`) | 100% | 100% |
 | Basque (`eu`) | 99.94% | 99.90% |
 
-The Northern Basque dialect (`dialect="northern"`) reaches **99.57%** word
-parity (416/430 exact lines) against the AhoTTS_Iparrahotsa binary, over the
+The Northern Basque dialect (`dialect="northern"`) reaches **99.61%** word
+parity (418/430 exact lines) against the AhoTTS_Iparrahotsa binary, over the
 `tests/data/eu_northern_corpus.json` fixture. See [dialects.md](dialects.md).
 
 Each figure is enforced by `tests/test_oracle.py`, which fails if parity drops

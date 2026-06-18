@@ -8,8 +8,8 @@ in pure Python. This page states how correctness is defined and verified.
 Correctness is **behavioural parity with the AhoTTS reference engines**, not
 resemblance to the source. Each version maps to a specific reference:
 
-* **V1** -- the pyAhoTTS `libhtts` build (`transcribe_text`).
-* **V3** -- the `arrandi` `modulo1y2` build with the 2025 dictionary.
+* **`classic`** -- the pyAhoTTS `libhtts` build (`transcribe_text`).
+* **`modern`** -- the `arrandi` `modulo1y2` build with the 2025 dictionary.
 
 Where a binary diverges from its own published source, the port reproduces the
 **binary** -- the runtime ground truth -- since that is what each released model
@@ -26,7 +26,7 @@ Two complementary checks back every figure.
    package against these corpora and fails if word parity or exact-line counts
    drop below the verified thresholds.
 
-2. **Distribution check.** The V3 eu path is additionally checked against the
+2. **Distribution check.** The `modern` eu path is additionally checked against the
    convention used in the HiTZ/StyleTTS2-eu training distribution (dictionary
    first-syllable stress), confirming the default path matches the data the
    released model was trained on.

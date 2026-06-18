@@ -3,8 +3,8 @@
 The standard `ahotts-g2p` Basque engine reproduces the Southern (Hegoalde,
 Batua) AhoTTS phonemizer. AhoTTS also ships a separate Northern-dialect engine,
 **AhoTTS_Iparrahotsa**, for the continental (Iparralde) varieties spoken in the
-French Basque Country. It is a fork of the V1 engine with the `PhTIparralde`
-configuration enabled, and it is exposed here as a **dialect**:
+French Basque Country. It is a fork of the `classic` engine with the
+`PhTIparralde` configuration enabled, and it is exposed here as a **dialect**:
 
 ```python
 from ahotts_g2p import phonemize
@@ -15,9 +15,9 @@ phonemize("Euskara Euskal Herriko hizkuntza da.", lang="eu", dialect="northern")
 
 `dialect="standard"` (the default) keeps the existing Southern behaviour, so all
 existing calls are unchanged. `dialect="northern"` is only valid for `lang="eu"`.
-Because the Northern engine is a single V1-lineage fork, it does not cross with
-the `v1`/`v3` versions; the `version` argument is ignored when
-`dialect="northern"`.
+Because the Northern engine is a single `classic`-lineage fork, it does not
+cross with the `classic`/`modern` versions; the `version` argument is ignored
+when `dialect="northern"`.
 
 ## What makes it Northern
 
@@ -42,7 +42,7 @@ phoneme changes (gated on the `PhTIparralde` flag in the C source):
 | `tch` (trigraph) | -- | rewritten to `tx` (*Etcheberry* -> *Etxeberry*) |
 | word-final stop sandhi (st/ts/tz reductions) | applied | suppressed (*bortitz bat* keeps the affricate) |
 
-Stress is the same V1 accentual-group machinery, driven by the Northern
+Stress is the same `classic` accentual-group machinery, driven by the Northern
 dictionary's `STR_MRK` marks. One audible consequence of the `u+e` diphthong:
 monosyllabic synthetic/auxiliary verbs such as *zuen*, *duen* lose their accent
 after a conjugated verb (*egin zuen* -> *eɣIn swen*), where the Southern engine,
@@ -65,7 +65,7 @@ engine also has but distributes differently.
 ## Source and provenance
 
 * **Engine**: [AhoTTS_Iparrahotsa](https://github.com/aholab/AhoTTS_Iparrahotsa)
-  (`libhtts`), Aholab (UPV/EHU) -- a fork of the V1 AhoTTS engine with
+  (`libhtts`), Aholab (UPV/EHU) -- a fork of the `classic` AhoTTS engine with
   `PhTIparralde` enabled. The Northern deltas are localised to a handful of
   `eu_*` source files (`eu_phtr.cpp` grapheme cases, `eu_uti.cpp` vowel/diphthong
   predicates, `eu_cap.cpp` `tch` rewrite, `eu_syl.cpp`/`eu_stre.cpp`
@@ -82,7 +82,7 @@ Parity is measured against the AhoTTS_Iparrahotsa binary (driven through a
 `transcribe_text` C export), over the 430-sentence Basque corpus shipped as the
 `eu_northern_corpus.json` test fixture:
 
-* **word parity 99.57%**, **416/430 exact lines**.
+* **word parity 99.61%**, **418/430 exact lines**.
 
 The Northern build faithfully reproduces, with explicit C citations:
 
@@ -110,7 +110,7 @@ not approximation hacks:
   stem the faithful searchBin does not surface from the Northern dictionary's
   block layout (the binary does);
 * the closing-quote genitive `r` strength (*«nafar»en* -> /nafAʁen/), shared
-  with the Southern v1 residual (the citation-quote join keeps the `r` strong in
+  with the Southern `classic` residual (the citation-quote join keeps the `r` strong in
   the binary);
 * a handful of acronym / roman-letter spellings (`(C's)`, `SOV`, the spelled
   letter `V` -> *uve*) and the Northern date expansion in one line.

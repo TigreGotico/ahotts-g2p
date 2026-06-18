@@ -6,7 +6,7 @@ Pure-Python, zero-dependency AhoTTS grapheme-to-phoneme for Basque and Spanish.
 
 - [Installation](installation.md) -- requirements and install options.
 - [Usage](usage.md) -- the public API, CLI, and common recipes.
-- [Versions](versions.md) -- the AhoTTS V1/V3 lineage, the upstream source
+- [Versions](versions.md) -- the AhoTTS `classic`/`modern` lineage, the upstream source
   and consuming model for each, and the behavioural signatures.
 - [Dialects](dialects.md) -- the Northern (Iparralde / Iparrahotsa) Basque
   dialect: pronounced /h/, French vowels, uvular r, and how to call it.
