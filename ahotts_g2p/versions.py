@@ -1,15 +1,17 @@
 """Engine versions and the per-version configuration table.
 
-The pre-2025 AhoTTS (``ekaitz-zarraga/AhoTTS`` / ``pyAhoTTS``) and the modern
-``ahotts_common`` rewrite (``aholab/AhoTTS``) are the same linguistic engine:
-every ``eu_*`` source file is identical apart from the licence header and two
-additive config branches in the rewrite (``phtiparralde`` and
-``StressDicSingleWords``).  With both off -- the default -- the rewrite reduces
-to the original engine.  A single faithful port, parameterised by the table
-below, reproduces every version; the only real differences are which dictionary
-is loaded and the wrapper around the engine (``libhtts.transcribe`` for V1/V2
-versus the ``modulo1y2`` + ``eu_phonemizer`` pipeline for V3, which tokenises
-punctuation).
+The original AhoTTS (``aholab/AhoTTS``) and its 2025 ``ahotts_common`` rewrite
+(the same repository, later commit) are the same linguistic engine: every
+``eu_*`` source file is identical apart from the licence header and two additive
+config branches in the rewrite (``phtiparralde`` and ``StressDicSingleWords``).
+A single faithful port, parameterised by the table below, reproduces every
+version; the real differences are which dictionary is loaded, whether dictionary
+``STR_MRK`` stress is applied or bypassed for a flat rule, and the wrapper around
+the engine (``libhtts.transcribe`` for V1/V2 versus the ``modulo1y2`` +
+``eu_phonemizer`` pipeline for V3, which tokenises punctuation).
+
+(``pyAhoTTS`` builds the V1 engine from ``ekaitz-zarraga/AhoTTS``, a packaging
+fork of ``aholab/AhoTTS`` with build/portability changes only.)
 
 See ``docs/versions.md`` for the version -> upstream source -> consuming model
 mapping.

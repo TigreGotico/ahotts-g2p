@@ -10,9 +10,14 @@ engine to reproduce. The default is `v3`.
 
 | Version | Upstream source | Consuming model | Basque dict | Distinctive behaviour |
 |---|---|---|---|---|
-| **V1** | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) -- original AhoTTS (= `aholab/AhoTTS` pre-rewrite); complete public C++ source | **HiTZ VITS** voices | old `eu_dicc` | accentual-group stress with dictionary `STR_MRK`; vowel offglides (`au` -> `aw`, `ai` -> `aj`) |
-| **V2** | [aholab/AhoTTS](https://github.com/aholab/AhoTTS) Dec-2025 `ahotts_common` rewrite, `transcribe` mode | *none released* | old `eu_dicc` | no offglides (full-vowel diphthongs); flat "2nd syllable, 1st if monosyllabic" stress for every word |
-| **V3** | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) -- `modulo1y2` + `eu_phonemizer.py` wrapper | [**HiTZ/StyleTTS2-eu**](https://huggingface.co/HiTZ) | `eu_dicc_20250326` | like V1, plus a silent-`h` stress shift, `ʝ` palatalisation, and punctuation emitted as separate tokens |
+| **V1** | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine; complete public C++ source | **HiTZ VITS** voices | original `eu_dicc` | dictionary `STR_MRK` stress through the accentual-group machinery; vowel offglides (`au` -> `aw`, `ai` -> `aj`) |
+| **V2** | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), 2025 `ahotts_common` rewrite commit (`transcribe` mode) | *none released* | original `eu_dicc` | full-vowel diphthongs (no offglides); flat "2nd syllable, 1st if monosyllabic" stress that bypasses dictionary `STR_MRK` |
+| **V3** | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) -- `modulo1y2` + `eu_phonemizer.py` wrapper | [**HiTZ/StyleTTS2-eu**](https://huggingface.co/HiTZ) | `eu_dicc_20250326` | dictionary `STR_MRK` stress like V1 but from the newer dictionary, plus a silent-`h` stress shift, `ʝ` palatalisation, and punctuation emitted as separate tokens |
+
+`pyAhoTTS` builds the V1 engine from
+[ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS), a packaging
+fork of `aholab/AhoTTS` carrying only build/portability changes (CMake,
+makefiles) -- no algorithmic difference.
 
 A separate Northern-dialect fork,
 [AhoTTS_Iparrahotsa](https://github.com/aholab/AhoTTS_Iparrahotsa) (pronounced
@@ -20,22 +25,26 @@ A separate Northern-dialect fork,
 
 ## How the versions relate
 
-V1 and the Dec-2025 `ahotts_common` rewrite are the **same linguistic engine**:
-every `eu_*` source file is identical apart from the licence header and two
-additive config branches (`phtiparralde` and `StressDicSingleWords`). With both
-off -- the default -- the rewrite reduces to V1.
+V1 and the 2025 `ahotts_common` rewrite are the **same linguistic engine** (the
+same `aholab/AhoTTS` repository at different commits): every `eu_*` source file
+is identical apart from the licence header and two additive config branches
+(`phtiparralde` and `StressDicSingleWords`).
 
-* **V1** is the pre-rewrite codebase. It applies dictionary `STR_MRK`
-  first-syllable stress through the accentual-group machinery and renders
-  diphthong offglides as `j`/`w`.
-* **V2** is the modern engine's flat `transcribe` path: no offglides, and a
-  plain 2nd-syllable stress rule that bypasses the dictionary `STR_MRK` /
-  clitic machinery. No released model consumes this mode; it is provided for
-  faithfulness to that engine path.
-* **V3** is the StyleTTS-era `arrandi` build: the same accentual stress as V1,
-  plus a silent-`h` rule that anchors an empty leading syllable (shifting
-  audible stress one syllable earlier for `h`-initial words), the newer
-  dictionary, and a wrapper that tokenises punctuation.
+* **V1** is the original engine. It applies dictionary `STR_MRK` stress through
+  the accentual-group machinery (a marked word like `hori` is stressed on its
+  first syllable; an unmarked word falls back to the regular stress rule) and
+  renders diphthong offglides as `j`/`w`.
+* **V2** is the 2025 rewrite's flat `transcribe` path: full-vowel diphthongs (no
+  offglides) and a plain 2nd-syllable stress rule that **bypasses** the
+  dictionary `STR_MRK` / clitic machinery, so `hori` becomes 2nd-syllable. No
+  released model consumes this mode; it is provided for faithfulness to that
+  engine path.
+* **V3** is the StyleTTS-era `arrandi` build: the same dictionary `STR_MRK`
+  stress mechanism as V1 but driven by the newer `eu_dicc_20250326` (which marks
+  a different set of words -- e.g. `horrek`/`honek`/`hizkuntza` gain
+  first-syllable stress while `hori` loses it), plus a silent-`h` rule that
+  anchors an empty leading syllable (shifting audible stress one syllable
+  earlier for `h`-initial words) and a wrapper that tokenises punctuation.
 
 ## Behavioural signatures (eu)
 
@@ -45,13 +54,16 @@ Stress is shown as the capitalised vowel; "glide" = diphthong offglide as
 | word | V1 | V2 | V3 |
 |---|---|---|---|
 | `berri` | `berI` | `berI` | `berI` |
-| `horrek` | `orEk` (2nd, rule) | `orEk` (2nd, rule) | `Orek` (1st, dict) |
+| `hori` | `Oɾi` (1st, dict) | `oɾI` (2nd, flat) | `oɾi` (unmarked here) |
+| `horrek` | `orEk` (2nd) | `orEk` (2nd) | `Orek` (1st, dict) |
 | `hizkuntza` | `iʂkUntʂa` (2nd) | `iʂkUntʂa` (2nd) | `IʂkunPa` (1st, dict) |
 | `bai` | `bAj` (glide) | `bAi` (full-vowel) | `bAj` (glide) |
 | `euskara` | `Ewskaɾa` (glide) | `euskAɾa` (full-vowel) | `Ewskaɾa` (glide) |
 
-V2 stands out by its full-vowel diphthongs; V3 by its dictionary first-syllable
-stress on demonstratives and common nouns.
+V1 and V3 both apply dictionary stress, but from different dictionaries: `hori`
+is marked in V1's dictionary but not V3's, while `horrek`/`honek`/`hizkuntza` are
+marked in V3's but not V1's. V2 is the outlier -- it bypasses the dictionary
+entirely (flat 2nd-syllable stress) and keeps full-vowel diphthongs.
 
 ## Which model used which version
 
@@ -59,7 +71,8 @@ stress on demonstratives and common nouns.
   model's training distribution uses dictionary first-syllable stress
   (`horrek -> Orek`, `hizkuntza -> IʂkunPa`), matching the arrandi binary.
 * **HiTZ VITS** voices were phonemized by the AhoTTS `tts -Method=Vits` driver,
-  whose eu output matches **V1**: rule-stress, offglides, old dictionary.
+  whose eu output matches **V1**: dictionary `STR_MRK` stress, offglides, the
+  original dictionary.
 * **No released model uses V2.** It captures the `transcribe`-mode full-vowel
   behaviour of the modern engine, included for completeness.
 

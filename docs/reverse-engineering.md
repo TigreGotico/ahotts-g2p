@@ -10,16 +10,17 @@ for the version definitions in [versions.md](versions.md).
 
 | id | source | what it is |
 |---|---|---|
-| ekaitz | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) | AhoTTS before the Dec-2025 rewrite, with CMake/portability patches. Complete public C++; what `pyAhoTTS` bundles. |
-| aholab-old | [aholab/AhoTTS](https://github.com/aholab/AhoTTS) (2022) | the same engine as ekaitz |
-| aholab-new | [aholab/AhoTTS](https://github.com/aholab/AhoTTS) (Dec-2025) | the modern `ahotts_common` rewrite; a superset of the shipped binaries |
+| aholab (V1) | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine | the canonical AhoTTS C++ source; complete and public |
+| aholab (V2) | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), 2025 rewrite commit | the `ahotts_common` rewrite (same repo, later commit); a superset of the shipped binaries |
+| ekaitz | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) | a packaging fork of the original `aholab/AhoTTS` (CMake/portability only, no algorithmic change); what `pyAhoTTS` builds |
 | ahoNT | [hitz-zentroa/ahoNT](https://github.com/hitz-zentroa/ahoNT) | Python wrapper + prebuilt `modulo1y2.so` (es/eu/gl/ca). No C source. |
 | aHoTTS | [hitz-zentroa/aHoTTS](https://github.com/hitz-zentroa/aHoTTS) | VITS synth wrapper + prebuilt `ahotts/tts`. No C source. |
 | arrandi | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) | prebuilt `modulo1y2` (es/eu) + `eu_dicc_20250326.dic` + `eu_phonemizer.py` wrapper. No C source. |
-| ahotts_common | *not public* | the internal modern core behind ahoNT / aHoTTS / arrandi / aholab-new |
+| ahotts_common | *not public* | the internal modern core behind ahoNT / aHoTTS / arrandi / the 2025 rewrite |
 
-All four binaries carry `StressDicSingleWords` + `PhTIparralde` build strings,
-so all descend from `ahotts_common`; ekaitz is its pre-rewrite ancestor.
+All four prebuilt binaries carry `StressDicSingleWords` + `PhTIparralde` build
+strings, so all descend from `ahotts_common`, whose ancestor is the original
+`aholab/AhoTTS` engine.
 
 ## Binary fingerprints
 
@@ -36,13 +37,19 @@ Stress is shown as the capitalised vowel; "glide" = diphthong offglide as
 `j`/`w` (or the VITS offglide ids 30/33); "full-vowel" = offglide kept as plain
 `i`/`u`.
 
-| word | pyAhoTTS (V1) | aholab-new *transcribe* (V2) | aHoTTS `tts` (VITS) | arrandi (V3) |
+| word | pyAhoTTS (V1) | aholab 2025 *transcribe* (V2) | aHoTTS `tts` (VITS) | arrandi (V3) |
 |---|---|---|---|---|
-| horrek | `orEk` (2nd, rule) | `orEk` (2nd, rule) | `orEk` (2nd, rule) | `Orek` (1st, dict) |
+| hori | `Oɾi` (1st, dict) | `oɾI` (2nd, flat) | `Oɾi` (1st, dict) | `oɾi` (unmarked) |
+| horrek | `orEk` (2nd) | `orEk` (2nd) | `orEk` (2nd) | `Orek` (1st, dict) |
 | hizkuntza | `iʂkUntʂa` (2nd) | `iʂkUntʂa` (2nd) | `iʂkUntʂa` (2nd) | `'iskuntsa` (1st, dict) |
 | bai | `bAj` (glide) | `bAi` (full-vowel) | `bA` + offglide (glide) | `bAj` (glide) |
 | euskara | `Ewskara` (glide) | `eusk'ara` (full-vowel) | `E` + offglide (glide) | `Ewskara` (glide) |
 | berri | `berI` | `berI` | `berI` | `berI` |
+
+`hori` is the discriminator: V1 and the VITS driver mark it first-syllable from
+the original dictionary, V2 bypasses the dictionary (flat 2nd-syllable), and V3's
+newer dictionary does not mark it -- while V3 *does* mark `horrek`/`hizkuntza`,
+which the original dictionary leaves to the regular rule.
 
 ## Capture method
 
@@ -61,13 +68,15 @@ There are two model-facing eu phonemizations:
 
 | model | phonemizer | version | distinctive |
 |---|---|---|---|
-| **HiTZ VITS** | aHoTTS `tts -Method=Vits` | **V1** | rule-stress, offglides, old dict |
-| **HiTZ/StyleTTS2-eu** | arrandi `modulo1y2` + wrapper | **V3** | dict-stress, `eu_dicc_20250326`, `ʝ`, punctuation tokens |
+| **HiTZ VITS** | aHoTTS `tts -Method=Vits` | **V1** | original-dictionary `STR_MRK` stress, offglides |
+| **HiTZ/StyleTTS2-eu** | arrandi `modulo1y2` + wrapper | **V3** | newer-dictionary `STR_MRK` stress, `eu_dicc_20250326`, `ʝ`, punctuation tokens |
 
-The StyleTTS2-eu mapping is confirmed by the model's training distribution,
-which uses dictionary first-syllable stress (`horrek -> Orek`,
-`hizkuntza -> IʂkunPa`) -- the arrandi signature, not the rule-stress of the
-other binaries.
+The VITS mapping is confirmed on the discriminator `hori`: the VITS driver emits
+`Oɾi` (first-syllable, from the original dictionary), exactly as V1 -- not the
+flat `oɾI` of V2 nor the unmarked `oɾi` of V3. The StyleTTS2-eu mapping is
+confirmed by the model's training distribution, which uses the newer dictionary's
+first-syllable stress (`horrek -> Orek`, `hizkuntza -> IʂkunPa`) -- the arrandi
+signature, which the original-dictionary binaries do not produce.
 
 The full-vowel-diphthong **V2** output is the `transcribe`-mode path of the
 modern engine; the VITS tokenisation path of that same engine emits offglides,

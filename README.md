@@ -51,9 +51,11 @@ different generations, with visibly different output, so the API takes a
 
 | Version | Upstream source | Consuming model | Distinctive behaviour |
 |---|---|---|---|
-| `v1` | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) (original AhoTTS) | **HiTZ VITS** voices | accentual-group stress, dictionary `STR_MRK`, vowel offglides (au -> aw) |
-| `v2` | [aholab/AhoTTS](https://github.com/aholab/AhoTTS) Dec-2025 `transcribe` mode | *none released* (completeness) | no offglides (full-vowel diphthongs), flat 2nd-syllable stress |
-| `v3` | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) `modulo1y2` + `eu_dicc_20250326` | [HiTZ/StyleTTS2-eu](https://huggingface.co/HiTZ) | like v1 + silent-`h` stress shift, `ʝ` palatalisation, punctuation tokens |
+| `v1` | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine | **HiTZ VITS** voices | dictionary `STR_MRK` stress (original `eu_dicc`), vowel offglides (au -> aw) |
+| `v2` | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), 2025 `ahotts_common` rewrite (`transcribe` mode) | *none released* (completeness) | flat 2nd-syllable stress (bypasses `STR_MRK`), full-vowel diphthongs (no offglides) |
+| `v3` | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) `modulo1y2` + `eu_dicc_20250326` | [HiTZ/StyleTTS2-eu](https://huggingface.co/HiTZ) | dictionary `STR_MRK` stress (newer dict), silent-`h` stress shift, `ʝ` palatalisation, punctuation tokens |
+
+(`pyAhoTTS` builds the v1 engine from [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS), a packaging fork of `aholab/AhoTTS` with build/portability changes only -- no algorithmic difference.)
 
 Full detail in [docs/versions.md](docs/versions.md).
 
