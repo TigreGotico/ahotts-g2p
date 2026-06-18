@@ -5,15 +5,13 @@ comparing raw latin-1 bytes via strncmp over the overlap, with the *stateful*
 hitlen class member shared across the 4 tokbsearch calls and NOT reset between
 them in the full-token pass (it IS reset to 0 each partial-search iteration).
 """
-try:
-    from . import decode_hdic as D
-except ImportError:  # pragma: no cover - standalone script use
-    import decode_hdic as D
+from . import dict_hdic as D
 
 
 def _strncmp(a, b, n):
     # compare first n bytes as C strncmp on unsigned char
-    a = a[:n]; b = b[:n]
+    a = a[:n]
+    b = b[:n]
     for x, y in zip(a, b):
         if x != y:
             return -1 if x < y else 1
@@ -42,10 +40,10 @@ class FaithfulHDic:
         (per the C overlap-strncmp), updating self.hitlen. tok is bytes."""
         arr = self.blk[bi]
         toklen = len(tok)
-        l, u = 0, len(arr)
+        lo, hi = 0, len(arr)
         hit = -1
-        while l < u:
-            idx = (l + u) // 2
+        while lo < hi:
+            idx = (lo + hi) // 2
             buf = arr[idx][0]
             blen = len(buf)
             comparison = _strncmp(tok, buf, min(blen, toklen))
@@ -61,9 +59,9 @@ class FaithfulHDic:
                     else:
                         break
             if comparison < 0:
-                u = idx
+                hi = idx
             else:
-                l = idx + 1
+                lo = idx + 1
         return hit
 
     def search(self, token):
@@ -80,11 +78,16 @@ class FaithfulHDic:
         hit[3] = self.tokbsearch(tokl, 3)
         i = 0
         notFound = False
-        if hit[3] >= 0: i = 3
-        elif hit[2] >= 0: i = 2
-        elif hit[1] >= 0: i = 1
-        elif hit[0] >= 0: i = 0
-        else: notFound = True
+        if hit[3] >= 0:
+            i = 3
+        elif hit[2] >= 0:
+            i = 2
+        elif hit[1] >= 0:
+            i = 1
+        elif hit[0] >= 0:
+            i = 0
+        else:
+            notFound = True
 
         if notFound or (toklen != self.hitlen):
             parLen = toklen - 1
@@ -101,11 +104,16 @@ class FaithfulHDic:
                 hit[1] = self.tokbsearch(partial, 1)
                 hit[2] = self.tokbsearch(partiall, 2)
                 hit[3] = self.tokbsearch(partiall, 3)
-                if hit[3] >= 0: i = 3
-                elif hit[2] >= 0: i = 2
-                elif hit[1] >= 0: i = 1
-                elif hit[0] >= 0: i = 0
-                else: notFound = True
+                if hit[3] >= 0:
+                    i = 3
+                elif hit[2] >= 0:
+                    i = 2
+                elif hit[1] >= 0:
+                    i = 1
+                elif hit[0] >= 0:
+                    i = 0
+                else:
+                    notFound = True
                 if self.hitlen == parLen:
                     notFound = False
                     contSrch = False
@@ -149,7 +157,6 @@ def atzize_found(h, word_act):
         e, hl, tl, bi = h.search(atzizki)
         tam = query_matchlen(hl, tl) if e else 0
         if e:
-            f = e['flags']
             # TALDE2 ATZ_IZE check
             bits = e['ref_bits']
             t2 = (bits >> 6) & 7

@@ -6,16 +6,16 @@ Pure-Python, zero-dependency AhoTTS grapheme-to-phoneme for Basque and Spanish.
 
 - [Installation](installation.md) -- requirements and install options.
 - [Usage](usage.md) -- the public API, CLI, and common recipes.
-- [Versions](versions.md) -- the AhoTTS V1/V2/V3 engine lineage and what each
-  produces; what this release implements.
-- [Architecture](architecture.md) -- the text -> phoneme pipeline and the HDIC
-  dictionary decode.
-- [Methodology](methodology.md) -- how the port was produced and how parity
-  with the AhoTTS binaries is verified.
-- [Accuracy](accuracy.md) -- the StyleTTS2-eu oracle and per-version parity
-  status.
-- [Licensing](licensing.md) -- GPL-3.0 (matching upstream), why this is a
-  source-derived (not clean-room) port, and the AhoTTS / Aholab credit.
+- [Versions](versions.md) -- the AhoTTS V1/V2/V3 lineage, the upstream source
+  and consuming model for each, and the behavioural signatures.
+- [Architecture](architecture.md) -- the module layout, the text -> phoneme
+  pipeline, and the HDIC dictionary decode.
+- [Methodology](methodology.md) -- how correctness is defined and verified.
+- [Reverse engineering](reverse-engineering.md) -- the binary <-> source <->
+  model mapping and how each version was identified.
+- [Accuracy](accuracy.md) -- the per-version parity figures.
+- [Licensing](licensing.md) -- GPL-3.0 (matching upstream) and the AhoTTS /
+  Aholab credit.
 
 ## Quick start
 

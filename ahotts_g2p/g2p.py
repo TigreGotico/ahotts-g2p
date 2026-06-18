@@ -1,78 +1,37 @@
-"""Version-aware pure-Python AhoTTS Basque (eu) phonemizer.
+"""Basque (eu) grapheme-to-phoneme engine.
 
-    phonemize(text, version="v1" | "v2" | "v3") -> str
+    phonemize_eu(text, version="v1" | "v2" | "v3") -> str
 
-Reproduces the *final single-char training representation* of three AhoTTS
-phonemizer generations, matching their respective binaries:
+The full eu linguistic pipeline -- text normalisation, grapheme-to-phoneme,
+syllabification, accentual-group stress, and the SAMPA -> IPA -> single-char
+rendering -- reproducing the final training representation of three AhoTTS
+generations.  The differences between versions are configuration plus the
+dictionary loaded (see ``versions.CONFIG``):
 
-  v1  pyAhoTTS (original AhoTTS, 2022).  Accentual-group stress model with
-      dictionary STR_MRK first-syllable marking; vowel offglides (au->aw,
-      ai->aj, ...).  This is the base.
-  v2  aholab/AhoTTS Dec-2025 (VITS-era libhtts.so).  Deltas vs v1:
-        * no vowel offglides -- diphthongs stay full vowels (au stays a u);
-        * stress is a plain "2nd syllable (1st if monosyllabic)" rule for
-          *every* word -- the dictionary STR_MRK / clitic / sin-acento
-          accentual-group machinery is gone.
-  v3  arrandi StyleTTS modulo1y2 (newer dict eu_dicc_20250326).  Deltas vs v1:
-        * silent `h` anchors a leading (empty) syllable for stress counting,
-          so for h-initial words the stress shifts one audible syllable
-          earlier: a non-STR_MRK h-word that is OROK (2nd) surfaces with
-          1st-syllable stress, and an STR_MRK h-word (1st) surfaces with NO
-          audible stress (the stress lands on the empty h-syllable);
-        * punctuation is emitted as separate tokens.
+  v1  Accentual-group stress with dictionary STR_MRK first-syllable marking;
+      vowel offglides (au -> aw, ai -> aj).
+  v2  No vowel offglides (diphthongs stay full vowels) and a plain
+      "2nd syllable, 1st if monosyllabic" stress rule for every word -- the
+      dictionary STR_MRK / clitic accentual-group machinery is bypassed.
+  v3  Like v1, plus: a silent leading ``h`` anchors an empty syllable, shifting
+      audible stress one syllable earlier; punctuation is emitted as separate
+      tokens; the newer eu_dicc_20250326 dictionary.
 
-The algorithm is a clean-room reimplementation of the AhoTTS C++ linguistic
-engine (eu_phtr.cpp g2p, eu_syl.cpp syllabification, eu_stre.cpp/eu_stuti.cpp
-accentual-group stress, eu_pos/eu_categ POS tagging via the decoded HDIC
-dictionary bits).  AhoTTS / Aholab (UPV/EHU) are the algorithm source; this is
-Apache-licensed Python carrying no GPL code.
+The pipeline mirrors the AhoTTS C++ engine (``eu_phtr.cpp`` g2p, ``eu_syl.cpp``
+syllabification, ``eu_stre.cpp`` / ``eu_stuti.cpp`` accentual-group stress,
+``eu_categ`` / ``eu_pos`` POS tagging driven by the decoded HDIC dictionary
+bits).  AhoTTS / Aholab (UPV/EHU) are the algorithm source.
 
-stdlib only, no subprocess, no C.
+Stdlib only; no subprocess, no C build.
 """
 import os
 import re
+import string as _string
 import struct
-from collections import OrderedDict
 
-# ==========================================================================
-# Phone tables  (eu_phtr.cpp / phone.c / hts.cpp)
-# ==========================================================================
-PHEU = {
-    'a': 'a', 'e': 'e', 'i': 'i', 'o': 'o', 'u': 'u',
-    'iaprox': 'j', 'uaprox': 'w',
-    'b': 'b', 'baprox': 'B', 'd': 'd', 'daprox': 'D',
-    'g': 'g', 'gaprox': 'G', 'p': 'p', 't': 't', 'k': 'k',
-    'm': 'm', 'n': 'n', 'ntilde': 'J', 'f': 'f', 's': 's',
-    'z': 'X', 'jj': 'y', 'l': 'l', 'll': 'L', 'r': 'r', 'rr': 'R',
-    'x': 'S', 'ts': 'V', 'tZ': 'P', 'tt': 'Q', 'dj': 'K', 'tx': 'C',
-    'T': 'T', 'j': 'x',
-}
-PH_SAMPA = {
-    '_': '_', '+': '+', '~': '~',
-    'p': 'p', 'b': 'b', 't': 't', 'd': 'd', 'k': 'k', 'g': 'g',
-    'm': 'm', 'n': 'n', 'J': 'J', 'C': 'tS', 'B': 'B', 'f': 'f',
-    'T': 'T', 'D': 'D', 's': 's', 'y': 'jj', 'x': 'x', 'G': 'G',
-    'l': 'l', 'L': 'L', 'r': 'r', 'R': 'rr', 'i': 'i', 'j': 'j',
-    'e': 'e', 'a': 'a', 'o': 'o', 'u': 'u', 'w': 'w', 'S': 'S',
-    'V': 'ts', 'K': 'gj', 'X': 's`', 'P': 'ts`', 'Q': 'c',
-    'v': 'v', 'z': 'z', 'Z': 'Z', 'h': 'h',
-}
-SAMPA_TO_IPA = OrderedDict([
-    ("p", "p"), ("b", "b"), ("t", "t"), ("c", "c"), ("d", "d"),
-    ("k", "k"), ("g", "ɡ"), ("tS", "tʃ"), ("ts", "ts"), ("ts`", "tʂ"),
-    ("gj", "ɟ"), ("jj", "ʝ"), ("f", "f"), ("B", "β"), ("T", "θ"),
-    ("D", "ð"), ("s", "s"), ("s`", "ʂ"), ("S", "ʃ"), ("x", "x"),
-    ("G", "ɣ"), ("m", "m"), ("n", "n"), ("J", "ɲ"), ("l", "l"),
-    ("L", "ʎ"), ("r", "ɾ"), ("rr", "r"), ("j", "j"), ("w", "w"),
-    ("i", "i"), ("e", "e"), ("a", "a"), ("o", "o"), ("u", "u"),
-    ("y", "y"), ("Z", "ʒ"), ("h", "h"), ("ph", "pʰ"), ("kh", "kʰ"),
-    ("th", "tʰ"),
-])
-MULTI = {
-    "tʃ": "C", "ts": "V", "tʂ": "P",
-    "'i": "I", "'e": "E", "'a": "A", "'o": "O", "'u": "U",
-    "pʰ": "H", "kʰ": "K", "tʰ": "T",
-}
+from .phones import MULTI, PH_SAMPA, PHEU, SAMPA_TO_INTERNAL, SAMPA_TO_IPA
+from .versions import CONFIG as _CONFIG
+from .versions import DICT_FILES as _DICT_FILES
 
 AEIOU = "aeiou"
 AEOU = "aeou"
@@ -97,47 +56,6 @@ EZ_BA_BAIT = {"ez", "ba", "bait"}                            # proclitics
 EZ_BAIT = {"ez", "bait"}
 
 
-# ==========================================================================
-# Engine configuration  (the source IS one engine; versions are config + dict)
-# ==========================================================================
-# The pre-Dec-2025 AhoTTS (ekaitz/pyAhoTTS) and the Dec-2025 ahotts_common
-# rewrite (aholab/AhoTTS @ 3d6f7fc) are the SAME linguistic engine: every eu_*
-# source file is byte-identical apart from the GPL header and two additive
-# config branches in the rewrite -- `phtiparralde` (eu_phtr.cpp) and
-# `StressDicSingleWords` (eu_stre.cpp fgrp2agrp).  With both FALSE (the default,
-# `LangEU_PhTrans()` ctor in eu_lingp.hpp) the rewrite reduces exactly to the
-# old engine.  So a single faithful port, parameterised by this config table,
-# reproduces every version; the only true code differences between versions are
-# (a) which dictionary they load and (b) the wrapper around the engine
-# (libhtts.transcribe for V1/V2 vs the modulo1y2 + eu_phonemizer pipeline for
-# V3, which tokenises punctuation).
-#
-# Each key below names a real source switch or a documented binary delta:
-#   dict           : eu_dicc file (md5-distinct; V3 = eu_dicc_20250326)
-#   StressDic      : LangEU_PhTrans::StressDicSingleWords (eu_lingp.hpp) -- OFF
-#                    in all three shipped binaries (none enables the astuna mode)
-#   phtiparralde   : LangEU_PhTrans::phtiparralde (eu_phtr.cpp) -- OFF (southern)
-#   accentual      : USE_TOKENIZER path -> fgrp2agrp/agrp_stress (dict STR_MRK,
-#                    clitics).  When False, the engine's word_stress flat path
-#                    (plain "2nd syllable, 1st if monosyllabic") is used -- this
-#                    is the V2 (VITS ahotts/tts) signature.
-#   glides         : iu2jw offglides rendered as j/w (True) vs full vowels i/u
-#                    (False = V2's output).  (Syllable counting always treats
-#                    au/ai as one syllable; this only affects the surface form.)
-#   keep_punct     : modulo1y2/eu_phonemizer emits punctuation tokens (V3).
-#   h_shift        : V3 modulo1y2 delta -- a silent leading `h` anchors an empty
-#                    syllable, shifting audible stress one syllable earlier.
-_CONFIG = {
-    "v1": {"dict": "eu_dicc_v1.dic", "StressDic": False, "phtiparralde": False,
-           "accentual": True,  "glides": True,  "keep_punct": False,
-           "h_shift": False, "kdrop_xword": True},
-    "v2": {"dict": "eu_dicc_v1.dic", "StressDic": False, "phtiparralde": False,
-           "accentual": False, "glides": False, "keep_punct": False,
-           "h_shift": False, "kdrop_xword": False},
-    "v3": {"dict": "eu_dicc_v3.dic", "StressDic": False, "phtiparralde": False,
-           "accentual": True,  "glides": True,  "keep_punct": True,
-           "h_shift": True, "kdrop_xword": False},
-}
 
 
 # ==========================================================================
@@ -289,11 +207,6 @@ def load_dict(path):
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _DICTS = {}      # version -> (lexicon, flags)
-_DICT_FILES = {
-    "v1": "eu_dicc_v1.dic",
-    "v2": "eu_dicc_v1.dic",   # V1 and V2 share the same dictionary
-    "v3": "eu_dicc_v3.dic",
-}
 
 
 def _dict_for(version):
@@ -322,27 +235,10 @@ def _dict_lookup(flags, word):
     return None
 
 
-# NOTE: STR_MRK inheritance for inflected forms is now handled by the faithful
-# eu_categ/pos1 cascade in `_eu_pos.EuPOS.tag` (which runs the real HDIC
-# searchBin and the setPOS/addPOS POS semantics), replacing the former
-# prefix-string `_inflected_str_mrk` approximation and the urte/eva/lantze
-# 3-stem hack.  The g2p SALBTF helpers below still use the lightweight
-# `_dict_lookup` prefix probe (those flags are not stress-related).
-
-
-# SAMPA token -> internal PHEU phone code (reverse of PH_SAMPA), for rendering
-# the dictionary TF_MRK dotted transcriptions.  Accented vowels (a/e/o-acute)
-# in the transcription mark stress; the engine still re-derives stress via the
-# AGRP machinery, so they are mapped to their plain vowel here.
-_SAMPA_TO_INTERNAL = {v: k for k, v in PH_SAMPA.items()}
-_SAMPA_TO_INTERNAL.update({
-    "rr": PHEU['rr'], "gj": PHEU['dj'], "B": PHEU['baprox'],
-    "D": PHEU['daprox'], "G": PHEU['gaprox'], "L": PHEU['ll'],
-    "J": PHEU['ntilde'], "S": PHEU['x'], "T": PHEU['T'], "x": PHEU['j'],
-    "s`": PHEU['z'], "ts`": PHEU['tZ'], "jj": PHEU['jj'], "z": PHEU['z'],
-    "á": PHEU['a'], "é": PHEU['e'], "ó": PHEU['o'], "í": PHEU['i'],
-    "ú": PHEU['u'],
-})
+# STR_MRK inheritance for inflected forms is handled by the eu_categ/pos1
+# cascade in `_eu_pos.EuPOS.tag` (which runs the real HDIC searchBin and the
+# setPOS/addPOS POS semantics).  The g2p SALBTF helpers below use the
+# lightweight `_dict_lookup` prefix probe (those flags are not stress-related).
 
 
 def _tf_exp_to_internal(tf_exp):
@@ -358,7 +254,7 @@ def _tf_exp_to_internal(tf_exp):
         t = t.strip()
         if not t:
             continue
-        code = _SAMPA_TO_INTERNAL.get(t)
+        code = SAMPA_TO_INTERNAL.get(t)
         if code is None:
             return None
         out.append(code)
@@ -735,8 +631,8 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             # ANY consonant except `l` -- probed a?va across every C (adva/atva/
             # akva/arva/asva ... -> b; alva -> β; vowel -> β; n/m -> mb).  So the
             # binary's true rule is "v->b after a non-`l` consonant"; the source
-            # as written only does n/m.  Ledger artifact (see NOTES.md).  `l`
-            # and vowels keep the source approximant.
+            # as written only does n/m, so the binary behaviour is reproduced
+            # here.  `l` and vowels keep the source approximant.
             if first or (c3 not in AEIOU and c3 != 'l' and c3 != '\x00'):
                 emit(PHEU['b'])
             else:
@@ -1046,12 +942,10 @@ def _empty_pos():
     return {k: False for k in _POS_KEYS}
 
 
-# Map the faithful _eu_pos POS tag set onto the legacy flag-dict keys used by
-# the FGRP/AGRP stages.  _eu_pos.EuPOS.tag faithfully ports eu_categ.cpp +
-# pos1.cpp (posdic/aditudu/babait/atzadi/adit/auxt/atzize) on top of the exact
-# HDIC searchBin, including the setPOS (wipe) vs addPOS (keep) STR_MRK
-# semantics -- this is the source-faithful replacement for the previous
-# prefix-string approximation and the urte/eva/lantze 3-stem hack.
+# Map the _eu_pos POS tag set onto the flag-dict keys used by the FGRP/AGRP
+# stages.  _eu_pos.EuPOS.tag ports eu_categ.cpp + pos1.cpp
+# (posdic/aditudu/babait/atzadi/adit/auxt/atzize) on top of the exact HDIC
+# searchBin, including the setPOS (wipe) vs addPOS (keep) STR_MRK semantics.
 _POS_TAGGERS = {}      # dict-path -> _eu_pos.EuPOS
 
 
@@ -1060,10 +954,7 @@ def _faithful_tagger(version):
     if not os.path.exists(path):
         path = os.path.join(_HERE, "eu_dicc_v1.dic")
     if path not in _POS_TAGGERS:
-        try:
-            from . import _eu_pos
-        except ImportError:  # pragma: no cover - standalone script use
-            import _eu_pos
+        from . import _eu_pos
         _POS_TAGGERS[path] = _eu_pos.get_tagger(path)
     return _POS_TAGGERS[path]
 
@@ -1140,7 +1031,6 @@ def _poscases(tags, words=None, boundary_after=None, sent_end_after=None):
         t = tags[i]
         nxt = tags[i + 1] if i + 1 < n else None
         prev = tags[i - 1] if i > 0 else None
-        last = nxt is None
 
         word = words[i] if words is not None and i < len(words) else None
         # detaux dena-special (poscases.cpp:46): "dena" before a verb (or
@@ -2262,23 +2152,23 @@ def _pronounce(tok):
     # (eu_cap.cpp:366-396)  `temp` tracks the previous *kept* char for r/l,
     # reset to ' ' on a kept r or l so a third repeat is also kept.
     temp = ' '
-    r = l = rr = ll = 0
+    r_count = l_count = rr = ll = 0
     out = []
     for ch in word:
         if ch != temp:
             out.append(ch)
             if ch == 'r':
-                r += 1
+                r_count += 1
                 temp = ' '
-                if r == 2:
+                if r_count == 2:
                     rr += 1
             elif ch == 'l':
-                l += 1
+                l_count += 1
                 temp = ' '
-                if l == 2:
+                if l_count == 2:
                     ll += 1
             else:
-                r = 0
+                r_count = 0
                 temp = ch
         else:
             # a repeated char: dropped, but ee->i and oo->u rewrite the kept one
@@ -2694,7 +2584,7 @@ def _normalize_mixed_groups(text, version):
                 suffix = cells[-1][0] + suffix
                 cells = cells[:-1]
 
-        joined = ''.join(s for s, _ in cells)
+        ''.join(s for s, _ in cells)
         pat = ''.join(sym for _, sym in cells)
         if len(cells) < 2:
             return span
@@ -2748,7 +2638,7 @@ def _normalize_mixed_groups(text, version):
         # (matches its oracle).  V1 surfaces the bare spell `k a` (no mid-dot
         # verbalisation) and V3 keeps the dots literal (`ka . a .`) -- both are
         # the moreData artifact; leave them to the per-token pipeline (which
-        # gives the closer `ka a` / `ka . a .`).  Documented in METHOD_INVENTORY.
+        # gives the closer `ka a` / `ka . a .`).
         if is_last and has_mid_dot and not has_dash and 'n' not in pat \
                 and version != "v2":
             return span
@@ -3157,7 +3047,6 @@ _TOKEN_RE = re.compile(r"\w+|[^\w\s]", re.UNICODE)
 _PUNCT = set(".,!?;:")
 # Python string.punctuation -- the exact set getPhonemes emits as its own
 # tokens.  Used for the V3 (modulo1y2 + eu_phonemizer) tokenisation.
-import string as _string  # noqa: E402
 _STRING_PUNCT = set(_string.punctuation)
 _KEEP_PUNCT = set(".,!?;:")     # punctuation surfaced in V3 output
 # V3: literal punct tokens that break the pause group (probe-validated).  Every
@@ -3185,12 +3074,13 @@ def _normalize_word_keepcase(word):
     return ''.join(repl.get(ch, ch) for ch in word)
 
 
-def phonemize(text, version="v1"):
-    """text -> final single-char IPA training string for the given AhoTTS
-    version ("v1", "v2", "v3").  Words space-separated.  For v3, punctuation is
-    emitted as separate tokens (matching the modulo1y2 + eu_phonemizer
-    pipeline); v1/v2 drop punctuation (the libhtts/transcribe pipeline returns
-    words only)."""
+def phonemize_eu(text, version="v1"):
+    """Phonemize ``text`` to the final single-char IPA training string for the
+    given AhoTTS version (``"v1"``, ``"v2"`` or ``"v3"``).
+
+    Words are space-separated.  For v3, punctuation is emitted as separate
+    tokens (matching the modulo1y2 + eu_phonemizer pipeline); v1/v2 drop
+    punctuation (the libhtts transcribe pipeline returns words only)."""
     if version not in _CONFIG:
         raise ValueError("version must be v1, v2 or v3")
     cfg = _CONFIG[version]
@@ -3389,4 +3279,4 @@ if __name__ == "__main__":
     import sys
     t = sys.argv[1] if len(sys.argv) > 1 else "Euskara Euskal Herriko hizkuntza da."
     for v in ("v1", "v2", "v3"):
-        print(f"{v}: {phonemize(t, version=v)}")
+        print(f"{v}: {phonemize_eu(t, version=v)}")

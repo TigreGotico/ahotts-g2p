@@ -1,46 +1,46 @@
-"""Version-aware pure-Python AhoTTS Spanish (es) phonemizer.
+"""Spanish (es) grapheme-to-phoneme engine.
 
     phonemize_es(text, version="v1" | "v2" | "v3") -> str
 
-Reproduces the *final single-char training representation* of three AhoTTS
-phonemizer generations for Spanish, matching their respective binaries:
+The full Spanish linguistic pipeline reproducing the final single-char training
+representation of three AhoTTS generations:
 
-  v1  pyAhoTTS (original AhoTTS).  Full engine: grapheme->phoneme with
-      coarticulated approximants (b/d/g -> B/D/G between vowels), the
-      Llisterri-Mariño r rule, syllabification, diphthong glides (i/u -> j/w
-      next to a vowel in the same syllable), and the regular Spanish lexical
-      stress rule (penultimate for words ending in vowel/n/s, final otherwise,
-      with a written-accent override and an atonic function-word list).
-  v2  aholab/AhoTTS Dec-2025 (VITS-era libhtts.so).  Same engine, two deltas:
+  v1  Full engine: grapheme-to-phoneme with coarticulated approximants
+      (b/d/g -> B/D/G between vowels), the Llisterri-Mariño r rule,
+      syllabification, diphthong glides (i/u -> j/w next to a vowel in the same
+      syllable), and the regular Spanish lexical-stress rule (penultimate for
+      words ending in vowel/n/s, final otherwise, with a written-accent
+      override and an atonic function-word list).
+  v2  Same engine, two deltas:
         * iu2jw still runs (so stress lands on the same nucleus as v1) but the
-          glide is REVERTED in the phone output -- weak diphthong vowels are
-          rendered as full i/u (veinticinco -> ...einti... not ...ejnti..., yet
-          rousseau is aguda rousseAu exactly like v1's rowsseAw).
-        * the shipped libhtts.so cannot load any HDIC database, so v2 applies
-          NO es_dicc respelling -- every word is pure g2p (jazz -> xAθ).
-  v3  arrandi StyleTTS modulo1y2.  Same engine + glides on (= v1), but the
-      modulo1y2 / eu_phonemizer.getPhonemes wrapper (a) emits punctuation as
-      separate tokens, (b) re-interleaves one phoneme group per ORIGINAL source
-      token (so number/unit expansions shift punctuation and drop trailing
-      words), and (c) treats the haber monosyllables he/has/ha/han as atonic.
+          glide is reverted in the phone output -- weak diphthong vowels are
+          rendered as full i/u (veinticinco -> ...einti..., not ...ejnti...,
+          yet rousseau is aguda rousseAu exactly like v1's rowsseAw);
+        * no es_dicc respelling is applied -- every word is pure g2p
+          (jazz -> xAθ).
+  v3  Same engine + glides on (= v1), but the modulo1y2 wrapper (a) emits
+      punctuation as separate tokens, (b) re-interleaves one phoneme group per
+      original source token (so number/unit expansions shift punctuation and
+      drop trailing words), and (c) treats the haber monosyllables
+      he/has/ha/han as atonic.
 
-The algorithm is a clean-room reimplementation of the AhoTTS C++ Spanish
-linguistic engine (es_phtr.cpp pausegr_ch2ph / iu2jw, es_syl.cpp word_syllab,
-es_uti.cpp diphthong/CC/syllable-vowel helpers, es_stre.cpp word_stress,
-es_numexp.cpp number expansion, phone.c SAMPA table, es_lingp.hpp PHES_*
-aliases, hts.cpp phone_tosampa).  AhoTTS / Aholab (UPV/EHU) are the algorithm
-source; this is Apache-licensed Python carrying no GPL code.
+The pipeline mirrors the AhoTTS C++ Spanish engine (``es_phtr.cpp``
+pausegr_ch2ph / iu2jw, ``es_syl.cpp`` word_syllab, ``es_uti.cpp`` helpers,
+``es_stre.cpp`` word_stress, ``es_numexp.cpp`` number expansion, ``phone.c``
+SAMPA table, ``es_lingp.hpp`` aliases, ``hts.cpp`` phone_tosampa).  AhoTTS /
+Aholab (UPV/EHU) are the algorithm source.
 
-Unlike Basque, Spanish stress in this engine is computed entirely from the
-surface phone string + a hardcoded atonic-word list -- it needs NO dictionary
-lookup.  The bundled es_dicc only matters for normalization/abbreviations
-(not modelled here); g2p and stress are dictionary-free.
+Unlike Basque, Spanish stress is computed entirely from the surface phone
+string plus a hardcoded atonic-word list -- it needs no dictionary lookup.  The
+bundled es_dicc only matters for normalisation/abbreviations (not modelled
+here); g2p and stress are dictionary-free.
 
-stdlib only, no subprocess, no C.
+Stdlib only; no subprocess, no C build.
 """
 import os
 import re
 import struct
+import unicodedata as _unicodedata
 from collections import OrderedDict
 
 # ==========================================================================
@@ -1238,10 +1238,8 @@ def _normalize_word(word):
     return ''.join(c for c in w if c in _NORMAL_KEEP)
 
 
-import unicodedata as _unicodedata  # noqa: E402
-
-# ASCII string.punctuation -- the set the *upstream* getPhonemes wrapper uses.
-# Kept only for reference; the port uses the Unicode-aware test below.
+# ASCII string.punctuation -- the set the upstream getPhonemes wrapper uses.
+# Kept for reference; the engine uses the Unicode-aware test below.
 _PUNCT_STRING = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
 
 

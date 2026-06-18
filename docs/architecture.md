@@ -1,8 +1,21 @@
 # Architecture
 
-`ahotts-g2p` reimplements the AhoTTS Basque linguistic front-end as a
-straight-line pipeline. No C code is involved; the only data input is the
-binary dictionary, read with `struct`.
+`ahotts-g2p` reimplements the AhoTTS linguistic front-end as a straight-line
+pipeline. No C code is involved; the only data input is the binary dictionary,
+read with `struct`.
+
+## Modules
+
+| Module | Responsibility |
+|---|---|
+| `__init__` | public API: `phonemize(text, lang, version)`, `SAMPA_TO_IPA` |
+| `versions` | the `Version`/`Lang` enums and the per-version config table |
+| `phones` | phone code tables (`PHEU`, `PH_SAMPA`), `SAMPA_TO_IPA`, single-char folding (`MULTI`) |
+| `g2p` | the Basque (eu) engine: normalisation, g2p, syllabification, stress, rendering |
+| `es` | the Spanish (es) engine |
+| `dict_hdic` | the HDIC binary-dictionary reader |
+| `_faithful_search` | the HDIC binary search (`searchBin` / `tokbsearch`) |
+| `_eu_pos` | the Basque part-of-speech cascade (`eu_categ` / `pos1`) |
 
 ## Pipeline
 
@@ -65,14 +78,13 @@ Per word, following the AhoTTS stress rules:
 
 Internal phone codes map to SAMPA (`PH_SAMPA`), SAMPA to IPA (`SAMPA_TO_IPA`),
 then multi-char IPA sequences and stressed vowels fold to single characters
-(`MULTICHAR_TO_SINGLECHAR`) so the result is one character per phoneme, the
-form a StyleTTS2-style model trains on.
+(`MULTI`) so the result is one character per phoneme -- the form a
+StyleTTS2-style model trains on. All three tables live in `phones`.
 
 ## The HDIC dictionary decode
 
-`eu_dicc.dic` is AhoTTS's binary lexicon in the **HDIC** format. Both
-`decode_hdic.py` (a standalone reader/inspector) and the loader inside
-`ahotts_eu_hdic.py` parse it with `struct` -- no C build.
+The `.dic` files are AhoTTS's binary lexicons in the **HDIC** format. The
+`dict_hdic` module parses them with `struct` -- no C build.
 
 Format:
 
@@ -93,7 +105,7 @@ case-insensitive; block 3 is the ~17k-word main lexicon). Each entry's 32-bit
 - plus `SALBTF_I_J`, `J_X`, `L_l`, `Z_T`, `TF_MRK`.
 
 Driving stress and palatalisation from the **decoded dictionary flags** (rather
-than a small curated list) is what lets the port generalise far beyond the
-oracle's 25 lines: hundreds of words carry these flags. A handful of
-phonetic-rule / romanisation quirks the dictionary does not encode through its
-bits remain as explicit per-word overrides.
+than a small curated list) is what lets the port generalise across the full
+lexicon: hundreds of words carry these flags. A handful of phonetic-rule /
+romanisation quirks the dictionary does not encode through its bits remain as
+explicit per-word handling.

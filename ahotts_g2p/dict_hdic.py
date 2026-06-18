@@ -109,16 +109,19 @@ def _read_header(data):
     off = len(SIGNATURE) + 1               # signature + NUL
     if data[:len(SIGNATURE)] != SIGNATURE:
         raise ValueError("not an HDIC database")
-    typ = data[off:off + 2]; off += 2
-    version = struct.unpack_from('<I', data, off)[0]; off += 4
+    off += 2                                   # type ("eu")
+    off += 4                                   # format version
     blocks = []
     # blocks 0 and 2 have exlen; 1 and 3 do not
     layout = [True, False, True, False]
     for has_exp in layout:
-        base, n = struct.unpack_from('<II', data, off); off += 8
-        slen = struct.unpack_from('<H', data, off)[0]; off += 2
+        base, n = struct.unpack_from('<II', data, off)
+        off += 8
+        slen = struct.unpack_from('<H', data, off)[0]
+        off += 2
         if has_exp:
-            exlen = struct.unpack_from('<H', data, off)[0]; off += 2
+            exlen = struct.unpack_from('<H', data, off)[0]
+            off += 2
         else:
             exlen = 0
         if has_exp:
@@ -129,12 +132,12 @@ def _read_header(data):
                            blen=blen, has_exp=has_exp))
     if off != blocks[0]["base"]:
         raise ValueError("inconsistent HDIC header (base[0] mismatch)")
-    return typ, version, blocks
+    return blocks
 
 
 def _iter_block(data, blk):
     base, n, slen, blen = blk["base"], blk["n"], blk["slen"], blk["blen"]
-    has_exp, exlen = blk["has_exp"], blk["exlen"]
+    has_exp, _exlen = blk["has_exp"], blk["exlen"]
     for k in range(n):
         rec = base + blen * k
         wlen = struct.unpack_from('<H', data, rec)[0]
@@ -154,8 +157,9 @@ def load_hdic(path):
     entries: list of dicts {word, word_raw, ref(decoded), exp, block, case}.
     Words are latin-1 decoded. case=True for the case-sensitive blocks (0,1).
     """
-    data = open(path, 'rb').read()
-    typ, version, blocks = _read_header(data)
+    with open(path, 'rb') as fh:
+        data = fh.read()
+    blocks = _read_header(data)
     case_of = [True, True, False, False]
     entries = []
     for bi, blk in enumerate(blocks):

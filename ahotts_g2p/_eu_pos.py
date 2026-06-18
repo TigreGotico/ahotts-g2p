@@ -9,8 +9,7 @@ per-word part-of-speech assignment of:
     babait -> atzadi -> atzize.
   * pos1.cpp::posdic / aditudu / babait / atzadi / adit / auxt / atzize.
 
-The single load-bearing detail this reproduces (and the previous string-prefix
-approximation + 3-stem hack did NOT) is the C `setPOS` vs `addPOS` semantics:
+The load-bearing detail is the C `setPOS` vs `addPOS` semantics:
 a partial (inherited) dictionary match first gets POS_EU_STR_MRK *added*
 (eu_categ STR_MRK block, gated on `encontrado==FALSE`), but if the suffix
 cascade then recognises the form as an inflected VERB it calls `setPOS(...)`
@@ -30,10 +29,7 @@ T2 1=adj 2=det 3=lot_jnt 4=atz_ize 5=atz_adi2; T3 1=adi_trn 2=prt 3=atz_adi3
 
 import os
 
-try:
-    from ._faithful_search import FaithfulHDic
-except ImportError:  # pragma: no cover - standalone script use
-    from _faithful_search import FaithfulHDic
+from ._faithful_search import FaithfulHDic
 
 
 def _t(bits, n):
@@ -124,7 +120,6 @@ class EuPOS:
                     pos.add("adi_trn")
                     return True
         if len(w) >= 4 and w[:3] == "bai" and w[3] == "t":
-            ch = w[3]
             # the C switch(word_act[3]) is on 't' here; the inner cases rebuild
             # the auxiliary stem from index 3/4 with d/g substitution.
             for variant in (("d" + w[4:]), w[4:]):
@@ -290,18 +285,18 @@ class EuPOS:
         adi = w
         n = len(adi)
         i = n
-        l = nn = 0
-        while (l == 0 and nn == 0) and i != 0:
+        ll = nn = 0
+        while (ll == 0 and nn == 0) and i != 0:
             i -= 1
             if adi[i] == 'l':
                 sb, sm = self._search(adi[i:])
                 if sb is not None and sm == 0 and _t(sb, 3) == 3:  # ATZ_ADI3
-                    l = 1
+                    ll = 1
             if adi[i] == 'n':
                 sb, sm = self._search(adi[i:])
                 if sb is not None and sm == 0 and _t(sb, 3) == 3:
                     nn = 1
-        if not (l or nn):
+        if not (ll or nn):
             return False
         # primary: stem = adi[:i]
         if self._auxt_test(adi[:i], pos):
@@ -397,9 +392,8 @@ class EuPOS:
             # singular cases (-a, -ak, -an, -ko, -tik, ...) come out OROK; the
             # plural / -ari forms (-en, -etan, -otan, -ari, -ee*, -eo*) keep
             # MRK; the exact-match `urte` keeps MRK.  Reproduced here for `urte`
-            # only -- eva/lantze (in the previous 3-stem hack) are now handled
-            # correctly by the faithful verb/suffix cascade and need no special
-            # case.
+            # only -- other stems are handled by the verb/suffix cascade and
+            # need no special case.
             wl = word
             if wl.startswith("urte") and matchlen and wl != "urte":
                 rest = wl[4:]

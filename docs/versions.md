@@ -1,60 +1,68 @@
 # AhoTTS engine versions
 
 AhoTTS is not a single phonemizer -- it has a real engine lineage, and
-different public Basque voices were phonemized by different versions. The
+different public Basque voices were phonemized by different generations. The
 output differs (most visibly in stress placement and diphthong handling), so
 `ahotts-g2p` is **version-aware**: `phonemize(..., version=...)` selects which
-engine to emulate.
+engine to reproduce. The default is `v3`.
 
-## The lineage
+## The version table
 
-| Version | Phonemizer | Engine source | Basque dict | Stress behaviour | Used by |
-|---|---|---|---|---|---|
-| **V1** | pyAhoTTS `libhtts` | `ekaitz-zarraga/AhoTTS` (= `aholab/AhoTTS` pre-rewrite) -- complete public source | old `eu_dicc` | dictionary `STR_MRK` via accentual group | pyAhoTTS users |
-| **V2** | ahoNT `modulo1y2.so` / hitz `ahotts/tts` | `aholab/AhoTTS` modern `ahotts_common` engine | old `eu_dicc` | **flat 2nd-syllable, no dict stress** | HiTZ VITS voices (`HiTZ/TTS-*`) |
-| **V3** | arrandi `modulo1y2` | `ahotts_common` engine, es/eu | `eu_dicc_20250326` | dictionary `STR_MRK` + silent-`h` anchors leading syllable | **HiTZ/StyleTTS2-eu** |
-| **V1-ipar** | `AhoTTS_Iparrahotsa` | `aholab/AhoTTS_Iparrahotsa` -- complete public source | Northern `eu_dicc` | Northern: /h/ pronounced, French vowels, uvular r, Iparralde diphthongs | continental Basque |
+| Version | Upstream source | Consuming model | Basque dict | Distinctive behaviour |
+|---|---|---|---|---|
+| **V1** | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) -- original AhoTTS (= `aholab/AhoTTS` pre-rewrite); complete public C++ source | **HiTZ VITS** voices | old `eu_dicc` | accentual-group stress with dictionary `STR_MRK`; vowel offglides (`au` -> `aw`, `ai` -> `aj`) |
+| **V2** | [aholab/AhoTTS](https://github.com/aholab/AhoTTS) Dec-2025 `ahotts_common` rewrite, `transcribe` mode | *none released* | old `eu_dicc` | no offglides (full-vowel diphthongs); flat "2nd syllable, 1st if monosyllabic" stress for every word |
+| **V3** | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) -- `modulo1y2` + `eu_phonemizer.py` wrapper | [**HiTZ/StyleTTS2-eu**](https://huggingface.co/HiTZ) | `eu_dicc_20250326` | like V1, plus a silent-`h` stress shift, `ʝ` palatalisation, and punctuation emitted as separate tokens |
 
-**V2 and V3 are the same modern engine**, differing only by configuration and
-dictionary: V2 runs with flat-stress (dictionary `STR_MRK` off) and the old
-dict; V3 enables dictionary stress (`StressDicSingleWords`) plus the silent-`h`
-leading-syllable rule and the newer dictionary. V1 is a separate, earlier
-codebase.
+A separate Northern-dialect fork,
+[AhoTTS_Iparrahotsa](https://github.com/aholab/AhoTTS_Iparrahotsa) (pronounced
+`/h/`, French vowels, uvular r), is off the V1->V3 line and is not implemented.
+
+## How the versions relate
+
+V1 and the Dec-2025 `ahotts_common` rewrite are the **same linguistic engine**:
+every `eu_*` source file is identical apart from the licence header and two
+additive config branches (`phtiparralde` and `StressDicSingleWords`). With both
+off -- the default -- the rewrite reduces to V1.
+
+* **V1** is the pre-rewrite codebase. It applies dictionary `STR_MRK`
+  first-syllable stress through the accentual-group machinery and renders
+  diphthong offglides as `j`/`w`.
+* **V2** is the modern engine's flat `transcribe` path: no offglides, and a
+  plain 2nd-syllable stress rule that bypasses the dictionary `STR_MRK` /
+  clitic machinery. No released model consumes this mode; it is provided for
+  faithfulness to that engine path.
+* **V3** is the StyleTTS-era `arrandi` build: the same accentual stress as V1,
+  plus a silent-`h` rule that anchors an empty leading syllable (shifting
+  audible stress one syllable earlier for `h`-initial words), the newer
+  dictionary, and a wrapper that tokenises punctuation.
 
 ## Behavioural signatures (eu)
+
+Stress is shown as the capitalised vowel; "glide" = diphthong offglide as
+`j`/`w`; "full-vowel" = offglide kept as plain `i`/`u`.
 
 | word | V1 | V2 | V3 |
 |---|---|---|---|
 | `berri` | `berI` | `berI` | `berI` |
-| `horrek` | `Orek` (1st syllable) | `orEk` (2nd) | `Orek` (1st) |
-| `hizkuntza` | `'iskuntsa` (1st) | `isk'untsa` (2nd) | `'iskuntsa` (1st) |
-| diphthong | glide (`Ewskaɾa`) | full vowel (`euskAɾa`) | glide (V1-like) |
+| `horrek` | `orEk` (2nd, rule) | `orEk` (2nd, rule) | `Orek` (1st, dict) |
+| `hizkuntza` | `iʂkUntʂa` (2nd) | `iʂkUntʂa` (2nd) | `IʂkunPa` (1st, dict) |
+| `bai` | `bAj` (glide) | `bAi` (full-vowel) | `bAj` (glide) |
+| `euskara` | `Ewskaɾa` (glide) | `euskAɾa` (full-vowel) | `Ewskaɾa` (glide) |
 
-V2 stands out: flat 2nd-syllable stress, no dictionary stress, full-vowel
-diphthongs.
-
-## What this release implements
-
-This release is **version-aware across the full lineage**: `phonemize(text,
-lang, version)` accepts `lang` in `{eu, es}` and `version` in `{v1, v2, v3}`,
-each emulating the matching AhoTTS engine generation.
-
-- **Basque (`lang="eu"`):** `v3` (the default) is served by the hardened HDIC
-  fast-path that phonemized `HiTZ/StyleTTS2-eu` and reproduces that oracle
-  100%; `v1` and `v2` are served by the version-aware port (`ahotts_versioned`)
-  reimplemented from the matching public AhoTTS source states.
-- **Spanish (`lang="es"`):** `v1`/`v2`/`v3` are served by `es_phonemizer`.
-
-Each module is a source-derived Python port of the public AhoTTS C++ engine
-(read by an AI, validated against the binaries by a human -- not clean-room; see
-[licensing.md](licensing.md)). The binaries are the source of truth for parity.
-See [accuracy.md](accuracy.md) for the verified parity table.
-
-The `V1-ipar` (Northern / Iparrahotsa) path remains planned.
+V2 stands out by its full-vowel diphthongs; V3 by its dictionary first-syllable
+stress on demonstratives and common nouns.
 
 ## Which model used which version
 
-- **HiTZ/StyleTTS2-eu** was phonemized by **V3** (the training distribution's
-  `horrek -> Orek` first-syllable stress matches V3, not V2).
-- **HiTZ VITS voices** (`HiTZ/TTS-{eu,gl,ca,es}_*`, shipped as
-  `vits.onnx` + `config.json`) were phonemized by **V2**.
+* **HiTZ/StyleTTS2-eu** was phonemized by **V3** (arrandi `modulo1y2`). The
+  model's training distribution uses dictionary first-syllable stress
+  (`horrek -> Orek`, `hizkuntza -> IʂkunPa`), matching the arrandi binary.
+* **HiTZ VITS** voices were phonemized by the AhoTTS `tts -Method=Vits` driver,
+  whose eu output matches **V1**: rule-stress, offglides, old dictionary.
+* **No released model uses V2.** It captures the `transcribe`-mode full-vowel
+  behaviour of the modern engine, included for completeness.
+
+See [reverse-engineering.md](reverse-engineering.md) for how each version was
+identified from the binaries, and [accuracy.md](accuracy.md) for the verified
+parity figures.
