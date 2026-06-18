@@ -29,6 +29,11 @@ PHEU = {
     #   PH_y  'F'  French rounded vowel /y/.  Distinct internal codes so the
     #   southern alveolar rr ('R') and palatal jj ('y'/'K') are unaffected.
     'uvular': '@', 'Jb': '=', 'y_fr': '#', 'h': 'h',
+    # Nasal vowels (phone.c PH_aa_/PH_e_/PH_o_ -> SAMPA a~/e~/o~).  They only
+    # enter the stream through the Northern dictionary's French/foreign proper-
+    # name transcriptions; rendered as the plain vowel followed by a combining
+    # tilde token.
+    'a_nas': '1', 'e_nas': '2', 'o_nas': '3',
 }
 
 #: Internal phone char -> SAMPA (``phone.c`` + ``hts.cpp`` ``phone2sampa``).
@@ -43,6 +48,7 @@ PH_SAMPA = {
     'v': 'v', 'z': 'z', 'Z': 'Z', 'h': 'h',
     # Northern dialect internal codes -> SAMPA (phone_tosampa / phone.c).
     '@': 'R', '=': 'J\\', '#': 'y',
+    '1': 'a~', '2': 'e~', '3': 'o~',
 }
 
 #: SAMPA -> IPA, ordered longest-first.  Includes the stress-marked vowels
@@ -59,6 +65,9 @@ SAMPA_TO_IPA = OrderedDict([
     ("th", "tʰ"),
     # Northern (Iparrahotsa) dialect SAMPA: uvular r, voiced palatal stop.
     ("R", "ʁ"), ("J\\", "ɟ"),
+    # Nasal vowels render as the plain vowel + combining tilde (matching the
+    # AhoTTS_Iparrahotsa transcription output a~/e~/o~).
+    ("a~", "a~"), ("e~", "e~"), ("o~", "o~"),
     ("'i", "'i"), ("'e", "'e"), ("'a", "'a"), ("'o", "'o"), ("'u", "'u"),
 ])
 

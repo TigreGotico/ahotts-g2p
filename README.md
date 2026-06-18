@@ -89,7 +89,7 @@ held-out corpora (positional word match):
 | Spanish (`es`) | 100% | 100% |
 | Basque (`eu`) | 99.94% | 99.90% |
 
-The Northern Basque dialect reaches **~99.0%** word parity (401/430 exact lines)
+The Northern Basque dialect reaches **99.57%** word parity (416/430 exact lines)
 against the AhoTTS_Iparrahotsa binary; see [docs/dialects.md](docs/dialects.md).
 
 The held-out corpora ship as test fixtures, so the figures reproduce with no

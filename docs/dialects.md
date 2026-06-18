@@ -82,17 +82,38 @@ Parity is measured against the AhoTTS_Iparrahotsa binary (driven through a
 `transcribe_text` C export), over the 430-sentence Basque corpus shipped as the
 `eu_northern_corpus.json` test fixture:
 
-* **word parity ~99.0%**, **401/430 exact lines**.
+* **word parity 99.57%**, **416/430 exact lines**.
 
-The residual lines are documented faithful-artifacts, not approximation hacks:
+The Northern build faithfully reproduces, with explicit C citations:
 
-* **Northern number/date normalisation** -- the Northern `eu_normal` expands some
-  dates and number ranges differently from the Southern path.
-* **Foreign / French proper names** -- names with their own Northern-dictionary
-  transcriptions, some carrying nasal vowels (e.g. *Olympique* -> /ole~pIk/,
-  *Bayonnais* -> /bajonE/, *Constantin* -> /ko~sta~tE/).
-* **Post-(k-drop) stress** -- a word whose leading `k` is dropped by the
-  cross-word geminate collapse can change accentual group membership.
+* **Post-(k-drop) stress** -- the cross-word `k+k` / `s+s` geminate collapse
+  (`eu_phtr.cpp` l.609-614, 879-889) deletes the *second* word's leading
+  consonant, making it vowel-initial; that silent leading segment shifts the
+  accent one syllable earlier, so an `OROK` head takes its first audible syllable
+  (*korrika* after *bakarrik* -> /Oʁika/) and a dictionary-`MRK` head has its
+  accent absorbed (*kanpo* after *...tik* -> /ampo/), mirroring the silent-`h`
+  shift. Southern does not shift here, so it is gated on `phtiparralde`.
+* **Word-final `ts` reduction** -- before a consonant the affricate reduces to
+  the laminal /ʂ/ (`eu_phtr.cpp` case `s`, l.853-866, *not* `!phtiparralde`),
+  unlike the `tz`/`st` reductions which Northern keeps.
+* **French / foreign proper-name transcriptions** -- the Northern dictionary
+  supplies dotted-SAMPA transcriptions with nasal vowels (`a~`/`e~`/`o~`) and an
+  acute tonic accent; these are emitted verbatim and stressed on the marked vowel
+  (*Olympique* -> /ole~pIk/, *Bayonnais* -> /bajonE/, *Constantin* ->
+  /ko~sta~tE/, *León* -> /leO/), including their declensions (eu_categ
+  TF_MRK-on-declension, l.206-228: *campusak* -> /kampyʂak/).
+
+The remaining residual lines are documented oracle-gaps / faithful-artifacts,
+not approximation hacks:
+
+* a few foreign-name declensions (*Argentinako*, *Cageren*) whose transcribed
+  stem the faithful searchBin does not surface from the Northern dictionary's
+  block layout (the binary does);
+* the closing-quote genitive `r` strength (*«nafar»en* -> /nafAʁen/), shared
+  with the Southern v1 residual (the citation-quote join keeps the `r` strong in
+  the binary);
+* a handful of acronym / roman-letter spellings (`(C's)`, `SOV`, the spelled
+  letter `V` -> *uve*) and the Northern date expansion in one line.
 
 See [accuracy.md](accuracy.md) for the methodology shared with the Southern
 figures, and [reverse-engineering.md](reverse-engineering.md) for how the

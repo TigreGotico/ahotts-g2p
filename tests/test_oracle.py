@@ -73,9 +73,11 @@ def test_styletts2_eu_default_path():
 # Oracle: the AhoTTS_Iparrahotsa binary (pyAhoTTS-Iparrahotsa transcribe_text).
 # Corpus: the same 430 Basque sentences, phonemized by that binary.  The
 # threshold is the verified figure; the residual lines are documented
-# faithful-artifacts (Northern eu_normal date expansion, foreign-name dict
-# transcriptions with nasal vowels, post-k-drop stress) -- see docs/dialects.md.
-_NORTHERN_THRESHOLD = (98.9, 400)   # (min word-match %, min exact lines)
+# faithful-artifacts / oracle-gaps (see docs/dialects.md): a few foreign-name
+# transcriptions whose dictionary stem the faithful searchBin does not surface,
+# the closing-quote genitive `r` strength (shared with v1), and a handful of
+# acronym / roman-letter spellings.
+_NORTHERN_THRESHOLD = (99.5, 415)   # (min word-match %, min exact lines)
 
 
 def test_northern_corpus_parity():

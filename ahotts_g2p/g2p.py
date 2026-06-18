@@ -238,10 +238,25 @@ def _dict_lookup(flags, word):
 # lightweight `_dict_lookup` prefix probe (those flags are not stress-related).
 
 
+# Accented SAMPA vowel -> (plain internal code, is stressed).  The Northern
+# dictionary's French/foreign transcriptions mark the tonic vowel with an acute
+# (á é í ó ú) and nasality with a trailing tilde (a~ e~ o~).  A *stressed* nasal
+# (é~ ó~ ...) surfaces as the plain stressed vowel -- the tilde is dropped --
+# matching the AhoTTS_Iparrahotsa output (Constantin k.o~.s.t.a~.t.é~ -> ko~sta~tE).
+_TF_ACCENTED = {"á": PHEU['a'], "é": PHEU['e'], "í": PHEU['i'],
+                "ó": PHEU['o'], "ú": PHEU['u']}
+_TF_NASAL = {"a~": PHEU['a_nas'], "e~": PHEU['e_nas'], "o~": PHEU['o_nas']}
+
+
 def _tf_exp_to_internal(tf_exp):
     """Parse a dictionary TF transcription (dotted SAMPA, e.g. 'x.e.n.e.r.o',
     or a respelling without dots, e.g. 'bum') into a list of internal PHEU
-    phone codes.  Returns None if any token is unrecognised."""
+    phone codes.  Returns None if any token is unrecognised.
+
+    Honours the Northern transcription markers: an acute-accented vowel maps to
+    its plain phone (its tonic position is recovered separately by
+    ``_tf_accent_ord``), and a trailing-tilde vowel maps to the matching nasal
+    phone.  A stressed nasal drops the tilde to its plain stressed vowel."""
     e = tf_exp.strip().strip("\t\r ")
     if not e:
         return None
@@ -251,11 +266,80 @@ def _tf_exp_to_internal(tf_exp):
         t = t.strip()
         if not t:
             continue
+        # stressed nasal (é~) -> plain stressed vowel (tilde dropped)
+        if len(t) >= 2 and t[-1] == "~" and t[:-1] in _TF_ACCENTED:
+            out.append(_TF_ACCENTED[t[:-1]])
+            continue
+        if t in _TF_NASAL:
+            out.append(_TF_NASAL[t])
+            continue
+        if t in _TF_ACCENTED:
+            out.append(_TF_ACCENTED[t])
+            continue
         code = SAMPA_TO_INTERNAL.get(t)
         if code is None:
             return None
         out.append(code)
     return out or None
+
+
+def _tf_decl_phones(orig_word, flags, version):
+    """eu_categ.cpp (l.206-228) + eu_phtr.cpp (l.175-193): a declension of a
+    dictionary-transcribed stem.  If the word's searchBin partial match carries
+    TF_MRK and the trailing suffix is itself a declension (EU_DEC), the stem's
+    transcription is emitted and the suffix is g2p'd onto it.  Returns
+    ``(stem_phones, stem_char_len)`` or ``None``.  (Honoured only on the Northern
+    build: the Southern oracle reads such inflected forms by plain g2p, e.g.
+    argentinako -> arɡEntiɲako, not the dict transcription.)"""
+    w = orig_word.lower()
+    try:
+        tagger = _faithful_tagger(version)
+        _tags, full = tagger.tag(w)
+    except Exception:           # noqa: BLE001
+        return None
+    if full:
+        return None
+    bits, matchlen = tagger._search(w)
+    if bits is None or not matchlen or matchlen >= len(w):
+        return None
+    if not ((bits >> 16) & 1):          # stem carries TF_MRK?
+        return None
+    sb, sm = tagger._search(w[matchlen:])
+    if sb is None or sm != 0 or not ((sb >> 2) & 1):   # suffix is a declension?
+        return None
+    v = flags.get(w[:matchlen])
+    if not (v and v.get("tf_exp")):
+        return None
+    ph = _tf_exp_to_internal(v["tf_exp"])
+    if ph is None:
+        return None
+    return ph, matchlen
+
+
+def _tf_accent_ord(tf_exp):
+    """The vowel ordinal (0-based, counting all vowels and nasal vowels in
+    order) that the TF transcription marks tonic via an acute accent, or None if
+    the transcription carries no explicit accent.  Used to override the regular
+    accentual stress for dictionary-transcribed French/foreign proper names."""
+    e = (tf_exp or "").strip()
+    if not e:
+        return None
+    toks = e.split(".") if "." in e else list(e)
+    vord = -1
+    for t in toks:
+        t = t.strip()
+        if not t:
+            continue
+        base = t[:-1] if t.endswith("~") else t
+        # count exactly what `_is_vowel` counts in the rendered phone stream:
+        # full vowels, the j/w glides (iaprox/uaprox), and the French y.
+        is_vowel = (base in ("a", "e", "i", "o", "u", "j", "w", "y")
+                    or base in _TF_ACCENTED)
+        if is_vowel:
+            vord += 1
+            if base in _TF_ACCENTED:
+                return vord
+    return None
 
 
 # ==========================================================================
@@ -310,6 +394,11 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
     # dictionary (eu_phtr.cpp trans_fonet_hitza -> tf_mrk_ch2ph).  Pre-resolve,
     # per word, the internal-phone list to emit verbatim when we reach that
     # word's first char (only honoured on the accentual path / use_dict_flags).
+    # tf_word_phones[wi] = (phones, stem_char_len).  An exact dictionary TF match
+    # covers the whole word; under phtiparralde an inflected form whose
+    # transcribed stem partial-matches and whose suffix is a declension (eu_categ
+    # TF_MRK-on-declension, l.206-228) covers only the stem -- the remaining
+    # suffix chars fall through to normal g2p (campusak -> kampyʂ + ak).
     tf_word_phones = {}
     if use_dict_flags:
         for wi, w in enumerate(words):
@@ -317,18 +406,26 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             if v and v.get("tf_mrk") and v.get("tf_exp"):
                 ph = _tf_exp_to_internal(v["tf_exp"])
                 if ph is not None:
-                    tf_word_phones[wi] = ph
+                    tf_word_phones[wi] = (ph, len(w))
+                continue
+            if phtiparralde:
+                tf = _tf_decl_phones(orig_words[wi], flags, version)
+                if tf is not None:
+                    tf_word_phones[wi] = tf
 
     while i < L:
-        # emit a whole TF_MRK word at its first char, then skip its letters
+        # emit a TF_MRK word's stem transcription at its first char, then skip the
+        # matched stem letters (a declension suffix continues via normal g2p)
         if word_first[i] and char_word[i] in tf_word_phones:
-            for ph in tf_word_phones[char_word[i]]:
+            ph_list, stem_len = tf_word_phones[char_word[i]]
+            for ph in ph_list:
                 out.append(ph)
                 out_word.append(char_word[i])
                 out_charidx.append(i)
                 char_phone[i] = ph
             wi_cur = char_word[i]
-            while i < L and char_word[i] == wi_cur:
+            stem_end = i + stem_len
+            while i < L and char_word[i] == wi_cur and i < stem_end:
                 i += 1
             continue
         c = s[i]
@@ -642,10 +739,14 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             # a consonant (not h / not a vowel), the t is dropped and only `s` is
             # pronounced (akats gehiegi -> akasgeiegi; irakats X -> iɾakas).
             wi_s = char_word[i]
-            # eu_phtr.cpp case 's' (N): the word-final ts -> s reduction before a
-            # consonant is suppressed under phtiparralde (`&& !phtiparralde`);
-            # the affricate is kept (bortitz bat -> ...V bat, not ...s bat).
-            ts_to_s = (not phtiparralde and c3 == 't' and not wfirst and wlast
+            # eu_phtr.cpp case 's' (N l.853-866): the word-final ts -> s reduction
+            # before a consonant is NOT phtiparralde-gated (unlike the st -> s
+            # t-drop in case 't', which carries `&& !phtiparralde`).  Under
+            # phtiparralde the reduced phone is the laminal PHEU_z (/ʂ/) instead
+            # of PHEU_s, but the t still drops: `irakats daiteke` -> iɾakaʂ...,
+            # not the kept affricate.  (`bortitz bat` keeps its affricate via the
+            # vowel-initial next word, not a phtiparralde exception.)
+            ts_to_s = (c3 == 't' and not wfirst and wlast
                        and wi_s + 1 < len(words) and words[wi_s + 1]
                        and words[wi_s + 1][0] not in AEIOU
                        and words[wi_s + 1][0] != 'h')
@@ -911,7 +1012,8 @@ def _is_vowel(ph):
     # vowel under the Northern build (the other PH_* Northern vowels never enter
     # the rule-driven phone stream).
     return ph in (PHEU['a'], PHEU['e'], PHEU['i'], PHEU['o'], PHEU['u'],
-                  PHEU['iaprox'], PHEU['uaprox'], PHEU['y_fr'])
+                  PHEU['iaprox'], PHEU['uaprox'], PHEU['y_fr'],
+                  PHEU['a_nas'], PHEU['e_nas'], PHEU['o_nas'])
 
 
 def _is_valid_cc(ph1, ph2):
@@ -1002,7 +1104,8 @@ def _syllable_vowel(phones, stress, syl):
     glide = None        # fallback glide j/w
     for idx in syl:
         p = phones[idx]
-        if p in (PHEU['a'], PHEU['e'], PHEU['o']):
+        if p in (PHEU['a'], PHEU['e'], PHEU['o'],
+                 PHEU['a_nas'], PHEU['e_nas'], PHEU['o_nas']):
             return idx
         if p in (PHEU['i'], PHEU['u'], PHEU['y_fr']):
             if v is None:
@@ -1621,6 +1724,31 @@ def _group_to_singlechar(words, version, phrase_last_index=None,
             if target_k is not None:
                 stress[target_k] = True
 
+    # Dictionary TF transcriptions (French/foreign proper names) that carry an
+    # explicit acute accent set the tonic vowel directly (eu_phtr SETSTREUS on
+    # the accented transcription vowel), overriding the regular accentual stress.
+    if cfg["accentual"]:
+        for wi in range(nwords):
+            v = flags.get(words[wi])
+            if not (v and v.get("tf_mrk") and v.get("tf_exp")):
+                continue
+            ord_ = _tf_accent_ord(v["tf_exp"])
+            if ord_ is None:
+                continue
+            idxs = word_phones[wi]
+            vcount = 0
+            target_k = None
+            for k in idxs:
+                if _is_vowel(phones[k]):
+                    if vcount == ord_:
+                        target_k = k
+                        break
+                    vcount += 1
+            for k in idxs:
+                stress[k] = False
+            if target_k is not None:
+                stress[target_k] = True
+
     # The flat path renders diphthong glide phones as their full vowels.
     glide_to_vowel = {} if cfg["glides"] else \
         {PHEU['iaprox']: PHEU['i'], PHEU['uaprox']: PHEU['u']}
@@ -1693,6 +1821,25 @@ def _agrp_stress(words, phones, word_phones, stress, fgrp, agrp, version,
             continue
 
         h_shift = (_CONFIG[version]["h_shift"] and words[head][:1] == 'h')
+        # eu_phtr.cpp k+k / s+s gemination collapse (l.609-614, 879-889) deletes
+        # the SECOND word's leading consonant (p2=DEL(p2) -> PH_none), making the
+        # head vowel-initial while its word/AGRP boundary stays on the now-silent
+        # cell.  Under phtiparralde that silent leading segment anchors an empty
+        # syllable, shifting the audible accent one syllable earlier (eu_stre.cpp
+        # agrp_stress over the URANGE_AGRP syllable walk) -- so a collapsed-leading
+        # OROK head is stressed on its first audible syllable (korrika after
+        # bakarrik -> Oʁika, not oʁIka).  The Southern build does not shift here
+        # (v1 oracle: orIka, 2nd syllable), so gate on phtiparralde.  Detected by
+        # a consonant-initial grapheme whose first emitted phone is a vowel.
+        kdrop_shift = False
+        head_g0 = words[head][:1]
+        if _CONFIG[version].get("phtiparralde", False) and word_phones[head] \
+                and head_g0 not in AEIOU and head_g0 not in ('h', 'w', 'y', 'ü'):
+            # `w`/`y`/`ü` graphemes legitimately render as vowels without being
+            # dropped (web -> ueb), so they are excluded; a true gemination
+            # collapse leaves a consonant grapheme with a vowel first phone.
+            if _is_vowel(phones[word_phones[head][0]]):
+                kdrop_shift = True
 
         if head_type == A_MRK:
             # MRK -> 1st syllable.  Under V3 h_shift on an h-initial head, a
@@ -1701,12 +1848,15 @@ def _agrp_stress(words, phones, word_phones, stress, fgrp, agrp, version,
             # assigned by the bisyllabic conjugated-verb -ten/-tzen rule keeps
             # its audible 1st syllable (hartzen->ArPen, hasten->Asten).
             is_verb_mrk = bool(mrk_verb and mrk_verb[head])
-            if h_shift and not is_verb_mrk:
+            if (h_shift or kdrop_shift) and not is_verb_mrk:
+                # the silent leading segment (silent h, or a collapsed leading
+                # consonant) absorbs the dictionary MRK accent -- no audible
+                # stress (hasi->asi; kanpo after `...tik` -> ampo).
                 target = None
             else:
                 target = 0
         else:  # OROK
-            if h_shift:
+            if h_shift or kdrop_shift:
                 target = 0
             else:
                 target = 1 if len(syls) >= 2 else 0
@@ -2826,6 +2976,14 @@ def _expand_tokens(tokens, version):
 def _expand_one(tok, lexicon, ordinal_dot=False, version="v1"):
     if tok in _PUNCT or not tok.strip():
         return [tok]
+    # A dictionary TF_MRK word (its pronunciation is the dict transcription,
+    # eu_phtr.cpp trans_fonet_hitza) must reach g2p verbatim: the OOV
+    # pronounce()/isPronun rewrite below would otherwise re-spell a non-Basque
+    # name (olympique -> olinpique, aviron -> abiron) and lose the dict match.
+    if tok.isalpha() and not tok.isupper():
+        _fl = _dict_for(version)[1].get(tok.lower())
+        if _fl and _fl.get("tf_mrk") and _fl.get("tf_exp"):
+            return [tok.lower()]
     # percent: %N or N% -> ehuneko + cardinal (eu_percent.cpp)
     m = re.fullmatch(r'%(\d+)', tok) or re.fullmatch(r'(\d+)%', tok)
     if m:
@@ -3247,6 +3405,13 @@ def phonemize_eu(text, version="v1"):
         # hyphen («-tsi» -> tsi), so it is excluded from the gidoia rule.
         if not _phtip:
             text = re.sub(r'(?<=[«"“])-(?=\w)', ' gidoia ', text)
+    if _phtip:
+        # eu_apost.cpp / eu_decli.cpp: a hyphen joining an all-caps acronym to a
+        # lowercase case-suffix is a declension boundary, not a citation dash --
+        # the suffix declines onto the spelled acronym (AEK-k -> "a e kak", the
+        # `-k` onto AEK exactly like the unhyphenated AEKk).  Glue them before
+        # tokenising so the acronym speller declines the suffix.
+        text = re.sub(r'(?<=[A-ZÑÜ])-([a-zñü]{1,4})\b', r'\1', text)
     if cfg["accentual"]:
         # wordchop.cpp::preChop + eu_wrdch.cpp::eu_chtype: a typographic quote
         # («»"" / "" ) is CHTYPE_NULL -- it is dropped and does NOT break the
