@@ -2,6 +2,9 @@
 
     phonemize_es(text, version="v1" | "v3") -> str
 
+``version`` is the internal engine-config key; the public API exposes these as
+``classic`` (-> ``v1``) and ``modern`` (-> ``v3``).
+
 The full Spanish linguistic pipeline reproducing the final single-char training
 representation of the AhoTTS generations:
 

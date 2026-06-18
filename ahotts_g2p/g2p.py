@@ -2,17 +2,21 @@
 
     phonemize_eu(text, version="v1" | "v3") -> str
 
+``version`` here is the internal engine-config key; the public API exposes these
+as ``classic`` (-> ``v1``) and ``modern`` (-> ``v3``) and maps them in
+``__init__.phonemize`` (see ``versions.CONFIG``).
+
 The full eu linguistic pipeline -- text normalisation, grapheme-to-phoneme,
 syllabification, accentual-group stress, and the SAMPA -> IPA -> single-char
 rendering -- reproducing the final training representation of the AhoTTS
-generations.  The differences between versions are configuration plus the
-dictionary loaded (see ``versions.CONFIG``):
+generations.  The differences between engines are configuration plus the
+dictionary loaded:
 
-  v1  Accentual-group stress with dictionary STR_MRK first-syllable marking;
-      vowel offglides (au -> aw, ai -> aj).
-  v3  Like v1, plus: a silent leading ``h`` anchors an empty syllable, shifting
-      audible stress one syllable earlier; punctuation is emitted as separate
-      tokens; the newer eu_dicc_20250326 dictionary.
+  v1 (classic)  Accentual-group stress with dictionary STR_MRK first-syllable
+      marking; vowel offglides (au -> aw, ai -> aj).
+  v3 (modern)   Like classic, plus: a silent leading ``h`` anchors an empty
+      syllable, shifting audible stress one syllable earlier; punctuation is
+      emitted as separate tokens; the newer eu_dicc_20250326 dictionary.
 
 The pipeline mirrors the AhoTTS C++ engine (``eu_phtr.cpp`` g2p, ``eu_syl.cpp``
 syllabification, ``eu_stre.cpp`` / ``eu_stuti.cpp`` accentual-group stress,

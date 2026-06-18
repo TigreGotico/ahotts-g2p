@@ -12,12 +12,13 @@ stdlib ``struct`` module; there is no C build and no runtime dependency.
 
 Public API
 ----------
-``phonemize(text, lang="eu", version="v3", dialect="standard") -> str``
+``phonemize(text, lang="eu", version="modern", dialect="standard") -> str``
     Phonemize ``text`` to the single-char IPA training string.  ``lang`` is
-    one of ``"eu"`` / ``"es"`` and ``version`` one of ``"v1"`` / ``"v3"``
-    (see ``docs/versions.md``).  ``dialect="northern"`` (Basque only)
-    selects the Northern (Iparralde / Iparrahotsa) engine (see
-    ``docs/dialects.md``).
+    one of ``"eu"`` / ``"es"`` and ``version`` one of ``"classic"`` (the
+    original AhoTTS engine, used by the HiTZ VITS voices) or ``"modern"`` (the
+    StyleTTS-era build, used by HiTZ/StyleTTS2-eu; the default).  See
+    ``docs/versions.md``.  ``dialect="northern"`` (Basque only) selects the
+    Northern (Iparralde / Iparrahotsa) engine (see ``docs/dialects.md``).
 ``SAMPA_TO_IPA``
     The ordered SAMPA -> IPA mapping table.
 """
