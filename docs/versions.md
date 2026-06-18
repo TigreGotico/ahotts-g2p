@@ -45,10 +45,10 @@ each emulating the matching AhoTTS engine generation.
   reimplemented from the matching public AhoTTS source states.
 - **Spanish (`lang="es"`):** `v1`/`v2`/`v3` are served by `es_phonemizer`.
 
-Each module is a clean-room Python reimplementation of the public AhoTTS C++
-source; the binaries are used only to **validate** parity, never to
-reverse-engineer rules. See [accuracy.md](accuracy.md) for the verified parity
-table.
+Each module is a source-derived Python port of the public AhoTTS C++ engine
+(read by an AI, validated against the binaries by a human -- not clean-room; see
+[licensing.md](licensing.md)). The binaries are the source of truth for parity.
+See [accuracy.md](accuracy.md) for the verified parity table.
 
 The `V1-ipar` (Northern / Iparrahotsa) path remains planned.
 

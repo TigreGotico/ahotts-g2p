@@ -42,15 +42,19 @@ corresponding AhoTTS binary's output over a held-out corpus (`corpus.txt` /
 `corpus_es.txt`, validated by `validate.py` / `validate_es.py` in the source
 snapshot):
 
-| Version | Lang | Status | Word parity | Oracle |
+| Version | Lang | Status | Word parity | Oracle binary |
 |---|---|---|---|---|
-| **V3** | eu | implemented | **98.25%** | HiTZ/StyleTTS2-eu **100%** (25/25, fast-path) |
-| **V1** | eu | implemented | **97.14%** | pyAhoTTS `libhtts` outputs |
-| **V2** | eu | implemented | **96.20%** | ahoNT / hitz VITS outputs |
-| **V1** | es | implemented | **100.00%** | AhoTTS Spanish outputs |
-| **V2** | es | implemented | **100.00%** | AhoTTS Spanish outputs |
-| **V3** | es | implemented | **100.00%** | AhoTTS Spanish outputs |
-| V1-ipar | eu (Northern) | planned | -- | `AhoTTS_Iparrahotsa` outputs |
+| **V3** | eu | implemented | **99.80%** | arrandi `modulo1y2` + `eu_dicc_20250326`; HiTZ/StyleTTS2-eu **100%** (25/25, fast-path) |
+| **V1** | eu | implemented | **99.45%** | pyAhoTTS `libhtts` (`transcribe_text`) |
+| **V2** | eu | implemented | **99.75%** | ahoNT / hitz `ahotts/tts` flat path |
+| **V1** | es | implemented | **100.00%** | pyAhoTTS `libhtts` (es) |
+| **V2** | es | implemented | **100.00%** | ahoNT (es) |
+| **V3** | es | implemented | **100.00%** | arrandi `modulo1y2` (es) |
+| V1-ipar | eu (Northern) | planned | -- | `AhoTTS_Iparrahotsa` |
+
+(Word parity is measured against each version's binary over the held-out
+`corpus.txt`; see [Replicating the results](../README.md#replicating-the-results).
+The exact binary each version maps to is in [versions.md](versions.md).)
 
 Spanish is exact (100% across all three versions) because Spanish g2p and
 stress are fully rule-driven, with the bundled `es_dicc` only respelling a
@@ -69,7 +73,7 @@ word-specific rules the port does not encode bit-for-bit (e.g. `Bangkok`,
 proper names, and a few roman-numeral edge cases in mixed numeric contexts).
 These are an inherent property of OOV foreign-word romanisation and are
 expected to persist; native Basque vocabulary is reproduced exactly via the
-decoded dictionary flags. See `NOTES.md` for the per-word breakdown.
+decoded dictionary flags.
 
 The binaries are used only to **validate** a faithful source-based port, never
 to reverse-engineer rules.

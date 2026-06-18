@@ -41,7 +41,6 @@ stdlib only, no subprocess, no C.
 import os
 import re
 import struct
-import unicodedata
 from collections import OrderedDict
 
 # ==========================================================================
@@ -1239,8 +1238,10 @@ def _normalize_word(word):
     return ''.join(c for c in w if c in _NORMAL_KEEP)
 
 
+import unicodedata as _unicodedata  # noqa: E402
+
 # ASCII string.punctuation -- the set the *upstream* getPhonemes wrapper uses.
-# Kept only for reference; the fixed path uses the Unicode-aware test below.
+# Kept only for reference; the port uses the Unicode-aware test below.
 _PUNCT_STRING = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
 
 
@@ -1248,28 +1249,25 @@ def _is_punct_token(w):
     """A single punctuation character (Unicode category P*), including the
     Spanish inverted marks ¿ ¡ and «»/“”/–— that ASCII string.punctuation
     misses."""
-    return len(w) == 1 and unicodedata.category(w).startswith('P')
+    return len(w) == 1 and _unicodedata.category(w).startswith('P')
 
 
 def _v3_interleave(orig_text, cleaned):
-    """Reproduce the arrandi eu_phonemizer.getPhonemes word/group interleaving
-    (as captured by the _oracles_es.V3 oracle), with the upstream
-    punctuation-counting bug FIXED: tokenize the ORIGINAL line into word/punct
-    tokens, then walk them, emitting each punctuation char as-is and consuming
-    one phoneme group (in order) per non-punct token; leftover groups past the
-    last source word are dropped.
+    """Port of arrandi eu_phonemizer.getPhonemes word/group interleaving, with
+    the upstream punctuation-counting bug FIXED: tokenize the ORIGINAL line into
+    word/punct tokens, emit each punctuation char as-is, and consume one phoneme
+    group (in order) per non-punct token; leftover groups past the last source
+    word are dropped.
 
     BUGFIX vs upstream: getPhonemes classifies "non-punctuation words" with
-    Python's ASCII-only `string.punctuation`, so the Spanish inverted marks
-    `¿`/`¡` (and «»/“”/–—) are miscounted as words.  The binary emits no phoneme
-    group for them, so the non-punct count overshoots the group count and the
-    wrapper's pad-with-last-group loop DUPLICATES the final group
-    (¿Qué hora es? -> kE Oɾa Es Es ?).  There is no linguistic ambiguity -- it
-    is simply wrong -- so we count punctuation Unicode-aware (`_is_punct_token`),
-    which makes ¿/¡ count as punctuation, keeps the group/word counts aligned,
-    and yields the correct output with no doubling (¿Qué hora es? -> kE Oɾa Es ?).
-    We still pad when a line genuinely has fewer groups than words (the
-    legitimate fallback)."""
+    Python's ASCII-only `string.punctuation`, so `¿`/`¡` (and «»/“”/–—) are
+    miscounted as words.  The binary emits no phoneme group for them, so the
+    non-punct count overshoots and the wrapper's pad-with-last-group loop
+    DUPLICATES the final group (¿Qué hora es? -> kE Oɾa Es Es ?).  There is no
+    linguistic ambiguity -- it is simply wrong -- so the port counts punctuation
+    Unicode-aware (`_is_punct_token`), keeping the group/word counts aligned and
+    yielding the correct output with no doubling (¿Qué hora es? -> kE Oɾa Es ?).
+    The legitimate fewer-groups-than-words pad remains."""
     words = _TOKEN_RE.findall(orig_text)
     non_punct = [w for w in words if not _is_punct_token(w)]
     groups = list(cleaned)

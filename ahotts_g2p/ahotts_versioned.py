@@ -2402,13 +2402,26 @@ def _pronounce_strip(word, rr, ll, last_orig):
     return res
 
 
-def _acronym_words(tok, lexicon):
+def _acronym_words(tok, lexicon, version="v1"):
     """An all-uppercase token (len>=2) -> spoken word list.
 
     1. dictionary acronym with an expansion (NATO/EAE/HABE) -> the exp words;
     2. else readable as Basque (AEK, SOS, ELA) -> the word itself (lowercased);
     3. else (GPS, LTD, IBM, PSE) -> spelled letter by letter (eu_cap expandCell).
+
+    The V2 (flat ahotts/tts `transcribe`) path does NOT run the abbacr / acronym
+    normaliser: an acronym is read raw (pronounceable -> word: HABE->abe,
+    EAE->eae) else spelled (NBE->ene be e, LTD->ele te de) -- the dict
+    expansion (step 1) is skipped.  Verified against the V2 oracle (NBE->`enE βE
+    E`, HABE->`aβE`, EAE in EAEko->`eAeko`).
     """
+    if version == "v2":
+        # flat path: read iff pronounceable as Basque, else spell.  The dict
+        # acronym entry (abbacr data) is NOT consulted, so a non-pronounceable
+        # acronym (NBE, LTD, EHU) is spelled even though it is a dict ABB/ACR.
+        if _is_syllabifiable(_normalize_word(tok)):
+            return [tok.lower()]
+        return [_LETTER_NAME[c] for c in tok.lower() if c in _LETTER_NAME]
     exp = lexicon.get(tok)
     if exp and exp.strip():
         return exp.split()
@@ -2531,6 +2544,149 @@ def _expandgrp_words(cells, lexicon):
     return out
 
 
+def _abbacr_dotted(cells, lexicon, flags):
+    """eu_abbacr.cpp::isAbbAcrUni + expAbbAcrUni for a dotted group (K.a. ->
+    `lplp`).  Build the joined cell string (k.a.) and look it up; if it is a
+    dict NOR=ABB/ACR entry, return its `exp` words.  Else None (fall through to
+    expandGrp)."""
+    joined = ''.join(s for s, _ in cells)
+    key = joined.lower()
+    fl = flags.get(key)
+    # EU_NOR: 1=ABB, 2=UNIT, 3=ACR (eu_abbacr.cpp isAbbAcrUni); exp carries the
+    # spoken expansion (tab- or CR-terminated).
+    if fl is not None and fl.get("nor") in (1, 2, 3) and fl.get("exp"):
+        return fl["exp"].replace("\t", " ").replace("\r", " ").split()
+    return None
+
+
+def _normalize_mixed_groups(text, version):
+    """eu_normal.cpp::normal dispatch for the MIXED alphanumeric / dotted groups
+    the per-token expander does not cover.  Reproduces, per whitespace-free
+    group (wordchop preChop), the residual branches:
+
+      * dotted abbreviation (K.a. -> isAbbAcrUni -> dict ABB/ACR exp), then the
+        glued case suffix declines onto the last exp word (V1/V3);
+      * `mustExpand`->`expandGrp` for a group with a punctuation cell that is not
+        a compound hyphen (isComp: l-l) nor a clean decimal/thousands `.`/`,`
+        separator -- N-634 (lpn), V.ak (lpl with `.`), 5-10 (npn, V1/V2 only;
+        V3's modulo1y2 normaliser reads the range parts as cardinals).
+
+    Groups it does not recognise are emitted verbatim so the unchanged pipeline
+    (numbers, roman, words, simple letter+digit) handles them.
+    """
+    lexicon, flags = _dict_for(version)
+
+    def _do_group(m):
+        span = m.group(0)
+        # is this the last whitespace-free group of the text?  puntChop's
+        # right-dot rule keeps an ABB's trailing dot only when NOT last
+        # (eu_wrdch.cpp::puntChop: ABB + `ct.nextGrp(p)`==NULL -> patCutRight).
+        is_last = not text[m.end():].strip()
+        gs = _eu_prechop(span)
+        if not gs:
+            return span
+        cells = gs[0]
+        # --- puntChop (eu_wrdch.cpp): strip leading PUNTT cells, and trailing
+        # PUNTT cells UNLESS the whole group (incl. the trailing dot) is an exact
+        # dict ABB/ACR (K.a.).  The stripped punct is re-emitted verbatim so the
+        # downstream tokeniser treats it as boundary punctuation, not a mid cell.
+        prefix = suffix = ''
+        while cells and cells[0][1] == 'p':
+            # negative-number exception (-n): keep a leading '-' before a digit
+            if cells[0][0] == '-' and len(cells) > 1 and cells[1][1] == 'n':
+                break
+            prefix += cells[0][0]
+            cells = cells[1:]
+        # an exact dotted ABB keeps its trailing dot only when NOT the last
+        # group; as the last group puntChop strips the dot (so the dotless base
+        # -- etab, k.a -- is looked up / spelled, not expanded).
+        keep_right = (not is_last) and _abbacr_dotted(cells, lexicon, flags) \
+            is not None
+        if not keep_right:
+            while cells and cells[-1][1] == 'p':
+                suffix = cells[-1][0] + suffix
+                cells = cells[:-1]
+
+        joined = ''.join(s for s, _ in cells)
+        pat = ''.join(sym for _, sym in cells)
+        if len(cells) < 2:
+            return span
+        # --- compound (isComp): l(-l)+ with '-' separators -> drop hyphen, read
+        #     words.  Leave to the existing hyphen-compound handling (verbatim).
+        if set(pat) <= {'l', 'p'} and 'n' not in pat \
+                and pat[0] == 'l' and pat[-1] == 'l' \
+                and all(s == '-' for s, sym in cells if sym == 'p'):
+            return span
+        # --- clean decimal / thousands / single ordinal: digit cells joined by
+        #     '.' or ',' only -> leave to the number pipeline (verbatim).
+        if set(pat) <= {'n', 'p'} and all(
+                (sym != 'p') or s in ('.', ',') for s, sym in cells) \
+                and pat[0] == 'n':
+            return span
+        # --- roman.suffix (>=2-char roman) -> V1/V3 fuse to a declined ordinal
+        #     (_merge_roman_dot); leave verbatim for it.  V2 (flat path) instead
+        #     SPELLS the roman + verbalises the dot via expandGrp below
+        #     (XX.aren -> ixa ixa puntu aren), so do NOT leave it for V2.
+        if version != "v2" and len(cells) == 3 and pat == 'lpl' \
+                and cells[1][0] == '.' and len(cells[0][0]) >= 2 \
+                and _roman_to_int(cells[0][0]) is not None \
+                and cells[2][0].islower() and cells[2][0] in _DECL_SUFFIX:
+            return span
+        # --- simple letter+digits / digits+letter (R4, Info7, 1894an, 3ko):
+        #     two cells, no internal punctuation -> the per-token expander.
+        if len(cells) == 2 and pat in ('ln', 'nl'):
+            return span
+        # --- dotted abbreviation in the dict (K.a. -> Kristo aurreko) ----------
+        if 'p' in pat and all(s == '.' for s, sym in cells if sym == 'p'):
+            ab = _abbacr_dotted(cells, lexicon, flags)
+            if ab is not None:
+                # a glued trailing case suffix (lower letter cell after the last
+                # dot) declines onto the last exp word on the accentual path.
+                last = cells[-1]
+                if version != "v2" and last[1] == 'l' and last[0].islower() \
+                        and last[0] in _DECL_SUFFIX and pat.endswith('pl'):
+                    ab = list(ab)
+                    ab[-1] = _decline(ab[-1], last[0])
+                return ' ' + prefix + ' ' + ' '.join(ab) + ' ' + suffix + ' '
+        # --- mustExpand -> expandGrp (spell the cells) ------------------------
+        # only for a group carrying a '-' or mid-'.' punctuation cell mixed with
+        # letters/digits (N-634, V.ak, 5-10).  V3's modulo1y2 normaliser handles
+        # a pure-number range (npn with '-') as cardinals, so skip npn there.
+        has_dash = any(s == '-' for s, sym in cells if sym == 'p')
+        has_mid_dot = any(s == '.' for s, sym in cells if sym == 'p')
+        # sentence-final dotted abbreviation that was NOT an exact dict ABB (its
+        # trailing dot was stripped by puntChop, leaving a `l.l` remainder like
+        # `K.a` from `K.a.`): the buffer-end / moreData path is underdetermined
+        # and the binaries diverge.  V2 (flat) runs expandGrp -> `ka puntu a`
+        # (matches its oracle).  V1 surfaces the bare spell `k a` (no mid-dot
+        # verbalisation) and V3 keeps the dots literal (`ka . a .`) -- both are
+        # the moreData artifact; leave them to the per-token pipeline (which
+        # gives the closer `ka a` / `ka . a .`).  Documented in METHOD_INVENTORY.
+        if is_last and has_mid_dot and not has_dash and 'n' not in pat \
+                and version != "v2":
+            return span
+        if (has_dash or has_mid_dot) and ('l' in pat or 'n' in pat):
+            if version == "v3" and set(pat) <= {'n', 'p'}:
+                return span                   # V3 number range -> cardinals
+            words = _expandgrp_words(cells, lexicon)
+            # a trailing glued case suffix (a lower-letter cell after a spelled
+            # '.' cell -- V.ak) declines onto the preceding spelled word on the
+            # accentual dekline path (V1/V3 -> uve puntuak); the flat V2 path
+            # keeps it separate (uve puntu ak).  expandGrp already emitted the
+            # suffix as its own word, so pop it and decline it onto the prior.
+            last = cells[-1]
+            if version != "v2" and len(words) >= 2 and last[1] == 'l' \
+                    and last[0].islower() and last[0] in _DECL_SUFFIX \
+                    and has_mid_dot and not has_dash \
+                    and cells[-2][1] == 'p' and cells[-2][0] == '.':
+                suf = words.pop()
+                words[-1] = _decline(words[-1], suf)
+            return ' ' + prefix + ' ' + ' '.join(words) + ' ' + suffix + ' '
+        return span
+
+    return re.sub(r'\S+', _do_group, text)
+
+
 def _merge_roman_dot(tokens):
     """eu_romanhilvl + eu_decli: a roman numeral immediately followed by a
     `.`+case-suffix (XX.aren, IV.a, XIII.ean) is read as an ORDINAL with the
@@ -2602,7 +2758,14 @@ def _expand_one(tok, lexicon, ordinal_dot=False, version="v1"):
         # declined: each digit is SPELLED and the suffix read as its own word.
         # V2 (flat ahotts/tts path) always spells digit-by-digit regardless.
         if version == "v2" or suf.lower() not in _DECL_SUFFIX:
-            return [_UNITS[int(d)] for d in digits] + [suf]
+            # spell each digit; the suffix is read if pronounceable (an, ean)
+            # else spelled char-by-char (n -> ene), exactly as expandGrp's
+            # letter-cell branch (isPronun ? read : spellCell).
+            head = [_UNITS[int(d)] for d in digits]
+            if _is_syllabifiable(_normalize_word(suf)):
+                return head + [suf]
+            return head + [_LETTER_NAME[c] for c in suf.lower()
+                           if c in _LETTER_NAME]
         words = expnum(digits)
         if words:
             words[-1] = _decline(words[-1], suf)
@@ -2614,7 +2777,7 @@ def _expand_one(tok, lexicon, ordinal_dot=False, version="v1"):
     if m and tok not in lexicon:
         alpha, num = m.group(1), m.group(2)
         if alpha.isupper():
-            alpha_words = _acronym_words(alpha, lexicon)
+            alpha_words = _acronym_words(alpha, lexicon, version)
         else:
             alpha_words = [alpha]
         return alpha_words + expnum(num)
@@ -2645,8 +2808,15 @@ def _expand_one(tok, lexicon, ordinal_dot=False, version="v1"):
         fl = flags.get(tok.lower())
         is_tf = bool(fl and fl.get("tf_mrk") and fl.get("tf_exp"))
         is_respelling = exp.endswith("\r")
-        if not is_tf and not (is_respelling and version == "v2"):
+        # V2 (flat ahotts/tts `transcribe`) does NOT run the abbacr normaliser,
+        # so neither a CR respelling (New/Xabier) nor a TAB acronym expansion
+        # (HABE/NBE/EAE) is applied -- the token is read raw / spelled instead.
+        if not is_tf and version != "v2":
             return exp.split()
+        if not is_tf and not is_respelling and version == "v2":
+            # a TAB-acronym exp on V2 falls through to the raw acronym path
+            # (read if pronounceable else spell); do NOT expand here.
+            pass
     # all-uppercase acronym/abbreviation (eu_abbacr + eu_cap::pronounce),
     # optionally with a glued lowercase case-suffix (EAEko, LTDan, GPSa).  The
     # suffix declines onto the last expanded word, exactly as expAbbAcrUni
@@ -2661,7 +2831,18 @@ def _expand_one(tok, lexicon, ordinal_dot=False, version="v1"):
             rn = _roman_to_int(base)
             if rn is not None:
                 return number_to_basque_words(rn, ordinal=True)
-        words = _acronym_words(base, lexicon)
+        # V2 flat path: a non-pronounceable acronym is spelled, and its glued
+        # suffix is spelled char-by-char too (LTDan -> ele te de a ene; NBEk ->
+        # ene be e ka), NOT declined.  A pronounceable base reads + declines
+        # (EAEko -> eaeko).
+        if version == "v2" and not _is_syllabifiable(_normalize_word(base)):
+            spelled = [_LETTER_NAME[c] for c in base.lower() if c in _LETTER_NAME]
+            if m.group(2):
+                for c in m.group(2):
+                    if c in _LETTER_NAME:
+                        spelled.append(_LETTER_NAME[c])
+            return spelled
+        words = _acronym_words(base, lexicon, version)
         if words:
             if m.group(2):
                 words = list(words)
@@ -2797,15 +2978,35 @@ def _normalize_v3(text):
     quote/dash rules so the downstream tokeniser sees what the binary's
     normaliser would have emitted.
     """
+    # eu_normal.cpp::normal dispatch for mixed alphanumeric / dotted groups
+    # (mustExpand->expandGrp, isAbbAcrUni): N-634->ene gidoia sei hiru lau,
+    # V.ak->uve puntuak, K.a.->Kristo aurreko.  The modulo1y2 binary runs this
+    # same engine; run it before the declension-hyphen / symbol passes (which
+    # handle the remaining V3-specific number-range / glued-suffix cases).
+    text = _normalize_mixed_groups(text, "v3")
     # eu_decli: a `word-suffix` where the suffix is a recognised case-declension
     # form is a *declension hyphen* -- modulo1y2 glues it (Arnold-ek->arnoldek,
     # AEK-k->aekek, word-en->uorden), unlike a compound hyphen (euskal-erria,
     # Bilbo-Concordia) which stays a word boundary.  Probe-validated as V3-only;
     # the V1/V2 (transcribe) path leaves it split.  Resolve it before the
     # char-by-char pass by deleting the hyphen so the two parts glue.
+    _v3lex = _dict_for("v3")[0]
+
+    def _decl_hyphen_sub(m):
+        base, suf = m.group(1), m.group(2)
+        # An all-caps PRONOUNCEABLE acronym base (AEK-k) is read as a word and
+        # the suffix declines onto it (AEK-k -> aekek): the modulo1y2 binary does
+        # NOT re-glue it into a single spelling that re-enters the acronym dict
+        # (the dict carries a spurious `aekk`->"a e kak" entry the binary
+        # ignores).  Emit the declined spoken form directly.
+        if len(base) >= 2 and base.isupper() \
+                and _is_syllabifiable(_normalize_word(base)) \
+                and base not in _v3lex and base.lower() not in _v3lex:
+            return ' ' + _decline(base.lower(), suf) + ' '
+        return base + suf       # ordinary glue (Arnold-ek -> Arnoldek)
     text = re.sub(
-        r'(\w)-(' + '|'.join(sorted(_DECL_SUFFIX, key=len, reverse=True)) +
-        r')\b', r'\1\2', text)
+        r'\b(\w+)-(' + '|'.join(sorted(_DECL_SUFFIX, key=len, reverse=True)) +
+        r')\b', _decl_hyphen_sub, text)
     # eu_romanhilvl + eu_decli: `ROMAN.suffix` (XX.aren, IV.a) is a roman ordinal
     # with a glued case suffix -> the spoken ordinal+declension as one word, NOT
     # "<roman> puntu <suffix>".  Resolve it before the dot-verbalisation pass so
@@ -2899,6 +3100,12 @@ def phonemize(text, version="v1"):
     keep_punct = cfg["keep_punct"]
 
     text = re.sub(r'\.{2,}', '.', text)
+    if not keep_punct:
+        # eu_normal.cpp::normal dispatch for mixed alphanumeric / dotted groups
+        # (mustExpand->expandGrp, isAbbAcrUni): N-634->ene gidoia sei hiru lau,
+        # V.ak->uve puntuak, K.a.->Kristo aurreko, 5-10->bost gidoia bat zero.
+        # V3 runs the equivalent inside _normalize_v3 (its modulo1y2 normaliser).
+        text = _normalize_mixed_groups(text, version)
     # symbolexp.c / eu_normal mid-glued colon: a ':' directly between two word
     # characters (Zerrenda:Ipar, a:b) is verbalised "bi puntu" (two-point) on
     # every path; a spaced/boundary colon is just a pause (dropped).  Applied
