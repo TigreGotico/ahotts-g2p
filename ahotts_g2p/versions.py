@@ -5,14 +5,17 @@ The original AhoTTS (``aholab/AhoTTS``) and its 2025 ``ahotts_common`` rewrite
 ``eu_*`` source file is identical apart from the licence header and two additive
 config branches in the rewrite (``phtiparralde`` and ``StressDicSingleWords``).
 A single faithful port, parameterised by the table below, reproduces every
-version; the real differences are which dictionary is loaded and the wrapper
-around the engine (``libhtts.transcribe`` for V1 versus the ``modulo1y2`` +
-``eu_phonemizer`` pipeline for V3, which tokenises punctuation).
+engine; the real differences are which dictionary is loaded and the wrapper
+around the engine (``libhtts.transcribe`` for ``classic`` versus the
+``modulo1y2`` + ``eu_phonemizer`` pipeline for ``modern``, which tokenises
+punctuation).
 
-(``pyAhoTTS`` builds the V1 engine from ``ekaitz-zarraga/AhoTTS``, a packaging
-fork of ``aholab/AhoTTS`` with build/portability changes only.)
+(``pyAhoTTS`` builds the ``classic`` engine from ``ekaitz-zarraga/AhoTTS``, a
+packaging fork of ``aholab/AhoTTS`` with build/portability changes only.)
 
-See ``docs/versions.md`` for the version -> upstream source -> consuming model
+The public API names the engines ``classic`` / ``modern``; the internal
+``CONFIG`` keys below (``v1`` / ``v3``) trace the underlying engine lineage.
+See ``docs/versions.md`` for the engine -> upstream source -> consuming model
 mapping.
 """
 from enum import Enum
@@ -26,21 +29,20 @@ class Lang(str, Enum):
 
 
 class Version(str, Enum):
-    """AhoTTS engine generations.
+    """AhoTTS engines exposed by the public API.
 
-    * ``V1`` -- original AhoTTS (``ekaitz-zarraga/AhoTTS``); the family the
-      HiTZ VITS voices use.  Accentual-group stress with dictionary
-      ``STR_MRK`` first-syllable marking; vowel offglides (``au`` -> ``aw``).
-    * ``V3`` -- the StyleTTS-era ``arrandi`` ``modulo1y2`` build (newer
-      ``eu_dicc_20250326`` dictionary), used by HiTZ/StyleTTS2-eu.  Like V1
+    * ``CLASSIC`` -- the original AhoTTS engine; the family the HiTZ VITS voices
+      use.  Dictionary ``STR_MRK`` stress; vowel offglides (``au`` -> ``aw``).
+    * ``MODERN`` -- the StyleTTS-era ``arrandi`` ``modulo1y2`` build (newer
+      ``eu_dicc_20250326`` dictionary), used by HiTZ/StyleTTS2-eu.  Like classic
       but with a silent-``h`` stress shift and punctuation emitted as tokens.
 
-    The ``v1``/``v3`` labels are kept as-is: the gap reflects the real engine
-    lineage rather than a contiguous numbering.
+    These map onto the internal engine-config keys in ``CONFIG`` (``classic`` ->
+    ``v1``, ``modern`` -> ``v3``), which trace the real engine lineage.
     """
 
-    V1 = "v1"
-    V3 = "v3"
+    CLASSIC = "classic"
+    MODERN = "modern"
 
 
 #: Each key names a real source switch or a documented binary delta:

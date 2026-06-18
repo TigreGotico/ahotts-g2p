@@ -20,12 +20,16 @@ from ahotts_g2p import phonemize
 
 _DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
+# Public engine name -> corpus gold column (the held-out corpora store the
+# reference columns under the internal engine keys).
+_COLUMN = {"classic": "v1", "modern": "v3"}
+
 # (lang, version) -> (min word-match %, min exact lines)
 _THRESHOLDS = {
-    ("eu", "v1"): (99.94, 427),
-    ("eu", "v3"): (99.90, 421),
-    ("es", "v1"): (100.0, 179),
-    ("es", "v3"): (100.0, 179),
+    ("eu", "classic"): (99.94, 427),
+    ("eu", "modern"): (99.90, 421),
+    ("es", "classic"): (100.0, 179),
+    ("es", "modern"): (100.0, 179),
 }
 
 
@@ -37,7 +41,7 @@ def _load(name):
 def _score(rows, lang, version):
     wm = wt = line_ok = npairs = 0
     for row in rows:
-        gold = row.get(version, "")
+        gold = row.get(_COLUMN[version], "")
         if not gold.strip():
             continue  # an empty oracle line is a binary failure, not truth
         got = phonemize(row["text"], lang=lang, version=version)

@@ -14,7 +14,7 @@ def test_exports():
 
 def test_supported_langs_and_versions():
     assert ahotts_g2p.SUPPORTED_LANGS == ("eu", "es")
-    assert ahotts_g2p.SUPPORTED_VERSIONS == ("v1", "v3")
+    assert ahotts_g2p.SUPPORTED_VERSIONS == ("classic", "modern")
     assert ahotts_g2p.SUPPORTED_DIALECTS == ("standard", "northern")
 
 
@@ -25,7 +25,7 @@ def test_default_dialect_is_standard():
 
 def test_northern_dialect_differs_from_standard():
     nor = phonemize("hori", lang="eu", dialect="northern")
-    std = phonemize("hori", lang="eu", version="v1")
+    std = phonemize("hori", lang="eu", version="classic")
     assert nor != std
     assert nor.startswith("h")        # Northern pronounces the leading h
 
@@ -43,8 +43,8 @@ def test_phonemize_returns_str():
 
 
 def test_phonemize_defaults():
-    # default lang/version is eu/v3
-    assert phonemize("Bai.") == phonemize("Bai.", lang="eu", version="v3")
+    # default lang/version is eu/modern
+    assert phonemize("Bai.") == phonemize("Bai.", lang="eu", version="modern")
 
 
 def test_phonemize_basic_value():
@@ -58,7 +58,7 @@ def test_unsupported_lang_raises(lang):
         phonemize("hola", lang=lang)
 
 
-@pytest.mark.parametrize("version", ["v0", "v2", "V4", "x", "4"])
+@pytest.mark.parametrize("version", ["v1", "v3", "v2", "V4", "x", "4"])
 def test_unsupported_version_raises(version):
     with pytest.raises(ValueError):
         phonemize("kaixo", version=version)
