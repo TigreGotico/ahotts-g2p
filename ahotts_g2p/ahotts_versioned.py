@@ -462,6 +462,20 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                         handled = True
                 if not handled and ph3 in AEOU and c2 in NL and \
                         (not word_last[i + 1]) and c4 in AEIOU:
+                    # eu_phtr.cpp case 'i' (l.226-244): in the {aeou}+i+{n,l}+V
+                    # palatalisation context, the i is normally OMITTED (no
+                    # phone, n/l palatalises).  BUT if the word carries
+                    # SALBTF_I_0_J, or is es_verbo_trn / es_verbo_lgn, the i is
+                    # kept as the glide [j] (SETPH iaprox) and there is NO
+                    # palatalisation.  beilarien (searchBin partial `beilari` has
+                    # I_0_J=1) -> bejlAɾien; britainiar (full match I_0_J=1) ->
+                    # britAjniar.  Accentual path only (dict-flag gated).
+                    if use_dict_flags and (
+                            _salbtf_i_j(orig_words[char_word[i]], flags,
+                                        version)
+                            or _is_verbo_trn_lgn(orig_words[char_word[i]],
+                                                 flags, version)):
+                        emit(iaprox)
                     handled = True
             if not handled and not wfirst and not wlast and \
                     ph3 in AEOU and c2 in AEOU:
@@ -492,7 +506,18 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             elif first:
                 emit(PHEU['b'])
             elif ((c3 == 'l' and (c2 == 'r' or c2 in AEIOU)) or
-                  (c3 in AEIOU and (c2 in AEIOU or c2 == 'l' or c2 == 'r'))):
+                  (_b_left_vowel(c3, prev_cp(i)) and
+                   (c2 in AEIOU or c2 == 'l' or c2 == 'r' or
+                    _b_right_y_vowel(i, s, word_last, word_first,
+                                     not use_dict_flags, L)))):
+                # PROVEN-BINARY-ARTIFACT: eu_phtr.cpp case 'b' tests the *char*
+                # ch3 (getChar) for the preceding vowel, so a `b` after `y` would
+                # stay plosive (ch3=='y' is not in aeiou).  The binary instead
+                # surfaces approximant β when the preceding `y` was realised as
+                # the [i] vowel (the case 'y' pause-last rule, SETPH PHEU_i, does
+                # not SETCHAR): baby -> baβI, `y boom` -> I βoOm, `xy boom` ->
+                # ʃI βoOm (deterministic, probe-verified).  Reproduced via
+                # _b_left_vowel: treat a preceding `y`-realised-as-i as a vowel.
                 emit(PHEU['baprox'])
             elif (c3 == 'o' and c2 == 's') or (c3 == 'u' and c2 == 's'):
                 emit(PHEU['baprox'])
@@ -513,6 +538,15 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                 emit(PHEU['T'])
             elif not wlast and c2w == 'h':
                 emit(PHEU['tx'])
+                i += 1
+            elif c2w == 'k' and (i + 1 < L) and word_last[i + 1]:
+                # word-final `ck` -> single [k] (rock -> rOk, Bilborock ->
+                # ...rok).  eu_phtr emits k for the c and k for the k (giving
+                # `kk`), but a word-final geminate k surfaces as a single k in the
+                # binary (akk -> Ak, akka -> akA): degeminate the final cluster by
+                # consuming the trailing k here.  A word-internal `ck` keeps both
+                # (acker -> akkEr, rocka -> rokkA), handled by the else below.
+                emit(PHEU['k'])
                 i += 1
             else:
                 emit(PHEU['k'])
@@ -730,7 +764,14 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                 if not (c5 in AEIOU or c5 == 'h'):
                     emit(PHEU['i'])
                     handled = True
-            if not handled and last and not wfirst:
+            # eu_phtr.cpp case 'y' (l.919-922): a `y` that is the LAST char of the
+            # pause group and not word-initial -> [i].  On the flat V2 (transcribe)
+            # path each word is its own utterance/pause unit, so charIsLast(PAUSE)
+            # == word-last there: baby -> baβI (y->i, 2 syllables, stress 2nd).
+            # On the accentual V1/V3 path the whole breath group is one pause, so
+            # group-last (`last`) is the right boundary.
+            pause_last = wlast if not use_dict_flags else last
+            if not handled and pause_last and not wfirst:
                 emit(PHEU['i'])
                 handled = True
             if not handled:
@@ -784,6 +825,28 @@ def _word_l_l(flags, word):
     return bool(v and v["l_l"])
 
 
+def _b_left_vowel(c3, prev_phone):
+    """eu_phtr.cpp case 'b' left-context vowel test, with the documented binary
+    `y`-as-vowel artifact: the preceding char is a vowel (aeiou) OR it is `y`
+    whose realised phone is the [i] vowel (the case 'y' pause-last rule)."""
+    if c3 in "aeiou":
+        return True
+    return c3 == 'y' and prev_phone == PHEU['i']
+
+
+def _b_right_y_vowel(i, s, word_last, word_first, flat, L):
+    """eu_phtr.cpp case 'b' right-context: the binary treats a following `y` as a
+    vowel for the b->β rule when that `y` resolves to the [i] vowel (case 'y'
+    pause-last rule: a non-word-initial `y` that is the last char of its pause
+    unit -> [i]; on the flat V2 path each word is its own pause unit so the
+    word-final `y` qualifies).  baby -> baβI (the internal b before the word-final
+    y).  Same documented `y`-as-vowel artifact as _b_left_vowel."""
+    j = i + 1
+    if not (0 <= j < L) or s[j] != 'y' or word_first[j]:
+        return False
+    return word_last[j] if flat else (j == L - 1)
+
+
 def _word_j_x(flags, word):
     """SALBTF_J_0_X: word (or its dict-prefix) pronounces j as [x] (juan,
     julian, jatorri, erlijio, jende, ...).  eu_phtr.cpp case 'j'."""
@@ -802,6 +865,20 @@ def _salbtf_j_x(orig_word, flags, version):
         return "salbtf_j_x" in tags
     except Exception:           # noqa: BLE001
         return _word_j_x(flags, orig_word.lower())
+
+
+def _salbtf_i_j(orig_word, flags, version):
+    """Faithful SALBTF_I_0_J test (eu_phtr.cpp case 'i' ->
+    trans_fonet_salb_i_0_j -> queryPOS(POS_EU_SALBTF_I_J)).  pos1.cpp::posdic
+    sets that POS bit from the HDicRef the case-sensitive searchBin selected
+    (including the partial-match inheritance), so it is read from the faithful
+    tagger using the ORIGINAL case -- exactly like j_x / l_l / n_n."""
+    try:
+        tags, _ = _faithful_tagger(version).tag(orig_word)
+        return "salbtf_i_j" in tags
+    except Exception:           # noqa: BLE001
+        v = _dict_lookup(flags, orig_word.lower())
+        return bool(v and v["i_j"])
 
 
 def _salbtf_l_l(orig_word, flags, version):
@@ -1520,7 +1597,11 @@ def _group_to_singlechar(words, version, phrase_last_index=None,
     # vowel.  Override the AGRP-assigned stress for any such word: clear its
     # phones and stress the vowel phone at the accented ordinal (counting full
     # vowels AND diphthong glides, the order eu_phtr emits them).
-    if raw_words is not None and cfg["accentual"]:
+    # eu_phtr.cpp SETSTREUS (the accented-vowel text stress) runs in
+    # pausegr_ch2ph -- the g2p stage common to BOTH the accentual and the flat
+    # (word_stress) paths -- so an acute-accented foreign word is text-stressed on
+    # every version: Sádaba -> sAðaβa on the flat V2 path too, not just V1/V3.
+    if raw_words is not None:
         for wi in range(nwords):
             ord_ = _accent_vowel_ord(raw_words[wi]) if wi < len(raw_words) \
                 else None
@@ -2250,7 +2331,13 @@ def _pronounce(tok):
                 # dropped.  Here we already emitted tx, so skip the h.
                 i += 1
             elif nxt == 'k':
-                i += 1                 # ck -> k (skip c, keep k next)
+                # eu_cap.cpp pronounce `case'k': i++` (the c-before-k arm) skips
+                # the `c` and writes nothing for it, advancing past BOTH chars in
+                # the for-loop; the slot it leaves carries over the `k` so the
+                # binary surfaces a single `k` for `ck` (Bilborock -> bilborok,
+                # rock -> rok).  Emit one k and consume both chars.
+                out.append('k')
+                i += 1
             else:
                 out.append('k')
         else:
@@ -3046,6 +3133,16 @@ def _normalize_v3(text):
         elif ch in ('«', '»'):
             # mid-glued guillemet -> joined (removed); else ASCII apostrophe
             out.append('' if mid else "'")
+        elif ch == "'":
+            # modulo1y2 -TxtMode=Word drops the apostrophe in a letter context,
+            # gluing the parts into one token: C's -> Cs (-> ze ese), a's -> as,
+            # (C's) -> (Cs).  Probe-verified on the modulo1y2 normaliser.  Drop a
+            # `'` adjacent to a letter on either side; an isolated/standalone one
+            # is kept (rare; left as its own token).
+            if prev.isalpha() or nxt.isalpha():
+                out.append('')
+            else:
+                out.append("'")
         elif ch in _SYM_MID:
             out.append(' ' + _SYM_MID[ch] + ' ' if mid else ch)
         else:
@@ -3112,6 +3209,17 @@ def phonemize(text, version="v1"):
     # before tokenising for all versions (the V3 -TxtMode=Word normaliser does
     # the same rewrite).
     text = re.sub(r'(?<=\w):(?=\w)', ' bi puntu ', text)
+    # symbolexp.c / eu_normal mid-glued comma: a ',' directly between two word
+    # characters is verbalised "koma" (the eu_symbolexp[','] name) on the V1/V2
+    # (libhtts/transcribe) path -- a glued comma is NOT a pause cell, so puntChop
+    # does not strip it and expandGrp/symbolexp reads it.  This covers both the
+    # text case (irratia,Info7 -> ...koma...) and the decimal case (3,5 -> hiru
+    # koma bost; 100,000 -> ehun koma zero zero zero) -- the binary reads every
+    # word-glued comma as "koma".  A spaced/boundary comma stays a pause (handled
+    # by the tokeniser, dropped on V1/V2).  V3 does the same inside _normalize_v3
+    # (_SYM_MID).  Applied before tokenising on the non-keep_punct path only.
+    if not keep_punct:
+        text = re.sub(r'(?<=\w),(?=\w)', ' koma ', text)
     if not keep_punct:
         # V1/V2 (libhtts transcribe) hyphen verbalisation: a citation hyphen
         # GLUED to an opening quote and a word («-kuntza», "-tsi) is spoken
@@ -3122,6 +3230,19 @@ def phonemize(text, version="v1"):
         # (behin-edo) is a compound join dropped at the token stage.  The V3
         # modulo1y2 path drops the leading hyphen instead, so this is V1/V2-only.
         text = re.sub(r'(?<=[«"“])-(?=\w)', ' gidoia ', text)
+    if cfg["accentual"]:
+        # wordchop.cpp::preChop + eu_wrdch.cpp::eu_chtype: a typographic quote
+        # («»"" / "" ) is CHTYPE_NULL -- it is dropped and does NOT break the
+        # whitespace-free GROUP, so a quote glued between two word characters
+        # leaves the surrounding cells CONTIGUOUS in one group/word.  On the
+        # accentual (USE_TOKENIZER) path the categoriser then reads/declines that
+        # joined word: «nafar»en -> nafaren -> nafAren (the closing-quote-glued
+        # genitive declines onto nafar).  The flat V2 transcribe path does NOT do
+        # this (oracle: V2 «nafar»en -> nafAr En, two tokens), so gate on
+        # accentual.  Done before tokenising so nafar+en become one token; the
+        # ASCII straight `"` is left for the symbolexp mid-glued "koma" rule (it
+        # is NOT one of these CHTYPE_NULL typographic quotes).
+        text = re.sub(r'(?<=\w)[«»“”](?=\w)', '', text)
     if keep_punct:
         # V3: run the modulo1y2 text-normaliser (symbol verbalisation, quote /
         # dash rules) before tokenising, exactly as eu_phonemizer.normalize ->
@@ -3175,6 +3296,16 @@ def phonemize(text, version="v1"):
     # phrase edge as a sentence edge and mis-fire the izejok/adjjok/jntazk
     # `last` branches at every comma).
     sent_words = [_normalize_word(tok) for (k, tok) in seq if k == 'w']
+    # Case-preserving (accent-folded) forms for the case-sensitive searchBin
+    # block selection in eu_categ.cpp::utt_categ -> pos1.cpp::posdic.  posdic
+    # queries the POS/STR_MRK bits from the HDicRef the case-sensitive searchBin
+    # selected (blocks 0/1 raw-case, 2/3 lowercased), so a Title-case proper name
+    # that has its own cased dict entry (Julian -> block 1, STR_MRK=0 -> OROK)
+    # must NOT inherit the lowercased lexicon entry's STR_MRK (julian -> block 3,
+    # STR_MRK=1 -> MRK).  Tag with the original case; the word-STRING tests in
+    # poscases (monosyllable, `dena`, ...) still use the lowercased sent_words.
+    sent_words_kc = [_normalize_word_keepcase(tok) for (k, tok) in seq
+                     if k == 'w']
     # boundary_after[w] = a pause/punct cell ('p') separates word w from word
     # w+1 (or w is the last word).  This is what the C poscases neighbour
     # look-ups respect: a pause cell sits between the two word cells, so
@@ -3197,7 +3328,7 @@ def phonemize(text, version="v1"):
     sent_tags = None
     if cfg["accentual"]:
         flags_all = _dict_for(version)[1]
-        sent_tags = [_tag_word(w, flags_all, version) for w in sent_words]
+        sent_tags = [_tag_word(w, flags_all, version) for w in sent_words_kc]
         _poscases(sent_tags, sent_words, boundary_after, sent_end_after)
 
     out_tokens = []

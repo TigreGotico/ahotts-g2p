@@ -202,6 +202,25 @@ class EuPOS:
         # exact stem as ADI_JOK
         if self._adit_full_adijok(stem):
             found = True
+        # pos1.cpp adit bare-stem check: the first thing the C does is
+        # db.search(adi[:i]) and it sets ADI_JOK only on TALDE1==ADI_JOK.  When
+        # the bare stem is instead a FULL non-verb dictionary word carrying
+        # STR_MRK (bana -> ADB+STR_MRK), the binary does NOT reconstruct/reclassify
+        # the -tze(n) form as a verb: it keeps the inherited STR_MRK noun, so the
+        # word surfaces MRK (1st syllable).  Proof on the oracle: banatzen/
+        # banatze/banatzea -> bAna* (MRK), while every other multisyllabic -tzen
+        # verb whose bare stem is NOT a full STR_MRK non-verb (aldatzen, kokatzen,
+        # jasotzen: jaso is full but is itself ADI_JOK) stays OROK.  Reproduce by
+        # not treating such a form as a verb -- the inherited STR_MRK then wins.
+        # Cite: pos1.cpp:813-825 (the `db.search(adi_temp=adi[:i])` ADI_JOK gate
+        # at the top of the z==1 tzen block) + pos1.cpp:183-185 (posdic STR_MRK
+        # addPOS) -- the readable reconstruction `banatu`->ADI_JOK never fires in
+        # the binary for the full-STR_MRK-non-verb-stem case.
+        if not found:
+            sb0, sm0 = self._search(stem)
+            if sb0 is not None and sm0 == 0 and _t(sb0, 1) != 1 \
+                    and (sb0 >> 15) & 1:
+                return False
         if not found:
             prev = adi[i - 1] if i - 1 >= 0 else ''
             cands = []
@@ -338,12 +357,28 @@ class EuPOS:
         # suffix cascade.  When searchBin returned nothing (bits is None,
         # hDicRef==NULL) every query() returns 0, so only the cascade applies;
         # for a partial match the SALBTF / STR_MRK bits are inherited first.
+        #
+        # These STR_MRK / SALBTF / IZE markers are LEXICAL flags queried from the
+        # searchBin-selected HDicRef (pos1.cpp posdic: each query()->addPOS).
+        # They are a *separate* concern from the TALDE POS classification: the
+        # verb-cascade `setPOS(POS_EU_ADI_JOK)` in the C replaces the TALDE POS
+        # field, but the STR_MRK/SALBTF lexical markers, queried/addPOS'd from the
+        # HDicRef, survive into the cell.  Proof on the oracle: of all the corpus
+        # -tzen/-ten verbs only `banatzen` (whose searchBin partial match `bana`
+        # carries STR_MRK=1) surfaces MRK (bAnaPen, 1st syllable); every other
+        # one (azaltzen/aipatzen/kokatzen/defendatzen/idazten/egiten) partial-
+        # matches a STR_MRK=0 entry and stays OROK -- i.e. the partial-match
+        # STR_MRK is inherited AND survives the verb cascade's setPOS.  So we
+        # capture the inherited lexical markers up front, let the cascade reclear
+        # the TALDE POS via pos.clear(), then re-apply the lexical markers.
+        inherited = set()
         if bits is not None:
             for flag, bit in (("salbtf_i_j", 18), ("salbtf_j_x", 19),
                               ("salbtf_l_l", 20), ("salbtf_n_n", 21),
                               ("salbtf_z_t", 22)):
                 if (bits >> bit) & 1:
                     pos.add(flag)
+                    inherited.add(flag)
         if bits is not None and (bits >> 15) & 1:  # STR_MRK block
             inherit_mrk = True
             # ---- documented upstream artifact (category 5) ------------------
@@ -373,6 +408,7 @@ class EuPOS:
                     inherit_mrk = False
             if inherit_mrk:
                 pos.add("str_mrk")
+                inherited.add("str_mrk")
                 if _t(bits, 3) == 4:           # IZE
                     pos.add("ize")
         # suffix cascade -- each may setPOS (wipe) / addPOS
