@@ -283,6 +283,17 @@ def _tf_exp_to_internal(tf_exp):
     return out or None
 
 
+def _tf_full_match(orig_word, version):
+    """True iff the faithful searchBin finds ``orig_word`` (case- and accent-
+    preserving) as a FULL dictionary match carrying TF_MRK.  Used on the Northern
+    build to confirm a dotted-SAMPA transcription applies before emitting it."""
+    try:
+        bits, matchlen = _faithful_tagger(version)._search(orig_word)
+    except Exception:           # noqa: BLE001
+        return False
+    return bits is not None and matchlen == 0 and bool((bits >> 16) & 1)
+
+
 def _tf_decl_phones(orig_word, flags, version):
     """eu_categ.cpp (l.206-228) + eu_phtr.cpp (l.175-193): a declension of a
     dictionary-transcribed stem.  If the word's searchBin partial match carries
@@ -290,24 +301,31 @@ def _tf_decl_phones(orig_word, flags, version):
     transcription is emitted and the suffix is g2p'd onto it.  Returns
     ``(stem_phones, stem_char_len)`` or ``None``.  (Honoured only on the Northern
     build: the Southern oracle reads such inflected forms by plain g2p, e.g.
-    argentinako -> arɡEntiɲako, not the dict transcription.)"""
-    w = orig_word.lower()
+    argentinako -> arɡEntiɲako, not the dict transcription.)
+
+    The search runs on the ORIGINAL-case word, exactly as the C: hdic_io.cpp
+    search() keeps ``tok=str`` raw for the case-sensitive blocks 0/1 and only
+    lowercases into ``tokl`` for the case-insensitive blocks 2/3.  Foreign
+    proper-name stems (``Cage``, ``Argentina``) live capitalised in block 0, so
+    a pre-lowercased query never reaches them -- only the raw-case query
+    surfaces ``Cageren`` -> ``Cage`` + ``ren`` and ``Argentinako`` ->
+    ``Argentina`` + ``ko``, matching the Iparrahotsa binary."""
     try:
         tagger = _faithful_tagger(version)
-        _tags, full = tagger.tag(w)
+        _tags, full = tagger.tag(orig_word)
     except Exception:           # noqa: BLE001
         return None
     if full:
         return None
-    bits, matchlen = tagger._search(w)
-    if bits is None or not matchlen or matchlen >= len(w):
+    bits, matchlen = tagger._search(orig_word)
+    if bits is None or not matchlen or matchlen >= len(orig_word):
         return None
     if not ((bits >> 16) & 1):          # stem carries TF_MRK?
         return None
-    sb, sm = tagger._search(w[matchlen:])
+    sb, sm = tagger._search(orig_word[matchlen:])
     if sb is None or sm != 0 or not ((sb >> 2) & 1):   # suffix is a declension?
         return None
-    v = flags.get(w[:matchlen])
+    v = flags.get(orig_word[:matchlen].lower())
     if not (v and v.get("tf_exp")):
         return None
     ph = _tf_exp_to_internal(v["tf_exp"])
@@ -347,7 +365,7 @@ def _tf_accent_ord(tf_exp):
 # ==========================================================================
 def g2p_group(words, flags, glides=True, use_dict_flags=True,
               kdrop_xword=False, orig_words=None, version="v1",
-              phtiparralde=False):
+              phtiparralde=False, raw_words=None):
     """Convert a pause group (list of lowercased words) to internal phones.
 
     glides=True  : au/eu/ai -> a w / e w / a j   (V1, V3)
@@ -404,10 +422,23 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
         for wi, w in enumerate(words):
             v = flags.get(w)
             if v and v.get("tf_mrk") and v.get("tf_exp"):
-                ph = _tf_exp_to_internal(v["tf_exp"])
-                if ph is not None:
-                    tf_word_phones[wi] = (ph, len(w))
-                continue
+                # Under phtiparralde the dict match is accent-sensitive (the
+                # binary's case-sensitive block compare is byte-exact over
+                # latin-1): a written accent on the word that the dotted-SAMPA
+                # headword lacks breaks the match, so the word falls through to
+                # plain g2p.  `León` (no dict hit -> `leOn`) stays distinct from
+                # the dict's `Leon` (/leO~/).  (Case is NOT re-checked here:
+                # sentence-initial proper names arrive lowercased, and the binary
+                # still resolves them via its case-insensitive blocks.)
+                if phtiparralde and raw_words is not None \
+                        and _has_accent(raw_words[wi]) \
+                        and not _tf_full_match(raw_words[wi], version):
+                    pass
+                else:
+                    ph = _tf_exp_to_internal(v["tf_exp"])
+                    if ph is not None:
+                        tf_word_phones[wi] = (ph, len(w))
+                    continue
             if phtiparralde:
                 tf = _tf_decl_phones(orig_words[wi], flags, version)
                 if tf is not None:
@@ -1647,7 +1678,8 @@ def _group_to_singlechar(words, version, phrase_last_index=None,
                                  use_dict_flags=cfg["accentual"],
                                  kdrop_xword=cfg.get("kdrop_xword", False),
                                  orig_words=orig_words, version=version,
-                                 phtiparralde=cfg.get("phtiparralde", False))
+                                 phtiparralde=cfg.get("phtiparralde", False),
+                                 raw_words=raw_words)
     nwords = len(words)
     word_phones = [[] for _ in range(nwords)]
     for k in range(len(phones)):
@@ -1727,12 +1759,25 @@ def _group_to_singlechar(words, version, phrase_last_index=None,
     # Dictionary TF transcriptions (French/foreign proper names) that carry an
     # explicit acute accent set the tonic vowel directly (eu_phtr SETSTREUS on
     # the accented transcription vowel), overriding the regular accentual stress.
+    # A declension of such a stem (Cageren = Cage + ren) inherits the stem's
+    # marked tonic too: the accent ordinal counts from the start of the word, so
+    # it lands inside the emitted stem phones (Cageren -> kE..., not ...rEn).
+    phtip = cfg.get("phtiparralde", False)
     if cfg["accentual"]:
         for wi in range(nwords):
             v = flags.get(words[wi])
-            if not (v and v.get("tf_mrk") and v.get("tf_exp")):
+            tf_exp = v["tf_exp"] if (v and v.get("tf_mrk") and v.get("tf_exp")) \
+                else None
+            if tf_exp is None and phtip and orig_words is not None:
+                decl = _tf_decl_phones(orig_words[wi], flags, version)
+                if decl is not None:
+                    stem = orig_words[wi][:decl[1]].lower()
+                    sv = flags.get(stem)
+                    if sv and sv.get("tf_exp"):
+                        tf_exp = sv["tf_exp"]
+            if tf_exp is None:
                 continue
-            ord_ = _tf_accent_ord(v["tf_exp"])
+            ord_ = _tf_accent_ord(tf_exp)
             if ord_ is None:
                 continue
             idxs = word_phones[wi]
@@ -2237,9 +2282,10 @@ _EU_VALID = {
 }
 
 
-def _eu_filter_str(w):
+def _eu_filter_str(w, phtiparralde=False):
     """eu_pronun.cpp::filterStr: drop intervocalic-ish h, ce/ci->z, ch->tx,
-    qu->k, ph->f, mm->m (operates left to right on the lowercased word)."""
+    qu->k, ph->f, mm->m (operates left to right on the lowercased word).
+    Under phtiparralde, bare q+vowel also folds to k (Northern-only)."""
     out = []
     i = 0
     n = len(w)
@@ -2261,9 +2307,22 @@ def _eu_filter_str(w):
                 out.append('k')
             i += 1
             continue
-        if c == 'q' and nx == 'u':
-            out.append('k')
-            i += 2
+        if c == 'q':
+            # eu_pronun.cpp::filterStr case 'q': qu -> k (drop the u) in both
+            # builds.  The Northern (Iparrahotsa) filterStr ADDS q + {a,e,i,o}
+            # -> k (l.481-485, "Qatar etab. irakurtzeko"), absent from the
+            # Southern source, so Qatar/Qasi are pronounceable (k...) on the
+            # Northern build but spelled on the Southern.
+            if nx == 'u':
+                out.append('k')
+                i += 2
+                continue
+            if phtiparralde and nx in ('a', 'e', 'i', 'o'):
+                out.append('k')
+                i += 1
+                continue
+            out.append(c)
+            i += 1
             continue
         if c == 'p' and nx == 'h':
             out.append('f')
@@ -2278,10 +2337,10 @@ def _eu_filter_str(w):
     return ''.join(out)
 
 
-def _eu_str2grpStr(w):
+def _eu_str2grpStr(w, phtiparralde=False):
     """eu_pronun.cpp::eu_str2grpStr: filtered word -> phonetic-class-code
     string (V for a vowel, else the consonant class code; X for unknown)."""
-    w = _eu_filter_str(w.lower())
+    w = _eu_filter_str(w.lower(), phtiparralde)
     out = []
     i = 0
     n = len(w)
@@ -2302,10 +2361,10 @@ def _eu_str2grpStr(w):
     return ''.join(out)
 
 
-def _is_syllabifiable(word):
+def _is_syllabifiable(word, phtiparralde=False):
     """eu_pronun.cpp::isPronun -- True iff the word is pronounceable as Basque
     (so eu_normal reads it); False -> all-caps speller (expandCell)."""
-    grp = _eu_str2grpStr(word)
+    grp = _eu_str2grpStr(word, phtiparralde)
     if not grp:
         return False
     # split into maximal vowel ('V') / consonant runs (eu_str2GrpLst)
@@ -3353,6 +3412,16 @@ def _normalize_word_keepcase(word):
     repl = dict(_ACCENT_REPL)
     repl.update({k.upper(): v.upper() for k, v in _ACCENT_REPL.items()})
     return ''.join(repl.get(ch, ch) for ch in word)
+
+
+_ACCENT_CHARS = frozenset("áéíóúÁÉÍÓÚàèìòùâêîôûäëïöÿ")
+
+
+def _has_accent(word):
+    """True if the word carries a written accent that the deaccented dictionary
+    key strips.  The Northern build uses this to keep an accented `León` from
+    matching the unaccented dotted-SAMPA entry `Leon`."""
+    return any(ch in _ACCENT_CHARS for ch in word)
 
 
 def phonemize_eu(text, version="v1"):
