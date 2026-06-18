@@ -41,6 +41,7 @@ stdlib only, no subprocess, no C.
 import os
 import re
 import struct
+import unicodedata
 from collections import OrderedDict
 
 # ==========================================================================
@@ -1238,27 +1239,46 @@ def _normalize_word(word):
     return ''.join(c for c in w if c in _NORMAL_KEEP)
 
 
-# string.punctuation, the set the modulo1y2 getPhonemes wrapper treats as
-# punctuation tokens when interleaving.
+# ASCII string.punctuation -- the set the *upstream* getPhonemes wrapper uses.
+# Kept only for reference; the fixed path uses the Unicode-aware test below.
 _PUNCT_STRING = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
+
+
+def _is_punct_token(w):
+    """A single punctuation character (Unicode category P*), including the
+    Spanish inverted marks ¿ ¡ and «»/“”/–— that ASCII string.punctuation
+    misses."""
+    return len(w) == 1 and unicodedata.category(w).startswith('P')
 
 
 def _v3_interleave(orig_text, cleaned):
     """Reproduce the arrandi eu_phonemizer.getPhonemes word/group interleaving
-    (as captured by the _oracles_es.V3 oracle): tokenize the ORIGINAL line into
-    word/punct tokens, then walk them, emitting each string.punctuation char
-    as-is and consuming one phoneme group (in order) per non-punct token.  Pad
-    the group list to the non-punct word count (repeat the last) the way the
-    wrapper does; leftover groups past the last source word are dropped."""
+    (as captured by the _oracles_es.V3 oracle), with the upstream
+    punctuation-counting bug FIXED: tokenize the ORIGINAL line into word/punct
+    tokens, then walk them, emitting each punctuation char as-is and consuming
+    one phoneme group (in order) per non-punct token; leftover groups past the
+    last source word are dropped.
+
+    BUGFIX vs upstream: getPhonemes classifies "non-punctuation words" with
+    Python's ASCII-only `string.punctuation`, so the Spanish inverted marks
+    `¿`/`¡` (and «»/“”/–—) are miscounted as words.  The binary emits no phoneme
+    group for them, so the non-punct count overshoots the group count and the
+    wrapper's pad-with-last-group loop DUPLICATES the final group
+    (¿Qué hora es? -> kE Oɾa Es Es ?).  There is no linguistic ambiguity -- it
+    is simply wrong -- so we count punctuation Unicode-aware (`_is_punct_token`),
+    which makes ¿/¡ count as punctuation, keeps the group/word counts aligned,
+    and yields the correct output with no doubling (¿Qué hora es? -> kE Oɾa Es ?).
+    We still pad when a line genuinely has fewer groups than words (the
+    legitimate fallback)."""
     words = _TOKEN_RE.findall(orig_text)
-    non_punct = [w for w in words if w not in _PUNCT_STRING]
+    non_punct = [w for w in words if not _is_punct_token(w)]
     groups = list(cleaned)
     while len(groups) < len(non_punct):
         groups.append(groups[-1] if groups else "a")
     out = []
     pi = 0
     for w in words:
-        if w in _PUNCT_STRING:
+        if _is_punct_token(w):
             out.append(w)
             continue
         if pi < len(groups):
