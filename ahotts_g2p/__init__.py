@@ -14,8 +14,8 @@ Public API
 ----------
 ``phonemize(text, lang="eu", version="v3", dialect="standard") -> str``
     Phonemize ``text`` to the single-char IPA training string.  ``lang`` is
-    one of ``"eu"`` / ``"es"`` and ``version`` one of ``"v1"`` / ``"v2"`` /
-    ``"v3"`` (see ``docs/versions.md``).  ``dialect="northern"`` (Basque only)
+    one of ``"eu"`` / ``"es"`` and ``version`` one of ``"v1"`` / ``"v3"``
+    (see ``docs/versions.md``).  ``dialect="northern"`` (Basque only)
     selects the Northern (Iparralde / Iparrahotsa) engine (see
     ``docs/dialects.md``).
 ``SAMPA_TO_IPA``
@@ -31,7 +31,7 @@ __all__ = ["phonemize", "SAMPA_TO_IPA", "__version__"]
 #: Languages the phonemizer can handle.
 SUPPORTED_LANGS = ("eu", "es")
 #: AhoTTS engine versions implemented (see docs/versions.md).
-SUPPORTED_VERSIONS = ("v1", "v2", "v3")
+SUPPORTED_VERSIONS = ("v1", "v3")
 #: Basque dialects implemented (see docs/dialects.md).
 SUPPORTED_DIALECTS = ("standard", "northern")
 
@@ -44,11 +44,11 @@ def phonemize(text, lang="eu", version="v3", dialect="standard"):
     text : str
         Input text.  Numbers, ordinals and roman numerals are expanded to the
         target-language number words; punctuation is preserved as separate
-        tokens (V3) or dropped (V1/V2), matching each engine.
+        tokens (V3) or dropped (V1), matching each engine.
     lang : str, default ``"eu"``
         Target language: ``"eu"`` (Basque) or ``"es"`` (Spanish).
     version : str, default ``"v3"``
-        AhoTTS engine version to emulate -- ``"v1"``, ``"v2"`` or ``"v3"``.
+        AhoTTS engine version to emulate -- ``"v1"`` or ``"v3"``.
         See ``docs/versions.md`` for what each reproduces.  Ignored when
         ``dialect="northern"`` (that engine is a single V1-lineage fork).
     dialect : str, default ``"standard"``
@@ -90,7 +90,7 @@ def phonemize(text, lang="eu", version="v3", dialect="standard"):
                 "dialect='northern' is only available for lang='eu' (Basque)"
             )
         # The Northern (Iparrahotsa) engine is a single V1-lineage fork, so it
-        # does not cross with the v1/v2/v3 versions; `version` is ignored.
+        # does not cross with the v1/v3 versions; `version` is ignored.
         return _phonemize_eu(text, "eu_northern")
     if version not in SUPPORTED_VERSIONS:
         raise ValueError(

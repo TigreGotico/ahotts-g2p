@@ -1,18 +1,15 @@
 """Basque (eu) grapheme-to-phoneme engine.
 
-    phonemize_eu(text, version="v1" | "v2" | "v3") -> str
+    phonemize_eu(text, version="v1" | "v3") -> str
 
 The full eu linguistic pipeline -- text normalisation, grapheme-to-phoneme,
 syllabification, accentual-group stress, and the SAMPA -> IPA -> single-char
-rendering -- reproducing the final training representation of three AhoTTS
+rendering -- reproducing the final training representation of the AhoTTS
 generations.  The differences between versions are configuration plus the
 dictionary loaded (see ``versions.CONFIG``):
 
   v1  Accentual-group stress with dictionary STR_MRK first-syllable marking;
       vowel offglides (au -> aw, ai -> aj).
-  v2  No vowel offglides (diphthongs stay full vowels) and a plain
-      "2nd syllable, 1st if monosyllabic" stress rule for every word -- the
-      dictionary STR_MRK / clitic accentual-group machinery is bypassed.
   v3  Like v1, plus: a silent leading ``h`` anchors an empty syllable, shifting
       audible stress one syllable earlier; punctuation is emitted as separate
       tokens; the newer eu_dicc_20250326 dictionary.
@@ -3202,13 +3199,13 @@ def _normalize_word_keepcase(word):
 
 def phonemize_eu(text, version="v1"):
     """Phonemize ``text`` to the final single-char IPA training string for the
-    given AhoTTS version (``"v1"``, ``"v2"`` or ``"v3"``).
+    given AhoTTS version (``"v1"`` or ``"v3"``).
 
     Words are space-separated.  For v3, punctuation is emitted as separate
-    tokens (matching the modulo1y2 + eu_phonemizer pipeline); v1/v2 drop
+    tokens (matching the modulo1y2 + eu_phonemizer pipeline); v1 drops
     punctuation (the libhtts transcribe pipeline returns words only)."""
     if version not in _CONFIG:
-        raise ValueError("version must be v1, v2, v3 or eu_northern")
+        raise ValueError("version must be v1, v3 or eu_northern")
     cfg = _CONFIG[version]
     keep_punct = cfg["keep_punct"]
     _phtip = cfg.get("phtiparralde", False)
@@ -3408,5 +3405,5 @@ def phonemize_eu(text, version="v1"):
 if __name__ == "__main__":
     import sys
     t = sys.argv[1] if len(sys.argv) > 1 else "Euskara Euskal Herriko hizkuntza da."
-    for v in ("v1", "v2", "v3"):
+    for v in ("v1", "v3"):
         print(f"{v}: {phonemize_eu(t, version=v)}")

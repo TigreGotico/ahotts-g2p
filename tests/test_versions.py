@@ -1,6 +1,6 @@
 """Version-aware dispatch smoke tests for the unified phonemize() API.
 
-Covers Basque (eu) V1/V2/V3 and Spanish (es) V1/V2/V3 through the public
+Covers Basque (eu) V1/V3 and Spanish (es) V1/V3 through the public
 ``phonemize(text, lang, version)`` entry point. Pure stdlib; no skips.
 """
 import pytest
@@ -12,7 +12,6 @@ from ahotts_g2p import phonemize
 
 @pytest.mark.parametrize("version,expected", [
     ("v1", "kajʃO mundUa"),
-    ("v2", "kaiʃO mundUa"),   # V2 drops vowel offglides (au stays a u)
     ("v3", "kajʃO mundUa ."),  # V3 emits punctuation as separate tokens
 ])
 def test_eu_versions(version, expected):
@@ -25,17 +24,10 @@ def test_eu_v3_keeps_punct_v1_drops():
     assert not phonemize("Kaixo mundua.", "eu", "v1").endswith(" .")
 
 
-def test_eu_v1_v2_offglide_delta():
-    # The defining V1->V2 delta: the "ai" diphthong offglide (j) disappears.
-    assert phonemize("Kaixo mundua.", "eu", "v1") != \
-        phonemize("Kaixo mundua.", "eu", "v2")
-
-
 # --- Spanish (es) -------------------------------------------------------- #
 
 @pytest.mark.parametrize("version,expected", [
     ("v1", "Ola mUndo"),
-    ("v2", "Ola mUndo"),
     ("v3", "Ola mUndo ."),    # V3 emits punctuation as separate tokens
 ])
 def test_es_versions(version, expected):
@@ -43,7 +35,7 @@ def test_es_versions(version, expected):
 
 
 def test_es_returns_nonempty_str():
-    for v in ("v1", "v2", "v3"):
+    for v in ("v1", "v3"):
         out = phonemize("Buenos dias.", lang="es", version=v)
         assert isinstance(out, str) and out
 

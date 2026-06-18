@@ -4,8 +4,8 @@ Correctness is defined as parity with the AhoTTS reference engines, captured as
 per-version held-out corpora:
 
 * ``eu_corpus.json`` -- 424 lines from the V3 arrandi ``modulo1y2`` build (which
-  phonemized HiTZ/StyleTTS2-eu), with the matching V1/V2 columns.
-* ``es_corpus.json`` -- 179 lines for Spanish across all three versions.
+  phonemized HiTZ/StyleTTS2-eu), with the matching V1 column.
+* ``es_corpus.json`` -- 179 lines for Spanish across both versions.
 
 Scoring is positional (space-split) word match plus exact-line match, exactly
 as the development parity harness reports.  The thresholds below are the
@@ -23,10 +23,8 @@ _DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 # (lang, version) -> (min word-match %, min exact lines)
 _THRESHOLDS = {
     ("eu", "v1"): (99.94, 427),
-    ("eu", "v2"): (100.0, 430),
     ("eu", "v3"): (99.90, 421),
     ("es", "v1"): (100.0, 179),
-    ("es", "v2"): (100.0, 179),
     ("es", "v3"): (100.0, 179),
 }
 

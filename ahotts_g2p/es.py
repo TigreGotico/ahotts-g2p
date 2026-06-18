@@ -1,9 +1,9 @@
 """Spanish (es) grapheme-to-phoneme engine.
 
-    phonemize_es(text, version="v1" | "v2" | "v3") -> str
+    phonemize_es(text, version="v1" | "v3") -> str
 
 The full Spanish linguistic pipeline reproducing the final single-char training
-representation of three AhoTTS generations:
+representation of the AhoTTS generations:
 
   v1  Full engine: grapheme-to-phoneme with coarticulated approximants
       (b/d/g -> B/D/G between vowels), the Llisterri-Mariño r rule,
@@ -11,13 +11,6 @@ representation of three AhoTTS generations:
       syllable), and the regular Spanish lexical-stress rule (penultimate for
       words ending in vowel/n/s, final otherwise, with a written-accent
       override and an atonic function-word list).
-  v2  Same engine, two deltas:
-        * iu2jw still runs (so stress lands on the same nucleus as v1) but the
-          glide is reverted in the phone output -- weak diphthong vowels are
-          rendered as full i/u (veinticinco -> ...einti..., not ...ejnti...,
-          yet rousseau is aguda rousseAu exactly like v1's rowsseAw);
-        * no es_dicc respelling is applied -- every word is pure g2p
-          (jazz -> xAθ).
   v3  Same engine + glides on (= v1), but the modulo1y2 wrapper (a) emits
       punctuation as separate tokens, (b) re-interleaves one phoneme group per
       original source token (so number/unit expansions shift punctuation and
@@ -112,9 +105,8 @@ VOW = set("aeiou") | set("áéíóú") | {'ü'}
 # The es_speller (no-vowel + unpronounceable-acronym spelling, "²" superscript)
 # is engine-level and applies to all three versions.
 _CONFIG = {
-    "v1": {"glides": True,  "keep_punct": False, "lexicon": True},
-    "v2": {"glides": False, "keep_punct": False, "lexicon": False},
-    "v3": {"glides": True,  "keep_punct": True,  "lexicon": True},
+    "v1": {"glides": True, "keep_punct": False, "lexicon": True},
+    "v3": {"glides": True, "keep_punct": True,  "lexicon": True},
 }
 
 
@@ -1285,11 +1277,11 @@ def _v3_interleave(orig_text, cleaned):
 
 def phonemize_es(text, version="v1"):
     """text -> final single-char IPA training string for the given AhoTTS
-    Spanish version ("v1", "v2", "v3").  Words space-separated.  For v3,
+    Spanish version ("v1", "v3").  Words space-separated.  For v3,
     punctuation is emitted as separate tokens (matching the modulo1y2
-    pipeline); v1/v2 drop punctuation."""
+    pipeline); v1 drops punctuation."""
     if version not in _CONFIG:
-        raise ValueError("version must be v1, v2 or v3")
+        raise ValueError("version must be v1 or v3")
     keep_punct = _CONFIG[version]["keep_punct"]
     use_lexicon = _CONFIG[version]["lexicon"]
 
@@ -1428,5 +1420,5 @@ def phonemize_es(text, version="v1"):
 if __name__ == "__main__":
     import sys
     t = sys.argv[1] if len(sys.argv) > 1 else "Hola, el caballo come."
-    for v in ("v1", "v2", "v3"):
+    for v in ("v1", "v3"):
         print(f"{v}: {phonemize_es(t, version=v)}")

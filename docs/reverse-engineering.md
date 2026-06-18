@@ -83,7 +83,11 @@ confirmed by the model's training distribution, which uses the newer dictionary'
 first-syllable stress (`horrek -> Orek`, `hizkuntza -> IʂkunPa`) -- the arrandi
 signature, which the original-dictionary binaries do not produce.
 
-The full-vowel-diphthong **V2** output is the `transcribe`-mode path of the
-modern engine; the VITS tokenisation path of that same engine emits offglides,
-so no shipped model consumes the V2 output. It is implemented for faithfulness
-to that engine mode.
+The full-vowel-diphthong, flat-2nd-syllable output (the `aholab 2025
+transcribe` column above) is the `transcribe`-mode path of the modern engine.
+The VITS tokenisation path of that same engine emits offglides and dictionary
+stress, so **no released model consumes the `transcribe`-mode output** — which
+is why it is not shipped as a public version of this port. The mapping is kept
+here as a research record: if a future model is ever phonemized through that
+mode, re-adding it is an informed change (the column above states exactly what
+it produces) rather than a rediscovery.

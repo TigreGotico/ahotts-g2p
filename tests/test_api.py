@@ -14,7 +14,7 @@ def test_exports():
 
 def test_supported_langs_and_versions():
     assert ahotts_g2p.SUPPORTED_LANGS == ("eu", "es")
-    assert ahotts_g2p.SUPPORTED_VERSIONS == ("v1", "v2", "v3")
+    assert ahotts_g2p.SUPPORTED_VERSIONS == ("v1", "v3")
     assert ahotts_g2p.SUPPORTED_DIALECTS == ("standard", "northern")
 
 
@@ -58,7 +58,7 @@ def test_unsupported_lang_raises(lang):
         phonemize("hola", lang=lang)
 
 
-@pytest.mark.parametrize("version", ["v0", "V4", "x", "4"])
+@pytest.mark.parametrize("version", ["v0", "v2", "V4", "x", "4"])
 def test_unsupported_version_raises(version):
     with pytest.raises(ValueError):
         phonemize("kaixo", version=version)

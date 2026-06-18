@@ -9,7 +9,6 @@ Correctness is **behavioural parity with the AhoTTS reference engines**, not
 resemblance to the source. Each version maps to a specific reference:
 
 * **V1** -- the pyAhoTTS `libhtts` build (`transcribe_text`).
-* **V2** -- the modern `ahotts_common` flat `transcribe` path.
 * **V3** -- the `arrandi` `modulo1y2` build with the 2025 dictionary.
 
 Where a binary diverges from its own published source, the port reproduces the

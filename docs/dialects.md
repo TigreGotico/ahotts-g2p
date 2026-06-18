@@ -16,7 +16,7 @@ phonemize("Euskara Euskal Herriko hizkuntza da.", lang="eu", dialect="northern")
 `dialect="standard"` (the default) keeps the existing Southern behaviour, so all
 existing calls are unchanged. `dialect="northern"` is only valid for `lang="eu"`.
 Because the Northern engine is a single V1-lineage fork, it does not cross with
-the `v1`/`v2`/`v3` versions; the `version` argument is ignored when
+the `v1`/`v3` versions; the `version` argument is ignored when
 `dialect="northern"`.
 
 ## What makes it Northern

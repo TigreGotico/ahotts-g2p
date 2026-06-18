@@ -8,17 +8,17 @@ match plus exact-line match.
 
 ## Per-version parity
 
-| Language | v1 | v2 | v3 |
-|---|---|---|---|
-| Spanish (`es`) | 100% | 100% | 100% |
-| Basque (`eu`) | 99.94% | 100% | 99.90% |
+| Language | v1 | v3 |
+|---|---|---|
+| Spanish (`es`) | 100% | 100% |
+| Basque (`eu`) | 99.94% | 99.90% |
 
 The Northern Basque dialect (`dialect="northern"`) reaches **98.97%** word
 parity (401/430 exact lines) against the AhoTTS_Iparrahotsa binary, over the
 `tests/data/eu_northern_corpus.json` fixture. See [dialects.md](dialects.md).
 
 Each figure is enforced by `tests/test_oracle.py`, which fails if parity drops
-below the verified threshold. Spanish is exact across all three versions
+below the verified threshold. Spanish is exact across both versions
 because Spanish g2p and stress are fully rule-driven; the bundled `es_dicc` only
 respells a short list of foreign words and abbreviations.
 

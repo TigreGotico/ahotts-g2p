@@ -50,12 +50,12 @@ Also exported: `SAMPA_TO_IPA`, the ordered SAMPA -> IPA mapping table.
 
 AhoTTS has a real engine lineage. Different public voices were phonemized by
 different generations, with visibly different output, so the API takes a
-`version` (`v1`/`v2`/`v3`). The default is `v3`.
+`version` (`v1`/`v3`). The default is `v3`. (The `v1`/`v3` labels are kept as-is;
+the gap reflects the real engine lineage rather than a contiguous numbering.)
 
 | Version | Upstream source | Consuming model | Distinctive behaviour |
 |---|---|---|---|
 | `v1` | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine | **HiTZ VITS** voices | dictionary `STR_MRK` stress (original `eu_dicc`), vowel offglides (au -> aw) |
-| `v2` | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), 2025 `ahotts_common` rewrite (`transcribe` mode) | *none released* (completeness) | flat 2nd-syllable stress (bypasses `STR_MRK`), full-vowel diphthongs (no offglides) |
 | `v3` | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) `modulo1y2` + `eu_dicc_20250326` | [HiTZ/StyleTTS2-eu](https://huggingface.co/HiTZ) | dictionary `STR_MRK` stress (newer dict), silent-`h` stress shift, `ʝ` palatalisation, punctuation tokens |
 
 (`pyAhoTTS` builds the v1 engine from [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS), a packaging fork of `aholab/AhoTTS` with build/portability changes only -- no algorithmic difference.)
@@ -84,10 +84,10 @@ Full detail in [docs/dialects.md](docs/dialects.md).
 Correctness is parity with the AhoTTS reference engines, measured per version on
 held-out corpora (positional word match):
 
-| Language | v1 | v2 | v3 |
-|---|---|---|---|
-| Spanish (`es`) | 100% | 100% | 100% |
-| Basque (`eu`) | 99.94% | 100% | 99.90% |
+| Language | v1 | v3 |
+|---|---|---|
+| Spanish (`es`) | 100% | 100% |
+| Basque (`eu`) | 99.94% | 99.90% |
 
 The Northern Basque dialect reaches **~99.0%** word parity (401/430 exact lines)
 against the AhoTTS_Iparrahotsa binary; see [docs/dialects.md](docs/dialects.md).
@@ -102,7 +102,7 @@ text -> normalize -> g2p -> syllabify -> stress -> SAMPA -> IPA -> single-char
 ```
 
 Numbers, ordinals and roman numerals are expanded to the target-language number
-words; punctuation is preserved as separate tokens (v3) or dropped (v1/v2). Per-
+words; punctuation is preserved as separate tokens (v3) or dropped (v1). Per-
 word lexical stress and the phonetic-exception rules are driven by the decoded
 dictionary flags. See [docs/architecture.md](docs/architecture.md).
 

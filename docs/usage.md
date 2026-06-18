@@ -12,7 +12,7 @@ phonemize(text, lang="eu", version="v3", dialect="standard") -> str
   declension suffix (`1870eko`, `22an`) and roman numerals are expanded to
   number words. Punctuation (`.,!?;:`) is kept as separate tokens in V3.
 - **`lang`** -- target language: `"eu"` (Basque) or `"es"` (Spanish).
-- **`version`** -- AhoTTS engine version to emulate: `"v1"`, `"v2"` or `"v3"`
+- **`version`** -- AhoTTS engine version to emulate: `"v1"` or `"v3"`
   (the default; the engine that phonemized HiTZ/StyleTTS2-eu). Each emulates a
   distinct engine generation. See [versions.md](versions.md).
 - **`dialect`** -- Basque dialect: `"standard"` (default, Southern) or
@@ -71,6 +71,6 @@ python examples/batch_file.py metadata.txt metadata_phonemes.txt
 ## Error handling
 
 Unsupported `lang` (anything but `eu`/`es`) or `version` (anything but
-`v1`/`v2`/`v3`) raises `ValueError` with a message pointing at what is
+`v1`/`v3`) raises `ValueError` with a message pointing at what is
 supported. This lets you pin a language/version and get a clear failure rather
 than silent wrong output.
