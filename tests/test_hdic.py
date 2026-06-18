@@ -1,43 +1,61 @@
-"""HDIC dictionary load tests (eu_dicc.dic shipped as package data)."""
-from ahotts_g2p import ahotts_eu_hdic as A
-from ahotts_g2p import decode_hdic
+"""HDIC binary-dictionary reader tests.
+
+The ``.dic`` files are AhoTTS HDIC databases shipped as package data; the
+reader decodes their four sorted blocks and the per-word HDicRef bitfield with
+the stdlib ``struct`` module only.
+"""
+import os
+
+import pytest
+
+from ahotts_g2p import dict_hdic
+
+_PKG = os.path.dirname(dict_hdic.__file__)
+_DICTS = [
+    os.path.join(_PKG, "eu_dicc_v1.dic"),
+    os.path.join(_PKG, "eu_dicc_v3.dic"),
+]
 
 
-def test_dict_loaded():
-    # the bundled dictionary parsed into the live flag table
-    assert isinstance(A.DICT_FLAGS, dict)
-    assert len(A.DICT_FLAGS) > 10000  # main lexicon is ~17k unique words
+def test_dict_files_present():
+    for path in _DICTS:
+        assert os.path.exists(path), path
 
 
-def test_dict_path_is_package_data():
-    assert A._DICT_PATH.endswith("eu_dicc.dic")
-    import os
-    assert os.path.exists(A._DICT_PATH)
+@pytest.mark.parametrize("path", _DICTS)
+def test_load_hdic_four_blocks(path):
+    blocks, entries = dict_hdic.load_hdic(path)
+    assert len(blocks) == 4
+    assert len(entries) > 10000  # main lexicon is ~17k words
 
 
-def test_flag_fields_present():
-    # pick any entry, confirm decoded flag schema
-    sample = next(iter(A.DICT_FLAGS.values()))
+@pytest.mark.parametrize("path", _DICTS)
+def test_build_lookup_flag_schema(path):
+    lut = dict_hdic.build_lookup(path)
+    assert len(lut) > 10000
+    sample = next(iter(lut.values()))
     for key in ("str_mrk", "n_n", "i_j", "j_x", "l_l", "z_t", "tf_mrk"):
         assert key in sample
         assert isinstance(sample[key], bool)
 
 
-def test_str_mrk_flag_drives_first_syllable_stress():
-    # at least some words carry the first-syllable STR_MRK flag
-    marked = [w for w, v in A.DICT_FLAGS.items() if v["str_mrk"]]
+@pytest.mark.parametrize("path", _DICTS)
+def test_str_mrk_population(path):
+    """The first-syllable lexical-stress flag is set on a real subset."""
+    lut = dict_hdic.build_lookup(path)
+    marked = [w for w, v in lut.items() if v["str_mrk"]]
     assert marked
 
 
-def test_no_palatal_n_flag_population():
-    # the N_J_N flag generalises beyond a tiny curated set
-    n_n = [w for w, v in A.DICT_FLAGS.items() if v["n_n"]]
+@pytest.mark.parametrize("path", _DICTS)
+def test_no_palatal_n_population(path):
+    """The no-n-palatalisation flag generalises well beyond a curated set."""
+    lut = dict_hdic.build_lookup(path)
+    n_n = [w for w, v in lut.items() if v["n_n"]]
     assert len(n_n) > 100
 
 
-def test_decode_hdic_standalone_loader():
-    blocks, entries = decode_hdic.load_hdic(A._DICT_PATH)
-    assert len(blocks) == 4
-    assert len(entries) > 10000
-    lut = decode_hdic.build_lookup(A._DICT_PATH)
-    assert lut
+def test_decode_ref_round_trips_known_bits():
+    flags = dict_hdic.decode_ref(0)
+    assert flags["str_mrk"] is False
+    assert flags["bits"] == 0

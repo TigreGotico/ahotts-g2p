@@ -30,6 +30,7 @@ pytest tests/ -q
 
 ## Package data
 
-The Basque dictionary `eu_dicc.dic` ships inside the `ahotts_g2p` package
-(declared as `package-data` in `pyproject.toml`), so it is available after a
-normal install -- no extra download step.
+The AhoTTS dictionaries (`eu_dicc_v1.dic`, `eu_dicc_v3.dic`, `es_dicc.dic`)
+ship inside the `ahotts_g2p` package (declared as `package-data` in
+`pyproject.toml`), so they are available after a normal install -- no extra
+download step.

@@ -14,3 +14,8 @@ venv/
 *.so
 .idea/
 .vscode/
+.ruff_cache/
+
+# dev-only parity harness (binary oracle dumps + scorer), not shipped
+_dev/
+.tmp_run/
