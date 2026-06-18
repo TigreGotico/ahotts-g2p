@@ -67,6 +67,14 @@ CONFIG = {
     "v3": {"dict": "eu_dicc_v3.dic", "StressDic": False, "phtiparralde": False,
            "accentual": True,  "glides": True,  "keep_punct": True,
            "h_shift": True, "kdrop_xword": False},
+    # Northern Basque (Iparralde / Iparrahotsa): a V1-lineage fork of the engine
+    # with PhTIparralde enabled.  /h/ is pronounced, ü -> /y/, the rhotic is
+    # uvular /ʁ/, the sibilant system is remapped (s -> ʂ, z -> s, ts -> tʂ,
+    # tz -> ts), j/y/dd -> /ɟ/, tch -> tx.  V1 accentual stress with the Northern
+    # dictionary's STR_MRK; no silent-h stress shift; punctuation dropped.
+    "eu_northern": {"dict": "eu_dicc_northern.dic", "StressDic": False,
+                    "phtiparralde": True, "accentual": True, "glides": True,
+                    "keep_punct": False, "h_shift": False, "kdrop_xword": True},
 }
 
 #: V1 and V2 share a dictionary; V3 ships the newer eu_dicc_20250326.

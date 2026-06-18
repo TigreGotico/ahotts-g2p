@@ -17,6 +17,7 @@ for the version definitions in [versions.md](versions.md).
 | aHoTTS | [hitz-zentroa/aHoTTS](https://github.com/hitz-zentroa/aHoTTS) | VITS synth wrapper + prebuilt `ahotts/tts`. No C source. |
 | arrandi | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) | prebuilt `modulo1y2` (es/eu) + `eu_dicc_20250326.dic` + `eu_phonemizer.py` wrapper. No C source. |
 | ahotts_common | *not public* | the internal modern core behind ahoNT / aHoTTS / arrandi / the 2025 rewrite |
+| Iparrahotsa | [aholab/AhoTTS_Iparrahotsa](https://github.com/aholab/AhoTTS_Iparrahotsa) | the **Northern (Iparralde) dialect** fork of the V1 engine, with `PhTIparralde` enabled and a Northern `eu_dicc`. Complete public C++ source. Off the V1->V3 line. |
 
 All four prebuilt binaries carry `StressDicSingleWords` + `PhTIparralde` build
 strings, so all descend from `ahotts_common`, whose ancestor is the original
@@ -61,6 +62,10 @@ which the original dictionary leaves to the regular rule.
   running `-Method=Vits`, reading the int64 token ids, and decoding them through
   the recovered 54-symbol map.
 * arrandi is exercised through `modulo1y2 -Lang=eu`.
+* AhoTTS_Iparrahotsa (the Northern dialect) is exercised through the same
+  `transcribe_text` C export, rebuilt against the Iparrahotsa `libhtts` and the
+  Northern `eu_dicc`; this is the oracle for the `dialect="northern"` corpus
+  (see [dialects.md](dialects.md)).
 
 ## Model -> version mapping
 

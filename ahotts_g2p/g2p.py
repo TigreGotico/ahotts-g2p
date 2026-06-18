@@ -265,7 +265,8 @@ def _tf_exp_to_internal(tf_exp):
 # Grapheme -> phoneme  (eu_phtr.cpp pausegr_ch2ph)
 # ==========================================================================
 def g2p_group(words, flags, glides=True, use_dict_flags=True,
-              kdrop_xword=False, orig_words=None, version="v1"):
+              kdrop_xword=False, orig_words=None, version="v1",
+              phtiparralde=False):
     """Convert a pause group (list of lowercased words) to internal phones.
 
     glides=True  : au/eu/ai -> a w / e w / a j   (V1, V3)
@@ -366,7 +367,12 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                     # palatalisation.  beilarien (searchBin partial `beilari` has
                     # I_0_J=1) -> bejlAɾien; britainiar (full match I_0_J=1) ->
                     # britAjniar.  Accentual path only (dict-flag gated).
-                    if use_dict_flags and (
+                    if phtiparralde:
+                        # eu_phtr.cpp case 'i' (N l.296-300): under phtiparralde
+                        # the i is NOT deleted -- it surfaces as the glide [j]
+                        # (SETPH iaprox) and the following n/l is not palatalised.
+                        emit(iaprox)
+                    elif use_dict_flags and (
                             _salbtf_i_j(orig_words[char_word[i]], flags,
                                         version)
                             or _is_verbo_trn_lgn(orig_words[char_word[i]],
@@ -375,7 +381,9 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                     handled = True
             if not handled and not wfirst and not wlast and \
                     ph3 in AEOU and c2 in AEOU:
-                emit(PHEU['jj'])
+                # eu_phtr.cpp case 'i' (N l.321-324): {aeo}+i+{aeo} -> palatal jj
+                # in the south, but the glide [j] under phtiparralde.
+                emit(iaprox if phtiparralde else PHEU['jj'])
                 handled = True
             if not handled and not wfirst and ph3 in AEOU:
                 emit(iaprox)
@@ -388,8 +396,16 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             if c3w in AEO and (not word_last[i - 1] if i > 0 else False) \
                     and not wfirst:
                 emit(uaprox)
+            elif phtiparralde and not wlast and c2 == 'e':
+                # eu_phtr.cpp case 'u' (N l.343-346): under phtiparralde a
+                # non-word-final u before e becomes the glide [w] (u+e diphthong).
+                emit(uaprox)
             else:
                 emit(PHEU['u'])
+        elif c == 'ü':
+            # eu_phtr.cpp case CS_uuml (N l.354-364): ü -> /y/ under phtiparralde,
+            # else rewritten to /u/.
+            emit(PHEU['y_fr'] if phtiparralde else PHEU['u'])
         elif c == 'b':
             # eu_phtr.cpp case 'b' (l.287-300): word-initial b after "ez"
             # devoices to [p] when the b-word is es_verbo_trn/lgn -- on the
@@ -401,6 +417,14 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                 emit(PHEU['p'])
             elif first:
                 emit(PHEU['b'])
+            elif phtiparralde and c3 == 'r' and c2 in AEIOU:
+                # eu_phtr.cpp case 'b' (N l.393-396): r + b + vowel -> approximant
+                # under phtiparralde, before the general approximant rule.
+                emit(PHEU['baprox'])
+            elif phtiparralde and ((c3 == 'o' or c3 == 'u') and c2 == 's'):
+                # eu_phtr.cpp case 'b' (N l.401-404): {o,u} + b + s -> [p] under
+                # phtiparralde (the south uses approximant β here).
+                emit(PHEU['p'])
             elif ((c3 == 'l' and (c2 == 'r' or c2 in AEIOU)) or
                   (_b_left_vowel(c3, prev_cp(i)) and
                    (c2 in AEIOU or c2 == 'l' or c2 == 'r' or
@@ -431,9 +455,13 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                 emit(PHEU['b'])
         elif c == 'c':
             if not wlast and (c2w in EI):
-                emit(PHEU['T'])
+                # eu_phtr.cpp case 'c' (N l.416-422): c before e/i -> /θ/ south,
+                # apical /s̻/ (PHEU_z -> ʂ) under phtiparralde.
+                emit(PHEU['z'] if phtiparralde else PHEU['T'])
             elif not wlast and c2w == 'h':
-                emit(PHEU['tx'])
+                # eu_phtr.cpp case 'c' (N l.424-430): "ch" -> /tʃ/ south, /ʃ/
+                # under phtiparralde.
+                emit(PHEU['x'] if phtiparralde else PHEU['tx'])
                 i += 1
             elif c2w == 'k' and (i + 1 < L) and word_last[i + 1]:
                 # word-final `ck` -> single [k] (rock -> rOk, Bilborock ->
@@ -458,7 +486,11 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                     _is_verbo_trn_lgn(orig_words[char_word[i]], flags, version):
                 emit(PHEU['t'])
             elif not wlast and c2w == 'd':
-                if first or c3 in NLSZ or c3 in TK:
+                # eu_phtr.cpp case 'd' (N l.470-481): "dd" -> the voiced palatal
+                # stop /ɟ/ (PH_Jb) under phtiparralde, else dj/jj.
+                if phtiparralde:
+                    emit(PHEU['Jb'])
+                elif first or c3 in NLSZ or c3 in TK:
                     emit(PHEU['dj'])
                 else:
                     emit(PHEU['jj'])
@@ -481,7 +513,13 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             else:
                 emit(PHEU['g'])
         elif c == 'h':
-            pass
+            # eu_phtr.cpp case 'h' (N l.530-542): silent in the south.  Under
+            # phtiparralde /h/ is pronounced, EXCEPT mid-word after a stop/liquid
+            # (p/k/l/n/c/t/r), where it stays silent (ekharri -> ekarri).  Word-
+            # initial h is always pronounced.
+            if phtiparralde and not (
+                    not wfirst and c3 in ('p', 'k', 'l', 'n', 'c', 't', 'r')):
+                emit(PHEU['h'])
         elif c == 'j':
             # eu_phtr.cpp case 'j': only words whose searchBin-selected dict
             # block carries SALBTF_J_0_X (pos1.cpp::posdic queries the bit from
@@ -490,8 +528,13 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             # 2/3 lowercased), so "Juan"/"Julian"/"jatorri"/"erlijio" -> x but
             # "jende"/"jauregian"/"jendearentzat" -> jj.  Use the faithful
             # tagger with the ORIGINAL case.  Accentual path only.
-            if use_dict_flags and _salbtf_j_x(orig_words[char_word[i]],
-                                              flags, version):
+            if phtiparralde:
+                # eu_phtr.cpp case 'j' (N l.547,571-581): the Castilian /x/
+                # exception is skipped and j -> the voiced palatal stop /ɟ/
+                # (PH_Jb) in both the post-consonant and default branches.
+                emit(PHEU['Jb'])
+            elif use_dict_flags and _salbtf_j_x(orig_words[char_word[i]],
+                                                flags, version):
                 emit(PHEU['j'])          # j -> x (Spanish jota)
             elif first or c3 in NLSZ or c3 in TK:
                 emit(PHEU['dj'])
@@ -521,7 +564,9 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             bail_verb = (use_dict_flags and word[:4] == "bail"
                          and _word_is_aux_or_syn(flags, word))
             if not wlast and not wfirst and c3 == 'i' and c2w in AEOU \
-                    and not wl_l and not bail_verb:
+                    and not wl_l and not bail_verb and not phtiparralde:
+                # eu_phtr.cpp case 'l' (N l.627): the i-context l-palatalisation
+                # is suppressed under phtiparralde (`&& !phtiparralde`).
                 emit(PHEU['ll'])
             elif not wlast and c2w == 'l':
                 emit(PHEU['ll'])
@@ -544,10 +589,14 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             block_n = use_dict_flags and _salbtf_n_n(
                 orig_words[char_word[i]], flags, version)
             if not wfirst and not wlast and c3 == 'i' and c2w in AEIOU \
-                    and not block_n:
+                    and not block_n and not phtiparralde:
+                # eu_phtr.cpp case 'n' (N l.718-741): the i-context palatalisation
+                # to /ɲ/ is suppressed under phtiparralde (n stays [n]).
                 emit(PHEU['ntilde'])
                 handled = True
-            elif not wfirst and not wlast and c2w in SZ:
+            elif not wfirst and not wlast and c2w in SZ and not phtiparralde:
+                # eu_phtr.cpp case 'n' (N l.745): the n-deletion before s/z+t is
+                # suppressed under phtiparralde (`&& !phtiparralde`).
                 if ch_at(i + 2) == 't':
                     handled = True
             if not handled:
@@ -574,6 +623,17 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
         elif c == 'r':
             if not wfirst and not wlast and c3 in AEIOU and c2w in AEIOU:
                 emit(PHEU['r'])
+            elif phtiparralde:
+                # eu_phtr.cpp case 'r' (N l.829-838): the strong r is the uvular
+                # /ʁ/ (PH_R), EXCEPT the words "ur"/"zur" before a pause or a
+                # consonant, which take the tap /r/ (PH_r).
+                word_r = words[char_word[i]]
+                if word_r in ("ur", "zur") and (wlast or c2w not in AEIOU):
+                    emit(PHEU['r'])
+                else:
+                    emit(PHEU['uvular'])
+                if c2 == 'r':
+                    i += 1
             else:
                 emit(PHEU['rr'])
                 if c2 == 'r':
@@ -585,25 +645,33 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             # a consonant (not h / not a vowel), the t is dropped and only `s` is
             # pronounced (akats gehiegi -> akasgeiegi; irakats X -> iɾakas).
             wi_s = char_word[i]
-            ts_to_s = (c3 == 't' and not wfirst and wlast
+            # eu_phtr.cpp case 's' (N): the word-final ts -> s reduction before a
+            # consonant is suppressed under phtiparralde (`&& !phtiparralde`);
+            # the affricate is kept (bortitz bat -> ...V bat, not ...s bat).
+            ts_to_s = (not phtiparralde and c3 == 't' and not wfirst and wlast
                        and wi_s + 1 < len(words) and words[wi_s + 1]
                        and words[wi_s + 1][0] not in AEIOU
                        and words[wi_s + 1][0] != 'h')
+            # eu_phtr.cpp case 's' (N): plain s -> the laminal PHEU_z (/ʂ/) under
+            # phtiparralde, and the "ts" digraph -> PHEU_tZ (/tʂ/) rather than
+            # PHEU_ts.  (The sibilant inventory is remapped: s -> ʂ, ts -> tʂ.)
+            s_ph = PHEU['z'] if phtiparralde else PHEU['s']
+            ts_ph = PHEU['tZ'] if phtiparralde else PHEU['ts']
             if c3 == 't' and not wfirst and not ts_to_s:
                 if out and out[-1] == PHEU['t']:
-                    out[-1] = PHEU['ts']
-                    char_phone[out_charidx[-1]] = PHEU['ts']
+                    out[-1] = ts_ph
+                    char_phone[out_charidx[-1]] = ts_ph
                 else:
-                    emit(PHEU['ts'])
+                    emit(ts_ph)
             elif ts_to_s:
                 # the preceding `t` emitted nothing (case 't' SXZ-pass), so just
                 # emit `s` -- the affricate's t is dropped before the consonant.
-                emit(PHEU['s'])
+                emit(s_ph)
             elif not last and c2 == 's':
-                emit(PHEU['s'])
+                emit(s_ph)
                 i += 1
             else:
-                emit(PHEU['s'])
+                emit(s_ph)
         elif c == 't':
             # eu_phtr.cpp case 't': word-final `t` preceded by `s`, when the
             # NEXT word starts with a consonant, is dropped (bost gizon ->
@@ -612,7 +680,9 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             # The C tests the next word's RAW first grapheme (hitza[0]) against
             # aeiou; a silent leading `h` counts as a consonant there, so
             # "bost hamar" (5-10) also drops the t (-> bos amar).
-            st_drop = (wlast and c3 == 's' and not wfirst
+            # eu_phtr.cpp case 't' (N l.990): the "st + consonant" t-deletion is
+            # suppressed under phtiparralde (`&& !phtiparralde`).
+            st_drop = (not phtiparralde and wlast and c3 == 's' and not wfirst
                        and wi_t + 1 < len(words) and words[wi_t + 1]
                        and words[wi_t + 1][0] not in AEIOU)
             if not wlast and c2w == 't':
@@ -671,7 +741,11 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
                 emit(PHEU['i'])
                 handled = True
             if not handled:
-                if first or c3 in NLSZ or c3 in TK:
+                if phtiparralde:
+                    # eu_phtr.cpp case 'y' (N l.1086-1100): y -> /ɟ/ (PH_Jb) in
+                    # both branches under phtiparralde.
+                    emit(PHEU['Jb'])
+                elif first or c3 in NLSZ or c3 in TK:
                     emit(PHEU['dj'])
                 else:
                     emit(PHEU['jj'])
@@ -686,22 +760,30 @@ def g2p_group(words, flags, glides=True, use_dict_flags=True,
             # caso tz (eu_phtr.cpp): word-final `tz` whose next word starts with a
             # consonant (not h / not vowel) drops the t -> just `z` (bihotz
             # taupadak -> bioztaupadak).  Same shape as the ts->s reduction.
-            tz_to_z = (c3 == 't' and not wfirst and wlast
+            # eu_phtr.cpp case 'z' (N l.1115): the word-final tz -> z reduction
+            # before a consonant is suppressed under phtiparralde; the affricate
+            # is kept.
+            tz_to_z = (not phtiparralde and c3 == 't' and not wfirst and wlast
                        and wi + 1 < len(words) and words[wi + 1]
                        and words[wi + 1][0] not in AEIOU
                        and words[wi + 1][0] != 'h')
+            # eu_phtr.cpp case 'z' (N): the "tz" digraph -> PHEU_ts (/ts/) rather
+            # than PHEU_tZ, and plain z -> PHEU_s (/s/) under phtiparralde.  (The
+            # sibilant inventory is remapped: z -> s, tz -> ts.)
+            tz_ph = PHEU['ts'] if phtiparralde else PHEU['tZ']
+            z_ph = PHEU['s'] if phtiparralde else PHEU['z']
             if c3 == 't' and not wfirst and not tz_to_z:
                 if out and out[-1] == PHEU['t']:
-                    out[-1] = PHEU['tZ']
-                    char_phone[out_charidx[-1]] = PHEU['tZ']
+                    out[-1] = tz_ph
+                    char_phone[out_charidx[-1]] = tz_ph
                 else:
-                    emit(PHEU['tZ'])
+                    emit(tz_ph)
             elif tz_to_z:
-                emit(PHEU['z'])
+                emit(z_ph)
             elif ez_zverb:
-                emit(PHEU['tZ'])
+                emit(tz_ph)
             else:
-                emit(PHEU['z'])
+                emit(z_ph)
         i += 1
 
     return out, out_word, out_charidx
@@ -828,19 +910,28 @@ def _is_verbo_trn_lgn(orig_word, flags, version):
 # Syllabification  (eu_syl.cpp word_syllab + eu_uti helpers)
 # ==========================================================================
 def _is_vowel(ph):
+    # eu_uti.cpp phIsVowel (N l.90-92): the French rounded vowel /y/ (PH_y) is a
+    # vowel under the Northern build (the other PH_* Northern vowels never enter
+    # the rule-driven phone stream).
     return ph in (PHEU['a'], PHEU['e'], PHEU['i'], PHEU['o'], PHEU['u'],
-                  PHEU['iaprox'], PHEU['uaprox'])
+                  PHEU['iaprox'], PHEU['uaprox'], PHEU['y_fr'])
 
 
 def _is_valid_cc(ph1, ph2):
     if ph2 == PHEU['l']:
         return ph1 in CC_L
-    if ph2 in (PHEU['r'], PHEU['rr']):
+    # eu_uti.cpp phIsValidCC (N l.113): the Northern uvular r (PH_R) joins the
+    # tap/trill as a valid second cluster member (so pr/tr/... stay one onset).
+    if ph2 in (PHEU['r'], PHEU['rr'], PHEU['uvular']):
         return ph1 in CC_R
     return False
 
 
-def _is_diphthong(ph1, ph2, acc1, acc2):
+def _is_diphthong(ph1, ph2, acc1, acc2, phtiparralde=False):
+    # eu_uti.cpp phIsDiptongo (N l.132): under phtiparralde, the glide w + e is
+    # a tautosyllabic diphthong (the u+e -> [w]e of the Northern case 'u').
+    if phtiparralde and ph1 == PHEU['uaprox'] and ph2 == PHEU['e']:
+        return True
     iu1 = ph1 in (PHEU['iaprox'], PHEU['uaprox'])
     iu2 = ph2 in (PHEU['iaprox'], PHEU['uaprox'])
     if iu1 and not iu2 and not acc1:
@@ -850,7 +941,7 @@ def _is_diphthong(ph1, ph2, acc1, acc2):
     return False
 
 
-def syllabify(phones, stress):
+def syllabify(phones, stress, phtiparralde=False):
     n = len(phones)
     if n == 0:
         return []
@@ -890,7 +981,7 @@ def syllabify(phones, stress):
                 boundary[i] = True
                 cur_start = i
                 continue
-            if _is_diphthong(ph2, ph, stress[i2], stress[i]):
+            if _is_diphthong(ph2, ph, stress[i2], stress[i], phtiparralde):
                 continue
             boundary[i] = True
             cur_start = i
@@ -916,7 +1007,7 @@ def _syllable_vowel(phones, stress, syl):
         p = phones[idx]
         if p in (PHEU['a'], PHEU['e'], PHEU['o']):
             return idx
-        if p in (PHEU['i'], PHEU['u']):
+        if p in (PHEU['i'], PHEU['u'], PHEU['y_fr']):
             if v is None:
                 v = idx
         elif p in (PHEU['iaprox'], PHEU['uaprox']):
@@ -1305,6 +1396,7 @@ def _agrp_types(words, tags, fgrp, version, phrase_last_index):
     look-ahead that de-accents the following verb/auxiliary (-> NONE).
     """
     n = len(words)
+    phtip = _CONFIG[version].get("phtiparralde", False)
     agrp = [A_OROK] * n
     # parallel flag: this word's MRK came from the bisyllabic conjugated-verb
     # -ko/-go/-ten/-tzen rule (NOT a dictionary STR_MRK).  The two are identical
@@ -1340,7 +1432,7 @@ def _agrp_types(words, tags, fgrp, version, phrase_last_index):
             # es_ko_go_ten_tzen -> MRK (eu_stre.cpp:79).  Source gates on
             # ADI_JOK only; the earlier `or atz_adi1` was empirical and is
             # dropped to match es_verbo_jok.
-            if t["adi_jok"] and _is_bisyllable(w) \
+            if t["adi_jok"] and _is_bisyllable(w, phtip) \
                     and _ends_ko_go_ten_tzen(w):
                 agrp[i] = A_MRK
                 mrk_verb[i] = True
@@ -1361,7 +1453,7 @@ def _agrp_types(words, tags, fgrp, version, phrase_last_index):
             elif t["adi_jok"]:
                 if i + 1 < g1:
                     nx = tags[i + 1]
-                    if _is_monosyllable(words[i + 1]) and nx["adi_lgn"]:
+                    if _is_monosyllable(words[i + 1], phtip) and nx["adi_lgn"]:
                         agrp[i + 1] = A_NONE
                     else:
                         agrp[i + 1] = A_OROK
@@ -1374,12 +1466,31 @@ def _agrp_types(words, tags, fgrp, version, phrase_last_index):
     return agrp, mrk_verb
 
 
-def _is_monosyllable(word):
-    return sum(1 for ch in word.lower() if ch in "aeiou") <= 1
+def _vowel_count(word, phtiparralde=False):
+    w = word.lower()
+    if phtiparralde:
+        # eu_uti.cpp phIsDiptongo (N): u+e is a single (diphthong) nucleus, so
+        # the syllable count drops by one for each non-final `ue` (zuen, duen,
+        # zuten -> monosyllabic synthetic/auxiliary verbs).
+        i, n = 0, 0
+        while i < len(w):
+            if w[i] == 'u' and i + 1 < len(w) and w[i + 1] == 'e':
+                n += 1
+                i += 2
+                continue
+            if w[i] in "aeiouü":
+                n += 1
+            i += 1
+        return n
+    return sum(1 for ch in w if ch in "aeiou")
 
 
-def _is_bisyllable(word):
-    return sum(1 for ch in word.lower() if ch in "aeiou") == 2
+def _is_monosyllable(word, phtiparralde=False):
+    return _vowel_count(word, phtiparralde) <= 1
+
+
+def _is_bisyllable(word, phtiparralde=False):
+    return _vowel_count(word, phtiparralde) == 2
 
 
 def _ends_ko_go_ten_tzen(word):
@@ -1435,7 +1546,8 @@ def _group_to_singlechar(words, version, phrase_last_index=None,
     phones, pword, _ = g2p_group(words, flags, glides=True,
                                  use_dict_flags=cfg["accentual"],
                                  kdrop_xword=cfg.get("kdrop_xword", False),
-                                 orig_words=orig_words, version=version)
+                                 orig_words=orig_words, version=version,
+                                 phtiparralde=cfg.get("phtiparralde", False))
     nwords = len(words)
     word_phones = [[] for _ in range(nwords)]
     for k in range(len(phones)):
@@ -1471,7 +1583,8 @@ def _group_to_singlechar(words, version, phrase_last_index=None,
             if not idxs:
                 continue
             local = [phones[k] for k in idxs]
-            syls = syllabify(local, [False] * len(local))
+            syls = syllabify(local, [False] * len(local),
+                             _CONFIG[version].get("phtiparralde", False))
             if not syls:
                 continue
             tgt = syls[1] if len(syls) >= 2 else syls[0]
@@ -1577,7 +1690,8 @@ def _agrp_stress(words, phones, word_phones, stress, fgrp, agrp, version,
         if not group_phone_idx:
             continue
         local = [phones[k] for k in group_phone_idx]
-        syls = syllabify(local, [False] * len(local))
+        syls = syllabify(local, [False] * len(local),
+                         _CONFIG[version].get("phtiparralde", False))
         if not syls:
             continue
 
@@ -1614,7 +1728,8 @@ def _stress_nth_syllable(phones, word_phones, members, stress, nth, version,
     if not group_phone_idx:
         return
     local = [phones[k] for k in group_phone_idx]
-    syls = syllabify(local, [False] * len(local))
+    syls = syllabify(local, [False] * len(local),
+                     _CONFIG[version].get("phtiparralde", False))
     if not syls:
         return
     target = nth if nth >= 0 else len(syls) + nth
@@ -2643,8 +2758,10 @@ def _normalize_mixed_groups(text, version):
                 and version != "v2":
             return span
         if (has_dash or has_mid_dot) and ('l' in pat or 'n' in pat):
-            if version == "v3" and set(pat) <= {'n', 'p'}:
-                return span                   # V3 number range -> cardinals
+            if version in ("v3", "eu_northern") and set(pat) <= {'n', 'p'}:
+                # V3 / Northern: a pure-number range (5-10) reads as cardinals
+                # (bost hamar), the hyphen dropped -- not digit-by-digit.
+                return span
             words = _expandgrp_words(cells, lexicon)
             # a trailing glued case suffix (a lower-letter cell after a spelled
             # '.' cell -- V.ak) declines onto the preceding spelled word on the
@@ -3062,8 +3179,17 @@ _ACCENT_REPL = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u'
                 'â': 'a', 'ê': 'e', 'î': 'i', 'ô': 'o', 'û': 'u'}
 
 
-def _normalize_word(word):
-    return ''.join(_ACCENT_REPL.get(ch, ch) for ch in word.lower())
+def _normalize_word(word, phtiparralde=False):
+    # Under phtiparralde the grapheme ü is kept (it surfaces as /y/ in the
+    # Northern case CS_uuml); the southern paths fold it to u.
+    repl = _ACCENT_REPL
+    w = word.lower()
+    if phtiparralde:
+        repl = {k: v for k, v in _ACCENT_REPL.items() if k != 'ü'}
+        # eu_cap.cpp pronounce (N l.503-521): the trigraph tch -> tx
+        # (Etcheberry -> Etxeberry), a Northern-build grapheme rewrite.
+        w = w.replace('tch', 'tx')
+    return ''.join(repl.get(ch, ch) for ch in w)
 
 
 def _normalize_word_keepcase(word):
@@ -3082,9 +3208,10 @@ def phonemize_eu(text, version="v1"):
     tokens (matching the modulo1y2 + eu_phonemizer pipeline); v1/v2 drop
     punctuation (the libhtts transcribe pipeline returns words only)."""
     if version not in _CONFIG:
-        raise ValueError("version must be v1, v2 or v3")
+        raise ValueError("version must be v1, v2, v3 or eu_northern")
     cfg = _CONFIG[version]
     keep_punct = cfg["keep_punct"]
+    _phtip = cfg.get("phtiparralde", False)
 
     text = re.sub(r'\.{2,}', '.', text)
     if not keep_punct:
@@ -3119,7 +3246,10 @@ def phonemize_eu(text, version="v1"):
         # space before/after) and is left alone; a hyphen between two word chars
         # (behin-edo) is a compound join dropped at the token stage.  The V3
         # modulo1y2 path drops the leading hyphen instead, so this is V1/V2-only.
-        text = re.sub(r'(?<=[«"“])-(?=\w)', ' gidoia ', text)
+        # The Northern (Iparrahotsa) build likewise drops the quote-glued leading
+        # hyphen («-tsi» -> tsi), so it is excluded from the gidoia rule.
+        if not _phtip:
+            text = re.sub(r'(?<=[«"“])-(?=\w)', ' gidoia ', text)
     if cfg["accentual"]:
         # wordchop.cpp::preChop + eu_wrdch.cpp::eu_chtype: a typographic quote
         # («»"" / "" ) is CHTYPE_NULL -- it is dropped and does NOT break the
@@ -3185,7 +3315,7 @@ def phonemize_eu(text, version="v1"):
     # slice -- rather than re-running poscases per phrase (which would see a
     # phrase edge as a sentence edge and mis-fire the izejok/adjjok/jntazk
     # `last` branches at every comma).
-    sent_words = [_normalize_word(tok) for (k, tok) in seq if k == 'w']
+    sent_words = [_normalize_word(tok, _phtip) for (k, tok) in seq if k == 'w']
     # Case-preserving (accent-folded) forms for the case-sensitive searchBin
     # block selection in eu_categ.cpp::utt_categ -> pos1.cpp::posdic.  posdic
     # queries the POS/STR_MRK bits from the HDicRef the case-sensitive searchBin
@@ -3244,7 +3374,7 @@ def phonemize_eu(text, version="v1"):
             if seq[i][0] == 'w':
                 group.append(seq[i][1])
             i += 1
-        norm = [_normalize_word(w) for w in group]
+        norm = [_normalize_word(w, _phtip) for w in group]
         # case-preserving (accent-stripped) forms for the case-sensitive
         # SALBTF block selection in searchBin (pos1.cpp::posdic).
         orig = [_normalize_word_keepcase(w) for w in group]

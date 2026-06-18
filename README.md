@@ -32,6 +32,9 @@ phonemize("Bai.")                                    # 'bAj .'
 phonemize("Ez, horrek ez du balio!")                 # 'Eʂ , Orek eʂ tU βalIo !'
 phonemize("Kaixo mundua", lang="eu", version="v1")   # 'kajʃO mundUa'
 phonemize("Hola mundo.", lang="es", version="v1")    # 'Ola mUndo'
+
+# Northern (Iparralde / Iparrahotsa) Basque dialect
+phonemize("hori horrek", lang="eu", dialect="northern")   # 'hOɾi hoʁEk'
 ```
 
 CLI:
@@ -59,6 +62,23 @@ different generations, with visibly different output, so the API takes a
 
 Full detail in [docs/versions.md](docs/versions.md).
 
+## Dialects
+
+Basque has a Northern (Iparralde) variety with its own AhoTTS engine,
+**AhoTTS_Iparrahotsa**. It is exposed as a dialect (`dialect="northern"`,
+default `"standard"`), independent of `version`:
+
+```python
+phonemize("Euskara Euskal Herriko hizkuntza da.", lang="eu", dialect="northern")
+# 'Ewʂkaɾa ewʂkAl heʁIko hiskUnVa ðA'
+```
+
+The Northern dialect pronounces `/h/`, has the French vowel `ü` -> /y/, a uvular
+rhotic `/ʁ/`, a remapped sibilant system (`s` -> ʂ, `z` -> s, `ts` -> tʂ), and
+`j`/`dd` -> /ɟ/. It is a faithful port of the
+[AhoTTS_Iparrahotsa](https://github.com/aholab/AhoTTS_Iparrahotsa) fork.
+Full detail in [docs/dialects.md](docs/dialects.md).
+
 ## Accuracy
 
 Correctness is parity with the AhoTTS reference engines, measured per version on
@@ -68,6 +88,9 @@ held-out corpora (positional word match):
 |---|---|---|---|
 | Spanish (`es`) | 100% | 100% | 100% |
 | Basque (`eu`) | 99.94% | 100% | 99.90% |
+
+The Northern Basque dialect reaches **~99.0%** word parity (401/430 exact lines)
+against the AhoTTS_Iparrahotsa binary; see [docs/dialects.md](docs/dialects.md).
 
 The held-out corpora ship as test fixtures, so the figures reproduce with no
 binaries: `pytest tests/test_oracle.py`. See [docs/accuracy.md](docs/accuracy.md).

@@ -24,6 +24,11 @@ PHEU = {
     'z': 'X', 'jj': 'y', 'l': 'l', 'll': 'L', 'r': 'r', 'rr': 'R',
     'x': 'S', 'ts': 'V', 'tZ': 'P', 'tt': 'Q', 'dj': 'K', 'tx': 'C',
     'T': 'T', 'j': 'x',
+    # Northern (Iparrahotsa / Iparralde) dialect phones (phone.h):
+    #   PH_R  '['  uvular r,  PH_Jb '='  voiced palatal stop /ɟ/,
+    #   PH_y  'F'  French rounded vowel /y/.  Distinct internal codes so the
+    #   southern alveolar rr ('R') and palatal jj ('y'/'K') are unaffected.
+    'uvular': '@', 'Jb': '=', 'y_fr': '#', 'h': 'h',
 }
 
 #: Internal phone char -> SAMPA (``phone.c`` + ``hts.cpp`` ``phone2sampa``).
@@ -36,6 +41,8 @@ PH_SAMPA = {
     'e': 'e', 'a': 'a', 'o': 'o', 'u': 'u', 'w': 'w', 'S': 'S',
     'V': 'ts', 'K': 'gj', 'X': 's`', 'P': 'ts`', 'Q': 'c',
     'v': 'v', 'z': 'z', 'Z': 'Z', 'h': 'h',
+    # Northern dialect internal codes -> SAMPA (phone_tosampa / phone.c).
+    '@': 'R', '=': 'J\\', '#': 'y',
 }
 
 #: SAMPA -> IPA, ordered longest-first.  Includes the stress-marked vowels
@@ -50,6 +57,8 @@ SAMPA_TO_IPA = OrderedDict([
     ("i", "i"), ("e", "e"), ("a", "a"), ("o", "o"), ("u", "u"),
     ("y", "y"), ("Z", "ʒ"), ("h", "h"), ("ph", "pʰ"), ("kh", "kʰ"),
     ("th", "tʰ"),
+    # Northern (Iparrahotsa) dialect SAMPA: uvular r, voiced palatal stop.
+    ("R", "ʁ"), ("J\\", "ɟ"),
     ("'i", "'i"), ("'e", "'e"), ("'a", "'a"), ("'o", "'o"), ("'u", "'u"),
 ])
 

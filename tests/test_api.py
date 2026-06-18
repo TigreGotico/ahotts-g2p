@@ -15,6 +15,25 @@ def test_exports():
 def test_supported_langs_and_versions():
     assert ahotts_g2p.SUPPORTED_LANGS == ("eu", "es")
     assert ahotts_g2p.SUPPORTED_VERSIONS == ("v1", "v2", "v3")
+    assert ahotts_g2p.SUPPORTED_DIALECTS == ("standard", "northern")
+
+
+def test_default_dialect_is_standard():
+    # the default (no dialect) path is unchanged -- backward compatible
+    assert phonemize("Bai.") == phonemize("Bai.", dialect="standard")
+
+
+def test_northern_dialect_differs_from_standard():
+    nor = phonemize("hori", lang="eu", dialect="northern")
+    std = phonemize("hori", lang="eu", version="v1")
+    assert nor != std
+    assert nor.startswith("h")        # Northern pronounces the leading h
+
+
+@pytest.mark.parametrize("dialect", ["norte", "Northern2", "x"])
+def test_unsupported_dialect_raises(dialect):
+    with pytest.raises(ValueError):
+        phonemize("kaixo", dialect=dialect)
 
 
 def test_phonemize_returns_str():

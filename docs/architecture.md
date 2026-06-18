@@ -8,8 +8,8 @@ read with `struct`.
 
 | Module | Responsibility |
 |---|---|
-| `__init__` | public API: `phonemize(text, lang, version)`, `SAMPA_TO_IPA` |
-| `versions` | the `Version`/`Lang` enums and the per-version config table |
+| `__init__` | public API: `phonemize(text, lang, version, dialect)`, `SAMPA_TO_IPA` |
+| `versions` | the `Version`/`Lang` enums and the per-version/dialect config table |
 | `phones` | phone code tables (`PHEU`, `PH_SAMPA`), `SAMPA_TO_IPA`, single-char folding (`MULTI`) |
 | `g2p` | the Basque (eu) engine: normalisation, g2p, syllabification, stress, rendering |
 | `es` | the Spanish (es) engine |

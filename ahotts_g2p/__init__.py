@@ -12,10 +12,12 @@ stdlib ``struct`` module; there is no C build and no runtime dependency.
 
 Public API
 ----------
-``phonemize(text, lang="eu", version="v3") -> str``
+``phonemize(text, lang="eu", version="v3", dialect="standard") -> str``
     Phonemize ``text`` to the single-char IPA training string.  ``lang`` is
     one of ``"eu"`` / ``"es"`` and ``version`` one of ``"v1"`` / ``"v2"`` /
-    ``"v3"`` (see ``docs/versions.md``).
+    ``"v3"`` (see ``docs/versions.md``).  ``dialect="northern"`` (Basque only)
+    selects the Northern (Iparralde / Iparrahotsa) engine (see
+    ``docs/dialects.md``).
 ``SAMPA_TO_IPA``
     The ordered SAMPA -> IPA mapping table.
 """
@@ -30,9 +32,11 @@ __all__ = ["phonemize", "SAMPA_TO_IPA", "__version__"]
 SUPPORTED_LANGS = ("eu", "es")
 #: AhoTTS engine versions implemented (see docs/versions.md).
 SUPPORTED_VERSIONS = ("v1", "v2", "v3")
+#: Basque dialects implemented (see docs/dialects.md).
+SUPPORTED_DIALECTS = ("standard", "northern")
 
 
-def phonemize(text, lang="eu", version="v3"):
+def phonemize(text, lang="eu", version="v3", dialect="standard"):
     """Phonemize ``text`` into the AhoTTS single-char IPA training string.
 
     Parameters
@@ -45,7 +49,14 @@ def phonemize(text, lang="eu", version="v3"):
         Target language: ``"eu"`` (Basque) or ``"es"`` (Spanish).
     version : str, default ``"v3"``
         AhoTTS engine version to emulate -- ``"v1"``, ``"v2"`` or ``"v3"``.
-        See ``docs/versions.md`` for what each reproduces.
+        See ``docs/versions.md`` for what each reproduces.  Ignored when
+        ``dialect="northern"`` (that engine is a single V1-lineage fork).
+    dialect : str, default ``"standard"``
+        Basque dialect.  ``"standard"`` is the Southern (Batua) engine selected
+        by ``version``; ``"northern"`` is the Northern (Iparralde /
+        Iparrahotsa) engine -- pronounced /h/, French vowels (ü -> /y/), uvular
+        /ʁ/, a remapped sibilant system.  See ``docs/dialects.md``.  Only valid
+        for ``lang="eu"``.
 
     Returns
     -------
@@ -57,15 +68,30 @@ def phonemize(text, lang="eu", version="v3"):
     Raises
     ------
     ValueError
-        If ``lang`` or ``version`` is not supported.
+        If ``lang``, ``version`` or ``dialect`` is not supported, or
+        ``dialect="northern"`` is combined with a non-Basque ``lang``.
     """
     lang = (lang or "eu").lower()
     version = (version or "v3").lower()
+    dialect = (dialect or "standard").lower()
     if lang not in SUPPORTED_LANGS:
         raise ValueError(
             f"lang={lang!r} is not supported "
             f"(supported: {', '.join(SUPPORTED_LANGS)})"
         )
+    if dialect not in SUPPORTED_DIALECTS:
+        raise ValueError(
+            f"dialect={dialect!r} is not supported "
+            f"(supported: {', '.join(SUPPORTED_DIALECTS)}; see docs/dialects.md)"
+        )
+    if dialect == "northern":
+        if lang != "eu":
+            raise ValueError(
+                "dialect='northern' is only available for lang='eu' (Basque)"
+            )
+        # The Northern (Iparrahotsa) engine is a single V1-lineage fork, so it
+        # does not cross with the v1/v2/v3 versions; `version` is ignored.
+        return _phonemize_eu(text, "eu_northern")
     if version not in SUPPORTED_VERSIONS:
         raise ValueError(
             f"version={version!r} is not supported "

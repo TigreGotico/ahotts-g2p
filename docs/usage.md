@@ -5,7 +5,7 @@
 ```python
 from ahotts_g2p import phonemize
 
-phonemize(text, lang="eu", version="v3") -> str
+phonemize(text, lang="eu", version="v3", dialect="standard") -> str
 ```
 
 - **`text`** -- input text. Numbers (`1870`), ordinals (`1870.`), number +
@@ -15,6 +15,9 @@ phonemize(text, lang="eu", version="v3") -> str
 - **`version`** -- AhoTTS engine version to emulate: `"v1"`, `"v2"` or `"v3"`
   (the default; the engine that phonemized HiTZ/StyleTTS2-eu). Each emulates a
   distinct engine generation. See [versions.md](versions.md).
+- **`dialect`** -- Basque dialect: `"standard"` (default, Southern) or
+  `"northern"` (Iparralde / Iparrahotsa). `"northern"` is Basque-only and
+  ignores `version` (it is a single V1-lineage fork). See [dialects.md](dialects.md).
 
 Returns the AhoTTS **single-char IPA training string**: space-separated tokens
 (one per word), stressed vowels prefixed, and multi-char phonemes folded to
@@ -26,6 +29,10 @@ phonemize("Ez, horrek ez du balio!")       # 'Eʂ , Orek eʂ tU βalIo !'
 phonemize("Kaixo mundua.", "eu", "v1")     # 'kajʃO mundUa'  (no punct in V1)
 phonemize("Hola mundo.", "es", "v1")       # 'Ola mUndo'
 phonemize("Hola mundo.", "es", "v3")       # 'Ola mUndo .'
+
+# Northern (Iparralde / Iparrahotsa) Basque dialect
+phonemize("hori horrek", "eu", dialect="northern")   # 'hOɾi hoʁEk'
+phonemize("bürü", "eu", dialect="northern")          # 'byʁy'
 ```
 
 ## SAMPA -> IPA table

@@ -1,0 +1,1722 @@
+[
+ {
+  "text": "Euskara Euskal Herriko hizkuntza da.",
+  "northern": "Ewʂkaɾa ewʂkAl heʁIko hiskUnVa ðA"
+ },
+ {
+  "text": "Hizkuntza bakartua da, ez baitzaio munduko hizkuntzen artean ahaidetasunik aurkitu.",
+  "northern": "hiskUnVa βakAʁtua ðA es pAjVajo mundUko hiskUnVen aʁtEan ahAjðetaʂunik awʁkItu"
+ },
+ {
+  "text": "Gaur egun, Euskal Herrian bertan ere hizkuntza gutxitua da.",
+  "northern": "ɡAwʁ eɣUn ewʂkAl heʁIam bEʁtan eɾE hiskUnVa ɣuCItua ðA"
+ },
+ {
+  "text": "Euskararen dialektoei euskalkiak deritze eta horiek ezberdintasun nabariak izan ditzakete.",
+  "northern": "ewʂkAɾaɾen diAlektoej ewʂkAlkiak deɾIVe eta hoɾIek esbEʁdintaʂun naβAɾiak isAn diVAkete"
+ },
+ {
+  "text": "Gutxitze prozesu latza jasan du, eta lurraldeak galdu ditu etenik gabe.",
+  "northern": "ɡUCiVe pʁosEʂu laVA ɟaʂAn du eta luʁAldeak ɡaldU ðitU etEnik ɡaβE"
+ },
+ {
+  "text": "Frankismoaren garaian euskarak jazarpen arrotza pairatu zuen eta ia desagertu zen.",
+  "northern": "fʁankIʂmoaɾen ɡaɾAjan Ewʂkaɾak ɟasAʁpen aʁOVa pajɾAtu swen eta Ia ðeʂAɣeʁtu sen"
+ },
+ {
+  "text": "Berriro ere indartu egin da hamarkada hartaz geroztik.",
+  "northern": "beʁIɾo eɾE indAʁtu eɣIn dA hamAʁkaða haʁtAs ɡeɾOstik"
+ },
+ {
+  "text": "Euskararen aldeko herri mugimenduak lagunduta indartu zen hizkuntza.",
+  "northern": "ewʂkAɾaɾen aldEko heʁI muɣImenduak laɣUnduta indAʁtu sen hiskUnVa"
+ },
+ {
+  "text": "Gernikako Estatutuak euskara berezko hizkuntza izendatu zuen.",
+  "northern": "ɡeʁnIkako eʂtAtutuak Ewʂkaɾa βeɾEsko hiskUnVa isEndatu swen"
+ },
+ {
+  "text": "Gaztelaniarekin batera ofizial egin zuen Araba, Bizkai eta Gipuzkoan.",
+  "northern": "ɡastElaniaɾekim batEɾa ofIsial eɣIn swen aɾAβa biskAj eta ɣipUskoan"
+ },
+ {
+  "text": "Iruñean eta erdialdeko beste hiri garrantzitsuetan, onarpen maila txikiagoa da.",
+  "northern": "iɾUɲean eta eʁdIaldeko βEʂte hiɾI ɣaʁAnViPwetan onAʁpem mAjla CikIaɣoa ðA"
+ },
+ {
+  "text": "Hizkuntza ofizial bakarra frantsesa da Ipar Euskal Herrian.",
+  "northern": "hiskUnVa ofIsial βAkaʁa fʁanPEʂa ðA ipAʁ ewʂkAl heʁIan"
+ },
+ {
+  "text": "Euskararen egiazko misterioa iraupena da, ez jatorria.",
+  "northern": "ewʂkAɾaɾen eɣIasko miʂtEɾioa iɾAwpena ðA Es ɟatOʁia"
+ },
+ {
+  "text": "Erromatarrak iritsi zirenean, euskal hiztunen multzoa zabaltzen zen.",
+  "northern": "eʁOmataʁak iɾIPi siɾEnean ewʂkAl histUnem mulVOa saβAlVen sen"
+ },
+ {
+  "text": "Gizaki izenak edo jainko izenak dira, eta hilarrietan idatzi zituzten.",
+  "northern": "ɡisAki isEnak eðo ɟAjnko isEnak diɾA eta hilAʁietan iðAVi sitUsten"
+ },
+ {
+  "text": "Euskaldunek elkarrekintza anitz izan zituzten erromatarrekin.",
+  "northern": "ewʂkAldunek elkAʁekinVa anIV isAn sitUsten eʁOmataʁekin"
+ },
+ {
+  "text": "Euskarak latinetik mailegu ugari hartu zituen.",
+  "northern": "Ewʂkaɾak latInetik majlEɣu uɣAɾi haʁtU sitwEn"
+ },
+ {
+  "text": "Erdi Aroan latinak garapen ezberdina izan zuen eskualdearen arabera.",
+  "northern": "eʁdI aɾOan latInak ɡaɾApen esbEʁdina isAn swen eʂkUaldeaɾen aɾAβeɾa"
+ },
+ {
+  "text": "Hala ere, euskarak eutsi zion latinaren hedapenari.",
+  "northern": "halA eɾE Ewʂkaɾak EwPi siOn latInaɾen heðApenaɾi"
+ },
+ {
+  "text": "Gaztelania Euskal Herriko hegoaldean hitz egiten zen.",
+  "northern": "ɡastElania ewʂkAl heʁIko heɣOaldean hIV eɣIten sen"
+ },
+ {
+  "text": "Gaskoia Euskal Herriko Iparraldean mintzatzen zen.",
+  "northern": "ɡaʂkOja ewʂkAl heʁIko ipAʁaldeam minVAVen sen"
+ },
+ {
+  "text": "Euskal Herriko hizkuntza nagusia euskara zen garai hartan.",
+  "northern": "ewʂkAl heʁIko hiskUnVa naɣUʂia Ewʂkaɾa sEn ɡaɾAj haʁtAn"
+ },
+ {
+  "text": "Inongo erakundeak ez zuen bere jardunean erabiltzen euskara.",
+  "northern": "inOnɡo eɾAkundeak e VwEm beɾE ɟaʁdUnean eɾAβilVen Ewʂkaɾa"
+ },
+ {
+  "text": "Euskarak inguruko hizkuntzekin milaka urteko harremana izan du.",
+  "northern": "Ewʂkaɾak inɡUɾuko hiskUnVekim milAka uʁtEko haʁEmana isAn du"
+ },
+ {
+  "text": "Antzinako euskararen mugak zehazterakoan, kontuan hartzen dira hilarriak.",
+  "northern": "anVInako ewʂkAɾaɾem mUɣak sehAsteɾakoan kOntuan hAʁVen diɾA hilAʁiak"
+ },
+ {
+  "text": "Nafarroan, batez ere, toponimo askok euskal jatorria dute.",
+  "northern": "nafAʁoan batEs eɾE topOnimo Aʂkok ewʂkAl ɟatOʁia ðutE"
+ },
+ {
+  "text": "Bertan agertu diren hitzek euskararen hedadura zehazteko balio izan dute.",
+  "northern": "bEʁtan aɣEʁtu ðiɾEn hiVEk ewʂkAɾaɾen heðAðuɾa sehAsteko βalIo isAn dutE"
+ },
+ {
+  "text": "Nabari denez, euskara Euskal Herri osoa gainditzen zuen eremuan erabiltzen zen.",
+  "northern": "naβAɾi ðenEs Ewʂkaɾa ewʂkAl heʁI oʂOa ɣajndIVen swen eɾEmuan eɾAβilVen sen"
+ },
+ {
+  "text": "Herriko errekan bakarrik korrika ibili zen mutila.",
+  "northern": "heʁIko eʁEkam bakAʁik Oʁika iβIli sem mutIla"
+ },
+ {
+  "text": "Berri onak ekarri dizkit gaur goizean.",
+  "northern": "beʁI onAk ekAʁi ðiskIt ɡAwʁ ɡOjsean"
+ },
+ {
+  "text": "Berrikitan izan ezik, euskarak ez du izan historian legezko aitorpen ofizialik.",
+  "northern": "beʁIkitan isAn esik Ewʂkaɾak es tU isAn hiʂtOɾian leɣEsko ajtOʁpen ofIsialik"
+ },
+ {
+  "text": "Constantin Fasoltek iradoki zuen historia politikari lotuta dagoela isiltasunaren beraren praktikaren bidez.",
+  "northern": "ko~sta~tE faʂOltek iɾAðoki swen hiʂtOɾia polItikaɾi lotUta ðaɣOela iʂIltaʂunaɾem bEɾaɾem pʁaktIkaɾem biðEs"
+ },
+ {
+  "text": "Historialariaren eginkizunaren zati bat da iraganeko iturri ugariak (gehienetan artxiboetan aurkitzen direnak) trebe eta objektiboki erabiltzea da.",
+  "northern": "hiʂtOɾialaɾiaɾen eɣInkisunaɾen sAti βAt dA iɾAɣaneko itUʁi uɣAɾiak ɡehIenetan aʁCIβoetan awʁkIVen diɾEnak tʁeβE eta obɟEktiβoki eɾAβilVea ðA"
+ },
+ {
+  "text": "Egun hirian dauden kontsulatuak honakoak dira:",
+  "northern": "eɣUn hiɾIan dawðEn konPUlatuak honAkoak diɾA"
+ },
+ {
+  "text": "Gauza bera esan daiteke egitura konparatiboez: hauetan, konparazioaren bigarren osagaia adjektiboaren –hau dagokion graduan– aurretik agertzen da (zu baino gazteagoa).",
+  "northern": "ɡAwsa βEɾa eʂAn dajtEke eɣItuɾa kompAɾatiβoes hawEtan kompAɾasioaɾem biɣAʁen oʂAɣaja aðɟEktiβoaɾen hAw ðaɣOkion ɡʁaðUan Awʁetik aɣEʁVen da sU βajno ɣastEaɣoa"
+ },
+ {
+  "text": "Bizkaian: Barakaldoko HEO, Basauriko HEO, Bermoko HEO, Bilboko HEO, Durangoko HEO, Getxoko HEO, Santurtziko HEO eta Zallako HEO.",
+  "northern": "biskAjan baɾAkaldoko heO baʂAwɾiko heO beʁmOko heO bIlβoko heO duɾAnɡoko heO ɡeCOko heO ʂantUʁViko heO eta saʎAko heO"
+ },
+ {
+  "text": "Badira halaber Udalaren beste sailkapen batzuk, eta haietan agertzen diren beste auzo nabarmenak, HAPOarentzat unitate txikiak direnak:",
+  "northern": "baðIɾa halaβeʁ uðAlaɾem bEʂte ʂajlkApem bAVuk eta hajEtan aɣEʁVen diɾEm bEʂte Awso naβAʁmenak hapOaɾenVat unItate CikIak diɾEnak"
+ },
+ {
+  "text": "Luis eta Sabin Aranak asmatu zuten, 1894an, Bizkaiko bandera izan zedin, baina laster zabaldu zen Euskal Herriaren banderatzat.",
+  "northern": "lUjʂ eta sabEn aɾAnak aʂmAtu sutEn milA soʁVIehun eta lawɾOɣejta hamAlawan biskAjko βandEɾa isAn seðIn bajna lAʂteʁ saβAldu sen ewʂkAl heʁIaɾem bandEɾaVat"
+ },
+ {
+  "text": "urtean 351.124 biztanle zituen.",
+  "northern": "uʁtEan hiɾUɾehun eta βeʁOɣejta hamAjka milA ehUn eta hoɣEjta lAw βistAnle sitwEn"
+ },
+ {
+  "text": "Sismologiari dagokionez, Donostiak badu arriskurik.",
+  "northern": "ʂiʂmOloɣiaɾi ðaɣOkiones donOʂtiak baðU aʁIʂkuɾik"
+ },
+ {
+  "text": "urtean, Donostiak Gipuzkoako Ermandadea sortzen lagundu zuen oinaztarren eta ganboatarren arteko lehia bete-betean, zailtasunak ekartzen baitzizkien donostiarrei barne merkataritzan.",
+  "northern": "uʁtEan donOʂtiak ɡipUskoako eʁmAndaðea ʂOʁVen laɣUndu swEn ojnAstaʁen eta ɣambOataʁen aʁtEko lehIa βetE βetEan sajltAʂunak ekAʁVem bajVIskien donOʂtiaʁej βaʁnE meʁkAtaɾiVan"
+ },
+ {
+  "text": "Gabriel Aresti idazlea eta poeta XX.",
+  "northern": "ɡaβʁIel aɾEʂti iðAslea eta poEta hoɣEjɣaʁen"
+ },
+ {
+  "text": "Eliteen oporraldietarako Biarritz eredutzat hartu zuten bezala, 1845.",
+  "northern": "elIteen opOʁaldietaɾako βiAʁiV eɾEðuVat haʁtU sutEm besAla milA soʁVIehun eta βeʁOɣejta βOʂt"
+ },
+ {
+  "text": "Nafarroako Lerga herrian erromatarren garaiko hilarri bat idoro zuten, euskal gizaki izenekin, I.",
+  "northern": "nafAʁoako leʁɡA heʁIan eʁOmataʁen ɡaɾAjko hilAʁi βAt iðOɾo sutEn ewʂkAl ɣisAki isEnekin I"
+ },
+ {
+  "text": "Industrializazioaren eraginez, poluzio handia izan duten ibai arroak aurki daitezke, eta lindanea bezalako produktuek sortutako arazoak handiak dira.",
+  "northern": "indUʂtʁialisasioaɾen eɾAɣines polUsio handIa isAn dutEn iβAj aʁOak awʁkI ðajtEske eta lindAnea βesAlako pʁoðUktwek ʂoʁtUtako aɾAsoak handIak diɾA"
+ },
+ {
+  "text": "Hala ere, Bilbok ez zituen beste hiri batzuek beste etorkin erakarri.",
+  "northern": "halA eɾE bIlβok e VItwem bEʂte hiɾI βaVwEk bEʂte etOʁkin eɾAkaʁi"
+ },
+ {
+  "text": "urtean, Bibliaren Itun Berria.",
+  "northern": "uʁtEan biβlIaɾen itUm beʁIa"
+ },
+ {
+  "text": "Lehena bertako «nafar»en eliza zen, eta bigarrena, berriz, – gaskoiena, Manuel Lekuonak azaltzen duenez.",
+  "northern": "lehEna βeʁtAko nafAʁen elIsa sEn eta βiɣAʁena beʁIs ɡaʂkOjena manwEl lEkuonak asAlVen dwenEs"
+ },
+ {
+  "text": "Euskal Herri osoan dago hedatuta AEK erakundea.",
+  "northern": "ewʂkAl heʁI oʂOan daɣO heðAtuta A E kA eɾAkundea"
+ },
+ {
+  "text": "Latinak berak itzali zituen hango euskal hizkerak, baina leku batzuetan euskarak luzeago iraun zuen, Anso ibarrean, esate baterako.",
+  "northern": "latInak beɾAk iVAli sitwEn hanɡO ewʂkAl hiskEɾak bajna lEku βaVwEtan Ewʂkaɾak lusEaɣo iɾAwn swen anʂO iβAʁean eʂAte βatEɾako"
+ },
+ {
+  "text": "Elizako eta elizaz kanpoko polifonia XV.",
+  "northern": "elIsako eta elIsas kampOko polIfonia hamAβoʂɡaʁen"
+ },
+ {
+  "text": "Eskumenak Foru Aldundienak, eskualdeenak edo herriko etxeenak izan daitezke.",
+  "northern": "eʂkUmenak fOɾu aldUndienak eʂkUaldeenak eðo heʁIko eCEenak isAn dajtEske"
+ },
+ {
+  "text": "Industria astuna, aldi berean, birmoldatzen hasi zen, depresio giroan.",
+  "northern": "indUʂtʁia aʂtUna aldI βeɾEan biʁmOldaVen hAʂi sen depʁEʂio ɣIɾoan"
+ },
+ {
+  "text": "Historia (antzinako grezieratik, «Ikerkuntza; ikerketak lortutako ezagutza» esan nahi du) iraganaren azterketa eta dokumentazioa da.",
+  "northern": "hiʂtOɾia anVInako ɣʁesIeɾatik ikEʁkunVa ikEʁketak loʁtUtako esAɣuVa eʂAn nahI ðU iɾAɣanaɾen astEʁketa eta ðokUmentasioa ðA"
+ },
+ {
+  "text": "Dena den, nagusitasun geografiko horri ez zegokion nagusitasun administratibo edo ofizialik.",
+  "northern": "dEna ðEn naɣUʂitaʂun ɡeOɣʁafiko hoʁI e VEɣokion naɣUʂitaʂun aðmIniʂtʁatiβo eðo ofIsialik"
+ },
+ {
+  "text": "Ilustrazioaren ideiek Hego Euskal Herrira Literaturan ez ezik zientzia guztietan ere pizkundea eraman zuten.",
+  "northern": "ilUʂtʁasioaɾen iðEjek heɣO ewʂkAl heʁIɾa litEɾatuɾan Es esik siEnVia ɣustIetan eɾE piskUndea eɾAman sutEn"
+ },
+ {
+  "text": "Ikastolak ugaldu egin ziren, eta euskal hedabideak indarra hartzen joan ziren, tartean zela Euskaldunon Egunkaria.",
+  "northern": "ikAʂtolak uɣAldu eɣIn siɾEn eta ewʂkAl heðAβiðeak indAʁa hAʁVen ɟoAn siɾEn taʁtEan sEla ewʂkAldunon eɣUnkaɾia"
+ },
+ {
+  "text": "Horretarako, Abando elizatea anexionatu zuen Bilbok, 1872.",
+  "northern": "hoʁEtaɾako aβAndo elIsatea anEʃionatu swem bIlβok milA soʁVIehun eta hiɾUɾoɣejta hamAβi"
+ },
+ {
+  "text": "Eusk- morfemaren etimologiaz hipotesi asko egin dira.",
+  "northern": "Ewʂk moʁfEmaɾen etImoloɣias hipOteʂi Aʂko eɣIn diɾA"
+ },
+ {
+  "text": "Euskal Herrian, adibidez, iberiarren eskutik iritsiko da, baina batez ere, erromatarren konkistari esker.",
+  "northern": "ewʂkAl heʁIan aðIβiðes iβEɾiaʁen eʂkUtik iɾIPiko ða bajna βatEs eɾE eʁOmataʁen konkIʂtaɾi eʂkEʁ"
+ },
+ {
+  "text": "Horien inguruan ikerkuntza-guneak ere badaude, Miramongo Teknologi Parkearekin batera.",
+  "northern": "hOɾien inɡUɾuan ikEʁkunVa ɣunEak eɾE βaðAwðe miɾAmonɡo teknOloɣi pAʁkeaɾekim batEɾa"
+ },
+ {
+  "text": "San Antongo zubia zen hirirako sarbide nagusia, eta bertatik igarotzeko ordaindu beharra zegoen.",
+  "northern": "ʂAn antOnɡo suβIa sEn hiɾIɾako ʂaʁβIðe naɣUʂia eta βeʁtAtik iɣAɾoVeko oʁdAjndu βehAʁa seɣOen"
+ },
+ {
+  "text": "Euskaltzaindiak hiri honetarako onartutako euskal izen bakarra Bilbo da.",
+  "northern": "ewʂkAlVajndiak hiɾI honEtaɾako onAʁtutako ewʂkAl isEm bAkaʁa βIlβo ðA"
+ },
+ {
+  "text": "mendean, Ilustrazio garaian sortu zen zientzia eta kultura erakundea izan zen, Xabier Munibe Peñafloridako kondeak eta Azkoitiko zalduntxoek eratu zutena.",
+  "northern": "mendEan ilUʂtʁasio ɣaɾAjan ʂoʁtU sen siEnVia eta kultUɾa eɾAkundea isAn sen ʃaβIeʁ munIβe peɲAfloɾiðako kondEak eta askOjtiko saldUnCoek eɾAtu sutEna"
+ },
+ {
+  "text": "Barrutia (Errekalde): Ametzola, Errekaldeberri-Larraskitu, Iralabarri, Iturrigorri-Peñaskal, Uretamendi-Betolatza.",
+  "northern": "baʁUtia eʁEkalde amEVola eʁEkaldeβeʁi laʁAʂkitu iɾAlaβaʁi itUʁiɣoʁi peɲAʂkal uɾEtamendi βetOlaVa"
+ },
+ {
+  "text": "Munduan arriskuan dauden hizkuntzen atlasa",
+  "northern": "mundUan aʁIʂkuan dawðEn hiskUnVen atlAʂa"
+ },
+ {
+  "text": "mendeko baseliza erromaniko batzuk, eta Euskal Herritik igarotzen zen Santiagoko Bide nagusietako bat.",
+  "northern": "mendEko βaʂElisa eʁOmaniko βAVuk eta ewʂkAl heʁItik iɣAɾoVen sen ʂantIaɣoko βiðE naɣUʂietako βat"
+ },
+ {
+  "text": "Erdi Aroan hasi zen, eta denbora luzez (X.",
+  "northern": "eʁdI aɾOan hAʂi sen eta ðEmboɾa lusEs iʃA"
+ },
+ {
+  "text": "Euskaraz dakien pertsona kopuruari buruzko azken azterketa 2016.",
+  "northern": "Ewʂkaɾas dakIem peʁPOna kopUɾuaɾi βuɾUsko askEn astEʁketa βI milA eta hamAʂej"
+ },
+ {
+  "text": "Ramon de la Sotaren etxeak",
+  "northern": "ʁamOn dE lA ʂotAɾen eCEak"
+ },
+ {
+  "text": "Aipagarria da Euskal Herriko aire-trafikoaren gehiengo handia Bilboko eta Baionako aireportuetatik igarotzen dela.",
+  "northern": "ajpAɣaʁia ðA ewʂkAl heʁIko ajɾE tʁafIkoaɾen ɡehIenɡo handIa βIlβoko eta βajOnako ajɾEpoʁtwetatik iɣAɾoVen delA"
+ },
+ {
+  "text": "Giménez Caballero, eta laurogeiko eta laurogeita hamarreko unibertsitate- eta kazetaritza-lumak ere.",
+  "northern": "ɡimEnes kaβAʎeɾo eta lawɾOɣejko eta lawɾOɣejta hamAʁeko unIβeʁPitate eta kasEtaɾiVa lumAk eɾE"
+ },
+ {
+  "text": "Lapurdin: (herriko etxe bakoitzaren arabera) AGUR, LAGUN, SAUR eta SUEZ",
+  "northern": "lapUʁdin heʁIko eCE βakOjVaɾen aɾAβeɾa aɣUʁ laɣUn ʂAwʁ eta ʂwEs"
+ },
+ {
+  "text": "Urte haietan Urumea ibaia bideratu eta beste azpiegitura batzuk ere eraiki ziren, hala nola Maria Kristina zubia eta Zurriola zubia.",
+  "northern": "Uʁte hajEtan uɾUmea iβAja βiðEɾatu eta βEʂte aspIeɣituɾa βAVuk eɾE eɾAjki siɾEn halA nOla maɾIa kʁiʂtIna suβIa eta suʁIola suβIa"
+ },
+ {
+  "text": "mendea) konposizioekin, Berpizkunde bete-betean.",
+  "northern": "mendEa kompOʂisioekin beʁpIskunde βetE βetEan"
+ },
+ {
+  "text": "60ko urteen gizarte-aldaketen testuinguruan, herritarren kezkak artearen eta kulturaren arlotik bideratu ziren hasieran.",
+  "northern": "hiɾUɾoɣejko Uʁteen ɡisAʁte aldAketen teʂtUjnɡuɾuan heʁItaʁen kEskak aʁtEaɾen eta kultUɾaɾen Aʁlotik biðEɾatu siɾEn haʂIeɾan"
+ },
+ {
+  "text": "Arrantzaren garrantzia duela guxi arte handia zen arren, jarduera horren gainbehera nabarmena izan da azken urteetan.",
+  "northern": "aʁAnVaɾen ɡaʁAnVia ðwelA ɣuʃI aʁtE handIa sEn aʁEn ɟaʁdwEɾa hoʁEn ɡajmbEheɾa naβAʁmena isAn da askEn Uʁteetan"
+ },
+ {
+  "text": "Elurra, ordea, oso gutxitan egiten du, urtean behin-edo, eta 5-10 alditan izozten du urtean.",
+  "northern": "elUʁa oʁdea oʂO ɣUCitan eɣIten du uʁtEam behIn eðO eta βOʂt hamAʁ aldItan isOsten dU uʁtEan"
+ },
+ {
+  "text": "Hitz-elkarketak eraikitzeko mota askotako erroak eta hitzak erabiltzen dira:",
+  "northern": "hIV elkAʁketak eɾAjkiVeko motA Aʂkotako eʁOak eta hiVAk eɾAβilVen diɾA"
+ },
+ {
+  "text": "Gaur egun, kartveliar hizkuntzen eta euskararen arteko ahaidetasun lotura ukatzen dute adituek.",
+  "northern": "ɡAwʁ eɣUn kaʁtbEliaʁ hiskUnVen eta ewʂkAɾaɾen aʁtEko ahAjðetaʂun lotUɾa ukAVen dutE aðItwek"
+ },
+ {
+  "text": "Izan ere, 1545ean argitaratu zen lehen liburua euskaraz, «Linguae Vasconum Primitiae» izenekoa.",
+  "northern": "isAn eɾE milA βoʂtEhun eta βeʁOɣejta βoʂtEan aʁɡItaɾatu sen lehEn liβUɾua Ewʂkaɾas linɡUae βaʂkOnum pʁimItiae isEnekoa"
+ },
+ {
+  "text": "Nafarroa Garaian: Nafarroako Hondakinen Partzuergoa (NILSA)",
+  "northern": "nafAʁoa ɣaɾAjan nafAʁoako hondAkinem paʁVwEʁɡoa nilʂA"
+ },
+ {
+  "text": "Ezker politikoaren esparruan hainbat alderdi egon dira historian zehar.",
+  "northern": "eskEʁ polItikoaɾen eʂpAʁuan hAjmbat aldEʁdi eɣOn diɾA hiʂtOɾian sehAʁ"
+ },
+ {
+  "text": "mendean eman zitzaion hiribildu titulua.",
+  "northern": "mendEan emAn siVAjon hiɾIβildu titUlua"
+ },
+ {
+  "text": "Euskaldunen bilakaerarik handiena gazteenek izan dute.",
+  "northern": "ewʂkAldunem bilAkaeɾaɾik handIena ɣastEenek isAn dutE"
+ },
+ {
+  "text": "Soinua, soinu-gorputzen bibrazio mugimenduak sortzen dituen presio-aldaerak jasotzean, belarriak hautematen duen sentsazioa da.",
+  "northern": "ʂojnUa ʂojnU ɣOʁpuVem biβʁAsio muɣImenduak ʂOʁVen ditwEm pʁeʂIo aldAeɾak ɟaʂOVean belAʁiak hawtEmaten dwen ʂenPAsioa ðA"
+ },
+ {
+  "text": "Azken hori, kristautasunaren hedapenari zuzenean lotua.",
+  "northern": "askEn hOɾi kʁiʂtAwtaʂunaɾen heðApenaɾi susEnean lotUa"
+ },
+ {
+  "text": "Erlazio geografikoak ulertzeko egitura soziala ere aztertu behar da ikuspuntu horretatik.",
+  "northern": "eʁlAsio ɣeOɣʁafikoak ulEʁVeko eɣItuɾa ʂosIala eɾE astEʁtu βehAʁ dA ikUʂpuntu hoʁEtatik"
+ },
+ {
+  "text": "Arteen barruan, musika arte eszeniko, arte eder edo entzumen-arte gisa sailka daiteke.",
+  "northern": "aʁtEem baʁUan muʂIka aʁtE eʂsEniko aʁtE eðEʁ eðo enVUmen aʁtE ɣIʂa ʂajlkA ðajtEke"
+ },
+ {
+  "text": "Euskal Herrian garia, artatxikia, oloa...",
+  "northern": "ewʂkAl heʁIan ɡaɾIa aʁtACikia olOa"
+ },
+ {
+  "text": "Helduak, grafikoaren erdialdean kokatzen direnak, populazio talderik handiena dira; baby boom delako garaiaren emaitza.",
+  "northern": "hElduak ɡʁAfikoaɾen eʁdIaldean kokAVen diɾEnak popUlasio tAldeɾik handIena ðiɾA baβI βoOm delAko ɣaɾAjaɾen emAjVa"
+ },
+ {
+  "text": "Sarritan lotura asko daude musikari afizionatuen eta profesionalen artean.",
+  "northern": "ʂaʁItan lotUɾa Aʂko ðawðE muʂIkaɾi afIsionatwen eta pʁofEʂionalen aʁtEan"
+ },
+ {
+  "text": "Bilbok zortzi barruti dauzka.",
+  "northern": "bIlβok soʁVI βaʁUti ðawskA"
+ },
+ {
+  "text": "Ingurumen-geografia gizaki eta naturaren arteko harremanen alde espazialak aztertzen duen zientzia da.",
+  "northern": "inɡUɾumen ɡeOɣʁafia ɣisAki eta natUɾaɾen aʁtEko haʁEmanen aldE eʂpAsialak astEʁVen dwen siEnVia ðA"
+ },
+ {
+  "text": "Gutxiengoen artean sinesmenik hedatuena kristau ebanjelikoena zen eta bigarrena Jehovaren Lekukoek osatzen zuten.",
+  "northern": "ɡuCIenɡoen aʁtEan ʂinEʂmenik heðAtwena kʁiʂtAw eβAnɟelikoena sEn eta βiɣAʁena ɟeOβaɾen lekUkoek oʂAVen sutEn"
+ },
+ {
+  "text": "mendekoa eta barrokoa, bertan dago kokatua Elizbarrutiko museoa.",
+  "northern": "mendEkoa eta βaʁOkoa bEʁtan daɣO kokAtua elIsbaʁutiko muʂEoa"
+ },
+ {
+  "text": "Inguru komunitarioetan, musikari afizionatu aurreratuek musikari profesionalekin jarduten dute, kontzertu komunitarioetako bandetan eta orkestra komunitarioetan, besteak beste.",
+  "northern": "inɡUɾu komUnitaɾioetan muʂIkaɾi afIsionatu Awʁeɾatwek muʂIkaɾi pʁofEʂionalekin ɟaʁdUten dutE konVEʁtu komUnitaɾioetako βandEtan eta oʁkEʂtʁa komUnitaɾioetan bEʂteak bEʂte"
+ },
+ {
+  "text": "1789an Frantziar Iraultzak eragin erabatekoa izan zuen Ipar Euskal Herrian, haren asimilazio politikoa ekarri baitzuen.",
+  "northern": "milA sAspiehun eta lawɾOɣejta βeðEɾaVian fʁanVIaʁ iɾAwlVak eɾAɣin eɾAβatekoa isAn swen ipAʁ ewʂkAl heʁIan haɾEn aʂImilasio polItikoa ekAʁi βajVwEn"
+ },
+ {
+  "text": "mendean eta XX.aren hasieran industrializazio handia izan zuen, eta Iberiar penintsulako bigarren eskualde industrializatuaren epizentro bihurtu zuen, Bartzelonaren atzetik.",
+  "northern": "mendEan eta hoɣEjɣaʁenaɾen haʂIeɾan indUʂtʁialisasio handIa isAn swen eta iβEɾiaʁ penInPulako βiɣAʁen eʂkUalde indUʂtʁialisatuaɾen epIsentʁo βihUʁtu swen baʁVElonaɾen AVetik"
+ },
+ {
+  "text": "Historialariek historia narrazio koherente bakar gisa edo kontakizun lehiakor gisa irakats daitekeen eztabaidatzen dute.",
+  "northern": "hiʂtOɾialaɾiek hiʂtOɾia naʁAsio kohEɾente βAkaʁ ɡIʂa eðo kontAkisun lehIakoʁ ɡIʂa iɾAkaʂ dajtEkeen estAβajðaVen dutE"
+ },
+ {
+  "text": "Zientzia ikerketak egiteko hainbat elkarte garrantzitsu ere badaude: Aranzadi Zientzia Elkartea, Elhuyar Fundazioa, DiPC, TECNALIA, Biodonostia eta NanoGUNE besteak beste.",
+  "northern": "siEnVia ikEʁketak eɣIteko hAjmbat elkAʁte ɣaʁAnViPu eɾE βaðAwðe aɾAnsaði siEnVia elkAʁtea elUɟaʁ fundAsioa dE I pE se teknAlia biOðonoʂtia eta nanOɣune βEʂteak bEʂte"
+ },
+ {
+  "text": "Udalerriaren albo banatan mendilerroak daude, 400 metrotik beherako batez besteko altitudearekin, muga naturalak osatzen dituztenak.",
+  "northern": "uðAleʁiaɾen alβO βAnatam mendIleʁoak dawðE lawɾEhum mEtʁotik behEɾako βatEs bEʂteko altItuðeaɾekin mUɣa natUɾalak oʂAVen ditUstenak"
+ },
+ {
+  "text": "NBEk kezka adierazi zion Frantziari Konstituzio Kontseiluaren ebazpenagatik 2022ko uztailean.",
+  "northern": "nE βE Ek eska aðIeɾasi siOn fʁanVIaɾi konʂtItusio konPEjluaɾen eβAspenaɣatik bI milA eta hoɣEjta βikO ustAjlean"
+ },
+ {
+  "text": "Gizakiaren arbasoetatik Homo sapiens bihurtzeko bidea ordea antropologiaren lan eremuak hartzen du.",
+  "northern": "ɡisAkiaɾen aʁβAʂoetatik homO ʂapIenʂ bihUʁVeko βiðEa oʁdea antʁOpoloɣiaɾen lAn eɾEmuak hAʁVen du"
+ },
+ {
+  "text": "Hori dela eta, gizarte zientzien barruan sartzen da.",
+  "northern": "hOɾi ðelA etA ɡisAʁte siEnViem baʁUan ʂAʁVen da"
+ },
+ {
+  "text": "Euskal Herrian, uraren kudeaketa tokiko administrazio publikoaren esku dago; zuzenean zein enpresa publiko edo pribatu bidez.",
+  "northern": "ewʂkAl heʁIan uɾAɾen kuðEaketa tOkiko aðmIniʂtʁasio puβlIkoaɾen eʂkU ðaɣO susEnean sEjn empʁEʂa puβlIko eðo pʁiβAtu βiðEs"
+ },
+ {
+  "text": "Horrez gain, Zinemateka delako programaren barnean garai ezberdinetako zine emanaldiak eskaintzen dira.",
+  "northern": "hoʁEs ɡAjn sinEmateka ðelAko pʁoɣʁAmaɾem baʁnEan ɡaɾAj esbEʁdinetako sinE emAnaldiak eʂkAjnVen diɾA"
+ },
+ {
+  "text": "Korrika, alegia, berriro amaitu zen Donostian, AEK-k jakinarazi dzenez: 2022ko apirilaren 10ean, hain zuzen ere.",
+  "northern": "koʁIka aleɣia beʁIɾo amAjtu sen donOʂtian A E kAk ɟakInaɾasi senEs bI milA eta hoɣEjta βikO apIɾilaɾen hamAʁean hAjn susEn eɾE"
+ },
+ {
+  "text": "urtetik zerbitzutik kanpo dago.",
+  "northern": "uʁtEtik seʁβIVutik ampo ðaɣO"
+ },
+ {
+  "text": "mendearen bigarren erdian, Euskeria, Euskaria eta Euskadia terminoak erabili zituzten Euskal Herri osoa izendatzeko.",
+  "northern": "mendEaɾem biɣAʁen eʁdIan ewʂkEɾia ewʂkAɾia eta ewʂkAðia teʁmInoak eɾAβili sitUsten ewʂkAl heʁI oʂOa isEndaVeko"
+ },
+ {
+  "text": "Nolanahi ere, zientziaren oinarri arrazionalak, gaur egun ulertzen diren eran, greziarrek finkatu zituzten.",
+  "northern": "nolAnahi eɾE siEnViaɾen ojnAʁi aʁAsionalak ɡAwʁ eɣUn ulEʁVen diɾEn eɾAn ɡʁesIaʁek finkAtu sitUsten"
+ },
+ {
+  "text": "Iakatarrak egungo Huescan eta Lleidako iparraldean bizi ziren, eta Iaca —egungo Jaka— zuten hiriburu.",
+  "northern": "Iakataʁak eɣUnɡo hweʂkAn eta ʎejðAko ipAʁaldeam bIsi siɾEn eta Iaka eɣUnɡo ɟakA sutEn hiɾIβuɾu"
+ },
+ {
+  "text": "Aduanak Ebrotik Pirinio eta itsasora eraman ziren, abuztu horretan eta 1841eko urrian Baldomero Esparterok armadaren buruan Gasteizen emandako aginduz.",
+  "northern": "aðUanak eβʁOtik piɾInio eta iPAʂoɾa eɾAman siɾEn aβUstu hoʁEtan eta milA soʁVIehun eta βeʁOɣejta βatEko uʁIam baldOmeɾo eʂpAʁteɾok aʁmAðaɾem buɾUan ɡaʂtEjsen emAndako aɣIndus"
+ },
+ {
+  "text": "Horretaz gain, euskaldunak aritu ziren Ameriketako hainbat eta hainbat jardueratan: Kaliforniako urre-meatzeak, ostatuak eta merkataritza, Argentinako Pampa ordekan, unai gisa...",
+  "northern": "hoʁEtas ɡAjn ewʂkAldunak aɾItu siɾEn amEɾiketako hAjmbat eta hAjmbat ɟaʁdwEɾatan kalIfoʁniako uʁE meAVeak oʂtAtuak eta meʁkAtaɾiVa aʁɟEntinako pampA oʁdEkan unAj ɣIʂa"
+ },
+ {
+  "text": "Gaztelania: Gaztelania Euskal Herriko hegoaldean eta mendebaldean hitz egiten zen.",
+  "northern": "ɡastElania ɡastElania ewʂkAl heʁIko heɣOaldean eta mendEβaldean hIV eɣIten sen"
+ },
+ {
+  "text": "mendean hasi zen Iraultza Zientifikoak aldatu zuen, ideia eta aurkikuntza berriak aurreko ikuskera eta tradizio grekoetatik urrundu ahala.",
+  "northern": "mendEan hAʂi sen iɾAwlVa siEntifikoak aldAtu swen iðEja eta awʁkIkunVa βeʁIak awʁEko ikUʂkeɾa eta tʁaðIsio ɣʁekOetatik uʁUndu ahAla"
+ },
+ {
+  "text": "Euskalerriaren Adiskideen Elkartea XVIII.",
+  "northern": "ewʂkAleʁiaɾen aðIʂkiðeen elkAʁtea hamAsoʁViɣaʁen"
+ },
+ {
+  "text": "Luis Luziano Bonapartek euskalkien beste banaketa bat egin zuen, egundaino indar handiz iritsi dena.",
+  "northern": "lUjʂ lusIano βonApaʁtek ewʂkAlkiem bEʂte βanAketa βat eɣIn swen eɣUndajno indAʁ handIs iɾIPi ðenA"
+ },
+ {
+  "text": "Herri kirolen jatorria, izan ere, garai bateko lan jarduerak aisialdira bideratzea izan da.",
+  "northern": "heʁI kiɾOlen ɟatOʁia isAn eɾE ɡaɾAj βatEko lAn ɟaʁdwEɾak ajʂIaldiɾa βiðEɾaVea isAn da"
+ },
+ {
+  "text": "Praktikan, soinuaren azentuazioari eta hasiera eta amaiera arteko denborazko distantziari edo, bestela esanda, iraupenari egiten dio erreferentzia.",
+  "northern": "pʁaktIkan ʂojnUaɾen asEntuasioaɾi eta haʂIeɾa eta amAjeɾa aʁtEko ðEmboɾasko ðiʂtAnViaɾi eðO beʂtela eʂAnda iɾAwpenaɾi eɣIten diO eʁEfeɾenVia"
+ },
+ {
+  "text": "Zientzia formalak: sistema formalen azterketa, adibidez logikaren eta matematikaren adarren azpian, a priori metodo enpirikoa erabiltzen dutenak.",
+  "northern": "siEnVia foʁmAlak ʂiʂtEma foʁmAlen astEʁketa aðIβiðes loɣIkaɾen eta matEmatikaɾen aðAʁen aspIan A pʁiOɾi metOðo empIɾikoa eɾAβilVen dutEnak"
+ },
+ {
+  "text": "Bizkaiko golkoan, Euskal Herriak mutur batetik bestera 252 kilometroko kostaldea du, eta bertan, 104 hondartza inguru daude.",
+  "northern": "biskAjko ɣolkOan ewʂkAl heʁIak mutUʁ βatEtik beʂtEɾa βeʁEhun eta βeʁOɣejta hamAβi kilOmetʁoko koʂtAldea ðU eta βEʁtan ehUn eta lAw hondAʁVa inɡUɾu ðawðE"
+ },
+ {
+  "text": "Lehen zabalgune hura 1900.",
+  "northern": "lehEn saβAlɣune huɾA milA eta βeðEɾaViehun"
+ },
+ {
+  "text": "Musikaren sorkuntza, interpretazioa, esanahia eta definizioa ere aldatu egiten dira kulturaren eta testuinguru sozialaren arabera.",
+  "northern": "muʂIkaɾen ʂoʁkUnVa intEʁpʁetasioa eʂAnahia eta ðefInisioa eɾE aldAtu eɣIten diɾA kultUɾaɾen eta teʂtUjnɡuɾu ʂosIalaɾen aɾAβeɾa"
+ },
+ {
+  "text": "Diego Lopez Harokoak, orduko Bizkaiko jaurerriko jaunak, hiribildu titulua eman zion ordu arte herria zen Bilbori, 1300eko ekainaren 15ean.",
+  "northern": "diEɣo lopEs haɾOkoak oʁdUko βiskAjko ɟawɾEʁiko ɟawnAk hiɾIβildu titUlua emAn siOn Oʁdu aʁtE heʁIa sEm bIlβoɾi milA eta hiɾUɾehuneko ekAjnaɾen hamAβoʂtean"
+ },
+ {
+  "text": "Proiektuaren mugak, berriz, Urkixo zumarkalea mendebaldetik, eta Mazarredo Zumarkalea ekialdetik ziren.",
+  "northern": "pʁojEktuaɾem mUɣak beʁIs uʁkIʃo sumAʁkalea mendEβaldetik eta masAʁeðo sumAʁkalea ekIaldetik siɾEn"
+ },
+ {
+  "text": "1800erako Arabako euskararen galtzea ia erabat gauzatu zen, iparraldeko hainbat ibarretan izan ezik, eta Nafarroa Garaian atzerapena nabarmena egin zen.",
+  "northern": "milA eta soʁVIehuneɾako aɾAβako ewʂkAɾaɾen ɡalVEa Ia eɾAβat ɡawsAtu sen ipAʁaldeko hAjmbat iβAʁetan isAn esik eta nafAʁoa ɣaɾAjan aVEɾapena naβAʁmena eɣIn sen"
+ },
+ {
+  "text": "Trukean, Arabak, Bizkaiak eta Gipuzkoak Ekonomia Ituna eskuratu zuten 1878an, Fermin Lasalak eta Canovas del Castillok bultzatua.",
+  "northern": "tʁukEan aɾAβak biskAjak eta ɣipUskoak ekOnomia itUna eʂkUɾatu sutEm milA soʁVIehun eta hiɾUɾoɣejta hamAsoʁVian feʁmIn laʂAlak eta kanOβaʂ dEl kaʂtIʎok bulVAtua"
+ },
+ {
+  "text": "Musikari afizionatuek musika konposatu edo interpreta dezakete beren gozamenerako, eta euren diru sarrerak beste leku batean lortu.",
+  "northern": "muʂIkaɾi afIsionatwek muʂIka kompOʂatu eðo intEʁpʁeta ðesAkete βeɾEn ɡosAmeneɾako eta ewɾEn dIɾu ʂaʁEɾak bEʂte lEku βatEan loʁtU"
+ },
+ {
+  "text": "Historiaren azterketa, batzuetan, humanitateen parte gisa sailkatu izan da; beste batzuetan, gizarte zientzien barruan.",
+  "northern": "hiʂtOɾiaɾen astEʁketa baVwEtan humAnitateem pAʁte ɣIʂa ʂajlkAtu isAn dA bEʂte βaVwEtan ɡisAʁte siEnViem baʁUan"
+ },
+ {
+  "text": "Atlasak irtenbide berriak aurkitu zituen Lurraren azalera esferikoa azalera lau batean proiektatzeko arazoari aurre egiteko.",
+  "northern": "atlAʂak iʁtEmbiðe βeʁIak awʁkItu sitwEn luʁAɾen asAleɾa eʂfEɾikoa asAleɾa lAw βatEam pʁojEktaVeko aɾAsoaɾi Awʁe eɣIteko"
+ },
+ {
+  "text": "Euskara, aspaldiko partez, muga estuak puskatzen ari da.",
+  "northern": "Ewʂkaɾa Aʂpaldiko pAʁtes mUɣa eʂtUak puʂkAVen aɾI ðA"
+ },
+ {
+  "text": "Zehazki, bost dira: hiru izarrekoak Akelarre eta Arzak, eta izar batekoak, Kokotxa, Mirador de Ulía, Miramon Arbelaitz.",
+  "northern": "sehAski bOʂt diɾA hiɾU isAʁekoak akElaʁe eta aʁsAk eta isAʁ βatEkoak kokOCa miɾAðoʁ dE ulIa miɾAmon aʁβElajV"
+ },
+ {
+  "text": "Karlos V.ak Muy Noble y Muy Leal titulua esleitu zion, eta hainbat erlijio-erakunde sortu ziren hirian ordutik aurrera.",
+  "northern": "kaʁlOʂ Uβe pUntuak mUj noβlE I mUj leAl titUlua eʂlEjtu siOn eta hAjmbat eʁlIɟio eɾAkunde ʂoʁtU siɾEn hiɾIan oʁdUtik Awʁeɾa"
+ },
+ {
+  "text": "mende arte, Euskal Herrian baliatzen ziren energia-iturri nagusiak egurra, egur-ikatza, haizea, ura eta abereen indarra ziren.",
+  "northern": "mendE aʁtE ewʂkAl heʁIam balIaVen siɾEn enEʁɡia itUʁi naɣUʂiak eɣUʁa eɣUʁ ikAVa hAjsea uɾA eta aβEɾeen indAʁa siɾEn"
+ },
+ {
+  "text": "Donostiak foruen gehiena galdutako Nafarroari atxikitzea eskatu zuen, 1841ean.",
+  "northern": "donOʂtiak fOɾwen ɡehIena ɣaldUtako nafAʁoaɾi aCIkiVea eʂkAtu swen milA soʁVIehun eta βeʁOɣejta βatEan"
+ },
+ {
+  "text": "Neolitoaren ezaugarria lehenengo aldiz nekazaritza eta abeltzaintza agertzea izan zen.",
+  "northern": "neOlitoaɾen esAwɣaʁia lehEnenɡo aldIs nekAsaɾiVa eta aβElVajnVa aɣEʁVea isAn sen"
+ },
+ {
+  "text": "Giza geografia eta geografia fisikoaren artean dago.",
+  "northern": "ɡisA ɣeOɣʁafia eta ɣeOɣʁafia fiʂIkoaɾen aʁtEan daɣO"
+ },
+ {
+  "text": "Hegoaldean Toloñoko mendilerroak zamalkadura bat eratzen du Ebroko lurren gainean.",
+  "northern": "heɣOaldean tolOɲoko mendIleʁoak sAmalkaðuɾa βat eɾAVen du eβʁOko luʁEn ɡajnEan"
+ },
+ {
+  "text": "Bertan euskaldunak eta lurraldea deskribatzen ditu eta kexu ageri da eman dioten tratuaz.",
+  "northern": "bEʁtan ewʂkAldunak eta luʁAldea ðeʂkʁIβaVen ditU eta kEʃu aɣEɾi ða emAn diOten tʁAtuas"
+ },
+ {
+  "text": "Eliz Arteari buruzko museoa",
+  "northern": "elIs aʁtEaɾi βuɾUsko muʂEoa"
+ },
+ {
+  "text": "aditzak sortzeko erabiltzen den beste atzizki bat «-tsi» da, «-tu» baino gutxiago ikusten dena: «goretsi, gaitzetsi, esetsi, miretsi»;",
+  "northern": "aðIVak ʂoʁVEko eɾAβilVen dem bEʂte aVIski βat PI ðA tU βajno ɣuCIaɣo ikUʂten denA ɡoɾEPi ɡajVEPi EʂePi miɾEPi"
+ },
+ {
+  "text": "Erdi Aroan latinetik eratorritako hizkuntzek euskara inguratzen zuten:",
+  "northern": "eʁdI aɾOan latInetik eɾAtoʁitako hiskUnVek Ewʂkaɾa inɡUɾaVen sutEn"
+ },
+ {
+  "text": "Zientzialariek errealitatearen inguruko jakin-min handia dute, eta batzuek ezagutza zientifikoa aplikatu nahi dute osasunaren, herrialdeen, ingurumenaren edo industriaren mesedetan.",
+  "northern": "siEnVialaɾiek eʁEalitateaɾen inɡUɾuko ɟAkim mIn handIa ðutE eta βaVwEk esAɣuVa siEntifikoa aplIkatu nahI ðutE oʂAʂunaɾen heʁIaldeen inɡUɾumenaɾen eðo indUʂtʁiaɾem meʂEðetan"
+ },
+ {
+  "text": "Geografia marxistan, geografiak tradizioz aztertu dituen erlazioak –ingurune naturala eta harreman espazialak– produkzio materialaren emaitza gisa berrikusten dira.",
+  "northern": "ɡeOɣʁafia maʁʃIʂtan ɡeOɣʁafiak tʁaðIsios astEʁtu ðitwEn eʁlAsioak inɡUɾune natUɾala eta haʁEman eʂpAsialak pʁoðUksio matEɾialaɾen emAjVa ɣIʂa βeʁIkuʂten diɾA"
+ },
+ {
+  "text": "Nafarroako eta Aragoiko erromantzea: Nafarroako eta Aragoiko erromantzea Euskal Herriko hegoaldean eta ekialdean hitz egiten zen.",
+  "northern": "nafAʁoako eta aɾAɣojko eʁOmanVea nafAʁoako eta aɾAɣojko eʁOmanVea ewʂkAl heʁIko heɣOaldean eta ekIaldean hIV eɣIten sen"
+ },
+ {
+  "text": "Hala ere, azken urteetan joera hori moteldu egin da.",
+  "northern": "halA eɾE askEn Uʁteetan ɟoEɾa hOɾi motEldu eɣIn dA"
+ },
+ {
+  "text": "Narrazio bat sortzeko prozesuak eztabaida sortzen du ezinbestean, historialariek iraganeko gertakari desberdinak gogoratzen edo azpimarratzen baitituzte.",
+  "northern": "naʁAsio βat ʂoʁVEko pʁosEʂuak estAβajða ʂOʁVen du esImbeʂtean hiʂtOɾialaɾiek iɾAɣaneko ɣeʁtAkaɾi ðeʂbEʁdinak ɡoɣOɾaVen eðo aspImaʁaVem bajtItuste"
+ },
+ {
+  "text": "Horretarako, metodo zientifikoa aplikatu behar da.",
+  "northern": "hoʁEtaɾako metOðo siEntifikoa aplIkatu βehAʁ dA"
+ },
+ {
+  "text": "Donostia hiri txikia izanik, oinez erraz eta eroso zeharka daiteke, oinezkoentzako kale eta ibilbideei esker.",
+  "northern": "donOʂtia hiɾI CikIa isAnik ojnEs eʁAs eta eɾOʂo sehAʁka ðajtEke ojnEskoenVako kAle eta iβIlβiðeej eʂkEʁ"
+ },
+ {
+  "text": "Historia mitotik bereizten da, ebidentzian oinarritzen baita.",
+  "northern": "hiʂtOɾia mItotik beɾEjsten da eβIðenVian ojnAʁiVem bajtA"
+ },
+ {
+  "text": "Zurriola hondartza surflarien bilgune da, bertako olatuak erakarrita.",
+  "northern": "suʁIola hondAʁVa ʂuʁflAɾiem bilɣUne ðA beʁtAko olAtuak eɾAkaʁita"
+ },
+ {
+  "text": "Ipar-mendebaldean, Bilbok Barakaldorekin egiten du muga; ipar-ekialdean, Erandiorekin; ekialdean, Sondikarekin; hego-ekialdean, Etxebarri, Basauri eta Arrigorriagarekin; eta mendebaldean, berriz, Alonsotegirekin.",
+  "northern": "ipAʁ mendEβaldean bIlβok baɾAkaldoɾekin eɣIten du mUɣa ipAʁ ekIaldean eɾAndioɾekin ekIaldean ʂondIkaɾekin heɣO ekIaldean eCEβaʁi baʂAwɾi eta aʁIɣoʁiaɣaɾekin eta mendEβaldean beʁIs alOnʂoteɣiɾekin"
+ },
+ {
+  "text": "Donostiaren jarduera ekonomiko nagusia zerbitzu-sektorean dago.",
+  "northern": "donOʂtiaɾen ɟaʁdwEɾa ekOnomiko naɣUʂia seʁβIVu ʂektOɾean daɣO"
+ },
+ {
+  "text": "«-kuntza»: «hizkuntza, hezkuntza, hazkuntza, sorkuntza»;",
+  "northern": "kunVA hiskUnVa heskUnVa haskUnVa ʂoʁkUnVa"
+ },
+ {
+  "text": "Hiribilduari Logroñoko Foruak ezarri zitzaizkion.",
+  "northern": "hiɾIβilduaɾi loɣʁOɲoko foɾUak esAʁi siVAjskion"
+ },
+ {
+  "text": "Horren aurrean, euskalariek zalantzak dituzte, ea garai horretan euskaldunek eskuarki Bilbao zerabilten, ala atsotitz horretarako bildutako erabilera zahar bat zen.",
+  "northern": "hoʁEn Awʁean ewʂkAlaɾiek salAnVak ditUste eA ɣaɾAj hoʁEtan ewʂkAldunek eʂkUaʁki βilβAo seɾAβilten ala aPOtiV hoʁEtaɾako βIldutako eɾAβileɾa sahAʁ βat sEn"
+ },
+ {
+  "text": "Aretoak: Arriaga Antzokia, Azkena, Bilborock, BIRA, Euskalduna Jauregia eta Kafe Antzokia.",
+  "northern": "aɾEtoak aʁIaɣa anVOkia askEna bIlβoɾok bIɾa ewʂkAlduna ɟawɾEɣia eta kafE anVOkia"
+ },
+ {
+  "text": "Izan ere, Oiartzunen antolatu zuen Herri Musikaren Txokoa erreferentziazko tokia.",
+  "northern": "isAn eɾE ojAʁVunen antOlatu swen heʁI muʂIkaɾen COkoa eʁEfeɾenViasko tOkia"
+ },
+ {
+  "text": "Herrialdean dagoen atzerriko diplomazia gehiena Bilbon dago kokatuta.",
+  "northern": "heʁIaldean daɣOen aVEʁiko ðiplOmasia ɣehIena βIlβon daɣO kokAtuta"
+ },
+ {
+  "text": "Lehen Mundu Gerra garapen eta aberastasun handiko aldia izan zen Donostiarentzat.",
+  "northern": "lehEm mundU ɣeʁA ɣaɾApen eta aβEɾaʂtaʂun handIko aldIa isAn sen donOʂtiaɾenVat"
+ },
+ {
+  "text": "Aipatu behar da Oria ibaia ere, Gipuzkoako ibairik luzeena, Zubieta auzotik igarotzen dena, itsasoratzetik kilometro gutxitara.",
+  "northern": "ajpAtu βehAʁ dA oɾIa iβAja eɾE ɡipUskoako iβAjɾik lusEena suβIeta Awsotik iɣAɾoVen denA iPAʂoɾaVetik Ilometʁo ɣUCitaɾa"
+ },
+ {
+  "text": "1829an, azken Nafarroako Gorteak egin ziren.",
+  "northern": "milA soʁVIehun eta hoɣEjta βeðEɾaVian askEn nafAʁoako ɣoʁtEak eɣIn siɾEn"
+ },
+ {
+  "text": "Zentzu horretan erabili zuen Aristotelesek hitza bere Animalien historia idazlanean, historia naturalari buruzko obra dena.",
+  "northern": "senVU hoʁEtan eɾAβili swen aɾIʂtoteleʂek hiVA βeɾE anImalien hiʂtOɾia iðAslanean hiʂtOɾia natUɾalaɾi βuɾUsko oβʁA ðEna"
+ },
+ {
+  "text": "Nafarroa Garaian, gainera, euskalduntasuna ukatzen duten alderdiak ere badira, indar handikoak.",
+  "northern": "nafAʁoa ɣaɾAjan ɡajnEɾa ewʂkAlduntaʂuna ukAVen dutEn aldEʁdiak eɾE βaðIɾa indAʁ handIkoak"
+ },
+ {
+  "text": "Historikoki, Euskal Herritarren ereserkiaren papera bete duten zenbait kantu izan dira, molde batean edo bestean.",
+  "northern": "hiʂtOɾikoki ewʂkAl heʁItaʁen eɾEʂeʁkiaɾem papEɾa βetE ðutEn sembAjt kAntu isAn diɾA mOlde βatEan eðo βEʂtean"
+ },
+ {
+  "text": "Eta ez zen haurrei zuzendutako beste argitalpenik egon euskaraz 1890.",
+  "northern": "eta e VEn hAwʁej susEndutako βEʂte aʁɡItalpenik eɣOn Ewʂkaɾas milA soʁVIehun eta lawɾOɣejta hamAʁ"
+ },
+ {
+  "text": "Euskaraz idatzitako lehenengo hitzak Akitania eta Pirinio inguruetan aurkitutako erromatarren garaiko hilarrietakoak dira ( I.",
+  "northern": "Ewʂkaɾas iðAVitako lehEnenɡo hiVAk akItania eta piɾInio inɡUɾwetan awʁkItutako eʁOmataʁen ɡaɾAjko hilAʁietakoak diɾA I"
+ },
+ {
+  "text": "Folk musika: Oskorri, Kepa Junkera, Ibon Koteron.",
+  "northern": "fOlk muʂIka oʂkOʁi kEpa ɟunkEɾa iβOn kotEɾon"
+ },
+ {
+  "text": "Aldi horren hasiera berreraikitze lanen bidez ezagutzen dugu:",
+  "northern": "aldI hoʁEn haʂIeɾa βeʁEɾajkiVe lanEm biðEs esAɣuVen duɣU"
+ },
+ {
+  "text": "Idazkerari esker giza taldeen ezagutza zehatzagoa lortzen dugu, eta pertsonaien, lekuen eta bestelako itemen izenak iristen zaizkigu.",
+  "northern": "iðAskeɾaɾi eʂkEʁ ɡisA tAldeen esAɣuVa sehAVaɣoa lOʁVen duɣU eta peʁPOnajen lEkwen eta βeʂtElako itEmen isEnak iɾIʂten sajskIɣu"
+ },
+ {
+  "text": "Sartaldeko musika elizako kantuekin hasi zen, hebrearren eta greziarren eskaletan oinarri harturik.",
+  "northern": "ʂaʁtAldeko muʂIka elIsako kAntwekin hAʂi sen heβʁEaʁen eta ɣʁesIaʁen eʂkAletan ojnAʁi haʁtUɾik"
+ },
+ {
+  "text": "Lurrazalean diren osagai guztien arteko harremanak aztertzen dituena.",
+  "northern": "luʁAsalean diɾEn oʂAɣaj ɣustIen aʁtEko haʁEmanak astEʁVen ditwEna"
+ },
+ {
+  "text": "Historian zehar muturreko gertakari meteorologiko batzuk izan dira, 1983ko uholdeak esaterako.",
+  "northern": "hiʂtOɾian sehAʁ mutUʁeko ɣeʁtAkaɾi metEoɾoloɣiko βAVuk isAn diɾA milA βeðEɾaViehun eta lawɾOɣejta hiɾUko uhOldeak eʂAteɾako"
+ },
+ {
+  "text": "Hala jaio zen Euskal Hirigune Elkargoa 2017an.",
+  "northern": "halA ɟajO sen ewʂkAl hiɾIɣune elkAʁɡoa βI milA eta hamAsaspian"
+ },
+ {
+  "text": "Antzinako greziarrak izan ziren beren ezagutzak metatzen eta sistematizatzen lehenak, geografiko izenburuarekin izendatuz eta diziplina berri bat sortuz.",
+  "northern": "anVInako ɣʁesIaʁak isAn siɾEm beɾEn esAɣuVak metAVen eta ʂiʂtEmatisaVen lehEnak ɡeOɣʁafiko isEmbuɾuaɾekin isEndatus eta ðisIplina βeʁI βat ʂoʁtUs"
+ },
+ {
+  "text": "Barrutia (Basurtu-Zorrotza): Altamira, Basurtu, Masustegi, Mintegitxueta, Olabeaga, Santa Ana, Santiago, Zorrotza.",
+  "northern": "baʁUtia baʂUʁtu soʁOVa altAmiɾa baʂUʁtu maʂUʂteɣi mintEɣiCweta olAβeaɣa ʂantA anA ʂantIaɣo soʁOVa"
+ },
+ {
+  "text": "Euskal Herrian kontsumitzen den argindarraren ehuneko handiena erregai fosilen bidez ekoitzia da.",
+  "northern": "ewʂkAl heʁIan konPUmiVen den aʁɡIndaʁaɾen ehUneko handIena eʁEɣaj foʂIlem biðEs ekOjVia ðA"
+ },
+ {
+  "text": "Txinatarrek ere ezagutza geografikoa garatu zuten beren lurraldearen barruan, eta, horri esker, haren kontrol zorrotza izan zuten.",
+  "northern": "CinAtaʁek eɾE esAɣuVa ɣeOɣʁafikoa ɣaɾAtu sutEm beɾEn luʁAldeaɾem baʁUan etA hoʁI eʂkEʁ haɾEn kontʁOl soʁOVa isAn sutEn"
+ },
+ {
+  "text": "Musika arte eta jarduera kultural mota bat da, denboran zehar antolatutako soinua bitarteko duena.",
+  "northern": "muʂIka aʁtE eta ɟaʁdwEɾa kultUɾal motA βat dA dEmboɾan sehAʁ antOlatutako ʂojnUa βitAʁteko ðwenA"
+ },
+ {
+  "text": "Hirian kirolean aritzeko instalazio ugari daude.",
+  "northern": "hiɾIan kiɾOlean aɾIVeko inʂtAlasio uɣAɾi ðawðE"
+ },
+ {
+  "text": "Beste ikur bat ere bada, aski hedatua eta euskaldunek beren ikurtzat jotzen dutena: lauburua edo antzinako euskal gurutzea.",
+  "northern": "bEʂte ikUʁ βat eɾE βaða aʂkI heðAtua eta ewʂkAldunek beɾEn ikUʁVat ɟOVen dutEna lawβUɾua eðo anVInako ewʂkAl ɣuɾUVea"
+ },
+ {
+  "text": "Hurrengo urteetan, ekonomia oparoaldiko urteak izan ziren, eta azpiegituren garapen urteak.",
+  "northern": "huʁEnɡo Uʁteetan ekOnomia opAɾoaldiko uʁtEak isAn siɾEn eta aspIeɣituɾen ɡaɾApen uʁtEak"
+ },
+ {
+  "text": "Eraiki den azkena Frank Gehry zubia da.",
+  "northern": "eɾAjki ðen askEna fʁAnk ɡeɾI suβIa ðA"
+ },
+ {
+  "text": "mendeko metodologia historikoaren joera nagusietako bat historia gizarte-zientzia gisa tratatzea izan zen arte gisa baino, tradizionalki hala izan baitzen.",
+  "northern": "mendEko metOðoloɣia hiʂtOɾikoaɾen ɟoEɾa naɣUʂietako βat hiʂtOɾia ɣisAʁte siEnVia ɣIʂa tʁatAVea isAn sen aʁtE ɣIʂa βajnO tʁaðIsionalki halA isAm bajVEn"
+ },
+ {
+  "text": "Belardi eta soroek ere oparotasun eta aniztasun nabaria erakusten dute.",
+  "northern": "belAʁdi eta ʂoɾOek eɾE opAɾotaʂun eta anIstaʂun naβAɾia eɾAkuʂten dutE"
+ },
+ {
+  "text": "urtean Hueskako Pirinioetako buruzagi muladiaren aitonaren jatorri euskalduna erakusten du.",
+  "northern": "uʁtEan hweʂkAko piɾInioetako βuɾUsaɣi mulAðiaɾen ajtOnaɾen ɟatOʁi ewʂkAlduna eɾAkuʂten du"
+ },
+ {
+  "text": "Renfe Fevek hiru linea ustiatzen ditu:",
+  "northern": "ʁenfE feβEk hiɾU lInea uʂtIaVen ditU"
+ },
+ {
+  "text": "mendetik Miramar jauregian dagoen tokian.",
+  "northern": "mendEtik miɾAmaʁ ɟawɾEɣian daɣOen tOkian"
+ },
+ {
+  "text": "Gipuzkoa mendebaldeko kostaldeko herrietatik Donostiara etortzeko maiz erabiltzen den errepide bat N-634 izenekoa da.",
+  "northern": "ɡipUskoa mendEβaldeko koʂtAldeko heʁIetatik donOʂtiaɾa etOʁVeko mAjs eɾAβilVen den eʁEpiðe βat enE ɣiðOja ʂEj hiɾU lAw isEnekoa ðA"
+ },
+ {
+  "text": "Euskararen Etxea: euskarari buruzko gune espezializatua.",
+  "northern": "ewʂkAɾaɾen eCEa ewʂkAɾaɾi βuɾUsko ɣunE eʂpEsialisatua"
+ },
+ {
+  "text": "Maria Kristina erregina erregentearen lehenengo uda egoitza izan zen, dorretxearen jabea zen Joakin Satrustegik 1887an erreginari eskaini baitzion egoitza gisa.",
+  "northern": "maɾIa kʁiʂtIna eʁEɣina eʁEɣenteaɾen lehEnenɡo uðA eɣOjVa isAn sen doʁECeaɾen ɟaβEa sEn ɟoAkin ʂatʁUʂteɣik milA soʁVIehun eta lawɾOɣejta sAspian eʁEɣinaɾi eʂkAjni βajVIon eɣOjVa ɣIʂa"
+ },
+ {
+  "text": "Historialariek gertakari bat hobekien azaltzen duen kontakizunari buruz eztabaidatu ohi dute, bai eta kausen eta efektuen garrantziari buruz ere.",
+  "northern": "hiʂtOɾialaɾiek ɡeʁtAkaɾi βat hoβEkien asAlVen dwen kontAkisunaɾi βuɾUs estAβajðatu ohI ðutE bAj eta kawʂEn eta efEktwen ɡaʁAnViaɾi βuɾUs eɾE"
+ },
+ {
+  "text": "Ereserkiei dagokionez, gaur egun ez dago behar bezain onarpen zabala duen abestirik.",
+  "northern": "eɾEʂeʁkiej ðaɣOkiones ɡAwʁ eɣUn es tAɣo βehAʁ βesAjn onAʁpen saβAla ðwEn aβEʂtiɾik"
+ },
+ {
+  "text": "mendeko azken urteetan elizara joateak behera egin du, Mendebaldeko Europako eremu gehienetan.",
+  "northern": "mendEko askEn Uʁteetan elIsaɾa ɟoAteak behEɾa eɣIn du mendEβaldeko ewɾOpako eɾEmu ɣehIenetan"
+ },
+ {
+  "text": "Euskarak eta euskal kulturak interesa sortzen dute Euskal Herritik at.",
+  "northern": "Ewʂkaɾak eta ewʂkAl kultUɾak intEɾeʂa ʂOʁVen dutE ewʂkAl heʁItik At"
+ },
+ {
+  "text": "Azpigarapena da aberastasun, zerbitzu edo ekoizpen-gaitasun kopuru jakin bat ez duen egoera.",
+  "northern": "aspIɣaɾapena ðA aβEɾaʂtaʂun seʁβIVu eðo ekOjspen ɡajtAʂun kopUɾu ɟAkim bat es twEn eɣOeɾa"
+ },
+ {
+  "text": "HABE, Helduen Alfabetatze eta Berreuskalduntzerako Erakundea, EAEko Eusko Jaurlaritzak 1983an sortutako erakundea.",
+  "northern": "haβE hEldwen alfAβetaVe eta βeʁEwʂkaldunVeɾako eɾAkundea E A ekO ewʂkO ɟawʁlAɾiVak milA βeðEɾaViehun eta lawɾOɣejta hiɾUan ʂoʁtUtako eɾAkundea"
+ },
+ {
+  "text": "1459an, Donostia guztiz sartu zen Gipuzkoan.",
+  "northern": "milA lawɾEhun eta βeʁOɣejta hemEɾeVian donOʂtia ɣustIs ʂaʁtU sen ɡipUskoan"
+ },
+ {
+  "text": "Eremu euskalduna (iparraldea): euskara ofiziala da, gaztelaniarekin batera, Nafarroako Foru Erkidegoko eremu euskaldunean.",
+  "northern": "eɾEmu ewʂkAlduna ipAʁaldea Ewʂkaɾa ofIsiala ðA ɡastElaniaɾekim batEɾa nafAʁoako fOɾu eʁkIðeɣoko eɾEmu ewʂkAldunean"
+ },
+ {
+  "text": "Horretarako kartografia, geografia-informazioko sistema, teledetekzioa edo GPS erabiltzen ditu.",
+  "northern": "hoʁEtaɾako kaʁtOɣʁafia ɡeOɣʁafia infOʁmasioko ʂiʂtEma telEðeteksioa eðo ɣE pE Eʂe eɾAβilVen ditU"
+ },
+ {
+  "text": "Une horretatik, baskoi izenez aipatzen diren herri horiek asaldatuta zebiltzan.",
+  "northern": "unE hoʁEtatik baʂkOj isEnes ajpAVen diɾEn heʁI hoɾIek aʂAldatuta seβIlVan"
+ },
+ {
+  "text": "Musika dodekafonikoa: ikusi dodekafonismo.",
+  "northern": "muʂIka ðoðEkafonikoa ikUʂi ðoðEkafoniʂmo"
+ },
+ {
+  "text": "Ingurune metropolitarra Ibaizabalgo itsasadarraren bi bazterrek osatzen dute, alegia, Ezkerraldea eta Eskuinaldea azpieskualdeek, eta milioi bat biztanle inguru komunikatzen du.",
+  "northern": "inɡUɾune mEtʁopolitaʁa iβAjsaβalɣo iPAʂaðaʁaɾem bI βastEʁek oʂAVen dutE aleɣia eskEʁaldea eta eʂkUjnaldea aspIeʂkualdeek eta milIoj βat bistAnle inɡUɾu komUnikaVen du"
+ },
+ {
+  "text": "Bilboko euskara mendebaldeko hizkeraren barnean dagoen sartaldeko hizkeran dago katalogatuta, zehatzago Nerbioi Ibarreko euskaran.",
+  "northern": "bIlβoko Ewʂkaɾa mendEβaldeko hiskEɾaɾem baʁnEan daɣOen ʂaʁtAldeko hiskEɾan daɣO katAloɣatuta sehAVaɣo neʁβIoj iβAʁeko Ewʂkaɾan"
+ },
+ {
+  "text": "Nekazaritzak aurrera egin ahala, gizaki gehienek bizimodu nomada utzi eta sedentario bilakatu ziren.",
+  "northern": "nekAsaɾiVak Awʁeɾa eɣIn ahAla ɡisAki ɣehIenek bisImoðu nomAða UVi eta ʂeðEntaɾio βilAkatu siɾEn"
+ },
+ {
+  "text": "Sistemaren beste bereizgarri bat, hizkuntza aglutinatzaileetan gertatu ohi dena, forma nominaletan desinentzien markak metatzeko aukera da (elipsiaren ondorio gisa):",
+  "northern": "ʂiʂtEmaɾem bEʂte βeɾEjsɡaʁi βat hiskUnVa aɣlUtinaVajleetan ɡeʁtAtu ohI ðEna foʁmA nomInaletan deʂInenViem maʁkAk metAVeko awkEɾa ðA elIpʂiaɾen ondOɾio ɣIʂa"
+ },
+ {
+  "text": "Administrazio, kultura, hezkuntza eta turismoaren zentro garrantzitsu bat da Euskal Herrian, eta 2016an Europako kultura-hiriburua izan zen.",
+  "northern": "aðmIniʂtʁasio kultUɾa heskUnVa eta tuɾIʂmoaɾen sentʁO ɣaʁAnViPu βAt dA ewʂkAl heʁIan eta βI milA eta hamAʂejan ewɾOpako kultUɾa hiɾIβuɾua isAn sen"
+ },
+ {
+  "text": "mendebaleko euskara (izendapen zaharrean, bizkaiera);",
+  "northern": "mendEβaleko Ewʂkaɾa isEndapen sahAʁean biskAjeɾa"
+ },
+ {
+  "text": "Ez zen lurralde guztietan indar berarekin hedatu, ordea.",
+  "northern": "e VEn luʁAlde ɣustIetan indAʁ βEɾaɾekin heðAtu oʁdea"
+ },
+ {
+  "text": "Eskualde hauetatik kanpo, bereziki Txina eta Indian, zatitze historikoak ezberdinak izan ohi dira.",
+  "northern": "eʂkUalde hawEtatik ampo beɾEsiki CinA eta indIan sAtiVe hiʂtOɾikoak esbEʁdinak isAn ohI ðiɾA"
+ },
+ {
+  "text": "LTDan emititzeko tokiko telebisten lizentziak honakoek lortu zituzten: 1994.",
+  "northern": "Ele tE ðeAn emItiVeko tOkiko telEβiʂten lisEnViak honAkoek loʁtU sitUsten milA βeðEɾaViehun eta lawɾOɣejta hamAlaw"
+ },
+ {
+  "text": "Ondorioz, Altzako familia oso batek baino diru sarrera handiagoa zuen Miramon-Zorroagako herritar bakar batek, eta aldea urtean 6.410 eurokoa zen.",
+  "northern": "ondOɾios alVAko famIlia oʂO βatEk bajno ðIɾu ʂaʁEɾa handIaɣoa swEm miɾAmon soʁOaɣako heʁItaʁ βAkaʁ βatEk eta aldEa uʁtEan ʂEj milA lawɾEhun eta hamAʁ ewɾOkoa sEn"
+ },
+ {
+  "text": "Bidasoaren bokalean, Oisassok garrantzi handia izan zuen.",
+  "northern": "biðAʂoaɾem bokAlean ojʂAʂok ɡaʁAnVi handIa isAn swen"
+ },
+ {
+  "text": "Renfeko aldirien sareak lau linea dauzka:",
+  "northern": "ʁenfEko aldIɾien ʂaɾEak lAw lInea ðawskA"
+ },
+ {
+  "text": "Euskal Herriko literatura nagusia mendeetan ahozkoa izan da.",
+  "northern": "ewʂkAl heʁIko litEɾatuɾa naɣUʂia mendEetan ahOskoa isAn da"
+ },
+ {
+  "text": "mendeek euskarazko literatura idatziaren hasiera markatu zuten.",
+  "northern": "mendEek Ewʂkaɾasko litEɾatuɾa iðAViaɾen haʂIeɾa maʁkAtu sutEn"
+ },
+ {
+  "text": "Liburu berriak, liburu berri horiek.",
+  "northern": "liβUɾu βeʁIak liβUɾu βeʁI hoɾIek"
+ },
+ {
+  "text": "Horrela, Donostian gehien erabiltzen den hiri barneko garraiobidea da, automobila alde batera utzirik.",
+  "northern": "hoʁEla donOʂtian ɡehIen eɾAβilVen den hiɾI βaʁnEko ɣaʁAjoβiðea ðA awtOmoβila aldE βatEɾa UViɾik"
+ },
+ {
+  "text": "Izan ere, Europaren Amerika eta Afrikako kolonizazio-prozesuen berezko eskakizunak zirela eta, garaiko Kartografia eta Geografia ia diziplina bera ziren.",
+  "northern": "isAn eɾE ewɾOpaɾen amEɾika eta afʁIkako kolOnisasio pʁosEʂwem beɾEsko eʂkAkisunak siɾEla etA ɡaɾAjko kaʁtOɣʁafia eta ɣeOɣʁafia Ia ðisIplina βEɾa siɾEn"
+ },
+ {
+  "text": "2001eko mapa linguistikoa (Eusko Jaurlaritza)",
+  "northern": "bI milA eta βatEko mapA linɡUjʂtikoa ewʂkO ɟawʁlAɾiVa"
+ },
+ {
+  "text": "Helburu militarrekin, gerran, Danborra izeneko dorrea eraiki zen badian gerra garaian, Loretopen, 20.",
+  "northern": "helβUɾu milItaʁekin ɡeʁAn dambOʁa isEneko ðoʁEa eɾAjki sem baðIan ɡeʁA ɣaɾAjan loɾEtopen hoɣEj"
+ },
+ {
+  "text": "mendean diziplina hori estatuen garapenaren funtsezko zati gisa finkatu zela Europako unibertsitate askotan instituzionalizatzea lortuz eta, XX.",
+  "northern": "mendEan disIplina hOɾi eʂtAtwen ɡaɾApenaɾen funPEsko sAti ɣIʂa finkAtu selA ewɾOpako unIβeʁPitate aʂkOtan inʂtItusionalisaVea loʁtUs etA hoɣEjɣaʁen"
+ },
+ {
+  "text": "urtean Localia katearekin emititzen hasi zen Gipuzkoa Telebistak, emititzen hasi berri den Hamaika Telebistak, eta oraindik egitasmoa den Donostiako Udalarenak.",
+  "northern": "uʁtEan lokAlia katEaɾekin emItiVen haʂI sEn ɡipUskoa telEβiʂtak emItiVen haʂI βeʁI ðEn hamAjka telEβiʂtak eta oɾAjndik eɣItaʂmoa ðEn donOʂtiako uðAlaɾenak"
+ },
+ {
+  "text": "mendeaz geroztik, Amerikarako bidea izan zen norabide nagusia.",
+  "northern": "mendEas ɡeɾOstik amEɾikaɾako βiðEa isAn sen noɾAβiðe naɣUʂia"
+ },
+ {
+  "text": "Gaztelako koroaren eskuetan geratuta ere, Donostiak jarraitu egin zuen Nafarroaren itsas merkataritza-bideetan, eta Antso IV.a Gaztelakoak, XIII.",
+  "northern": "ɡastElako koɾOaɾen eʂkwEtan ɡeɾAtuta eɾE donOʂtiak ɟaʁAjtu eɣIn swEn nafAʁoaɾen iPAʂ meʁkAtaɾiVa βiðEetan eta anPO lawɣAʁena ɣastElakoak hamAhiɾuɣaʁen"
+ },
+ {
+  "text": "Azken honek posizio europearzale neoliberalak defendatzen ditu eta Espainiako Herritarrak - Herritarron Alderdia (C's) alderdiaren pareko dira.",
+  "northern": "askEn honEk poʂIsio ewɾOpeaʁsale neOliβeɾalak defEndaVen ditU eta eʂpAjniako heʁItaʁak heʁItaʁon aldEʁdia kʂ aldEʁdiaɾem paɾEko ðiɾA"
+ },
+ {
+  "text": "Hegoalderantz, Ebro ibaiaren inguruan, laku handiak izan ziren, Nafarroako Erriberan aurki daitezkeen egiturak osatuz.",
+  "northern": "heɣOaldeɾanV eβʁO iβAjaɾen inɡUɾuan lakU handIak isAn siɾEn nafAʁoako eʁIβeɾan awʁkI ðajtEskeen eɣItuɾak oʂAtus"
+ },
+ {
+  "text": "Aipagarria da Zaragozako Cinco Villas eskualdean (Ejea, Sádaba...) agertu den euskal pertsona izenen multzoa.",
+  "northern": "ajpAɣaʁia ðA saɾAɣosako ʂinkO βiʎAʂ eʂkUaldean eɟEa ʂAðaβa aɣEʁtu ðen ewʂkAl peʁPOna isEnem mulVOa"
+ },
+ {
+  "text": "Parte Zaharreko Antzoki Zaharra arte eszenikoen eta zinema emanaldietarako tokia izaten da.",
+  "northern": "pAʁte sahAʁeko anVOki sahAʁa aʁtE eʂsEnikoen eta sinEma emAnaldietaɾako tOkia isAten da"
+ },
+ {
+  "text": "Horrek emakumeei libelo sutsu moduko koplak abestea debekatu zien.",
+  "northern": "hoʁEk emAkumeej liβElo ʂuPU moðUko koplAk aβEʂtea ðeβEkatu siEn"
+ },
+ {
+  "text": "mende amaieran, berretsi egin zituen nafar merkatariek hiribilduan zituzten pribilegioak.",
+  "northern": "mendE amAjeɾan beʁEPi eɣIn sitwEn nafAʁ meʁkAtaɾiek hiɾIβilduan sitUstem pʁiβIleɣioak"
+ },
+ {
+  "text": "1950eko hamarkadaren bukaeran, idazle-belaunaldi berria jaio zen, tartean Gabriel Aresti.",
+  "northern": "milA βeðEɾaViehun eta βeʁOɣejta hamAʁeko hamAʁkaðaɾem bukAeɾan iðAsle βelAwnaldi βeʁIa ɟajO sen taʁtEan ɡaβʁIel aɾEʂti"
+ },
+ {
+  "text": "1984ean Bilboko Aurrezki Kutxaren baitan sorturiko areto futbol taldea da.",
+  "northern": "milA βeðEɾaViehun eta lawɾOɣejta lawEam bIlβoko awʁEski kuCAɾem bajtAn ʂoʁtUɾiko aɾEto futbOl tAldea ðA"
+ },
+ {
+  "text": "Aste Nagusiaren sorrera ere urte hauetan izan zen.",
+  "northern": "aʂtE naɣUʂiaɾen ʂoʁEɾa eɾE Uʁte hawEtan isAn sen"
+ },
+ {
+  "text": "Talde hori Anatoliatik irten zen, eta baliteke Neolitoaren ezaugarria zen nekazaritza berarekin ere eramatea.",
+  "northern": "tAlde hOɾi anAtoliatik Iʁten sen eta βalIteke neOlitoaɾen esAwɣaʁia sEn nekAsaɾiVa βEɾaɾekin eɾE eɾAmatea"
+ },
+ {
+  "text": "Diskurtso historikoaren zeregina da iraganeko kontakizun zehatzak sortzen lagungarrienak diren iturriak identifikatzea.",
+  "northern": "diʂkUʁPo hiʂtOɾikoaɾen seɾEɣina ðA iɾAɣaneko kontAkisun sehAVak ʂOʁVen laɣUnɡaʁienak diɾEn itUʁiak iðEntifikaVea"
+ },
+ {
+  "text": "a, e, i, o, u.",
+  "northern": "A E I O U"
+ },
+ {
+  "text": "Nekazaritzaren garapenak zereal ezberdinak lantzea hobetu zuen, urtaroen artean aleak gordetzea baimentzen zuen lanaren banaketa batekin.",
+  "northern": "nekAsaɾiVaɾen ɡaɾApenak seɾEal esbEʁdinak lanVEa hoβEtu swen uʁtAɾoen aʁtEan alEak ɡoʁdEVea βajmEnVen swEn lanAɾem banAketa βatEkin"
+ },
+ {
+  "text": "Irratiak: Euskadi Irratia, Euskadi Gaztea, Segura irratia,Info7, Arrate irratia, Irulegi irratia, Gure Irratia...",
+  "northern": "iʁAtiak ewʂkAði iʁAtia ewʂkAði ɣastEa ʂeɣUɾa iʁAtia komA infO sAspi aʁAte iʁAtia iɾUleɣi iʁAtia ɡuɾE iʁAtia"
+ },
+ {
+  "text": "Urtean zehar ekitaldi kultural ugari antolatzen dira Bilbon.",
+  "northern": "uʁtEan sehAʁ ekItaldi kultUɾal uɣAɾi antOlaVen diɾA βIlβon"
+ },
+ {
+  "text": "mendean zehar, mikroskopioa eta atomoa zatikiez osatua zela aurkitu izanak ikuspegi berria eman zion zientziari.",
+  "northern": "mendEan sehAʁ mikʁOʂkopioa eta atOmoa sAtikies oʂAtua sEla awʁkItu isAnak ikUʂpeɣi βeʁIa emAn siOn siEnViaɾi"
+ },
+ {
+  "text": "Nolabaiteko sinesgarritasuna eman izan zaio erromatarren garaian dokumentatutako ausci hitzaren hipotesiari.",
+  "northern": "nolAβajteko ʂinEʂɡaʁitaʂuna emAn isAn sajO eʁOmataʁen ɡaɾAjan dokUmentatutako awʂʂI hiVAɾen hipOteʂiaɾi"
+ },
+ {
+  "text": "Bestela, Julian Gaiarre, Ainhoa Arteta eta Maria Bayo abeslariak mundu osoan dira ezagunak, bai eta Donostiako Orfeoia abesbatza ere.",
+  "northern": "beʂtela ɟUlian ɡajAʁe ajnOa aʁtEta eta maɾIa βaɟO aβEʂlaɾiak mundU oʂOan diɾA esAɣunak bAj eta ðonOʂtiako oʁfEoja aβEʂbaVa eɾE"
+ },
+ {
+  "text": "Bi eremu zabal horien arteko zubi gisa ikus daiteke, bietako metodologiak barneratuz.",
+  "northern": "bI eɾEmu saβAl hOɾien aʁtEko suβI ɣIʂa ikUʂ dajtEke biEtako metOðoloɣiak baʁnEɾatus"
+ },
+ {
+  "text": "mendearen inguruan galdu ziren, baina idatzizko lekukotasun apur batzuk gorde dira.",
+  "northern": "mendEaɾen inɡUɾuan ɡaldU siɾEn bajna iðAVisko lekUkotaʂun apUʁ βAVuk ɡOʁde ðiɾA"
+ },
+ {
+  "text": "1152an, Baiona eta Lapurdi Plantagenet dinastiaren Gaskoinian sartuta geratu ziren, hiribildu hori merkataritza-hiri garrantzitsu bihurturik.",
+  "northern": "milA ehUn eta βeʁOɣejta hamAβian bajOna eta lapUʁdi plantAɣenet dinAʂtiaɾen ɡaʂkOjnian ʂaʁtUta ɣeɾAtu siɾEn hiɾIβildu hOɾi meʁkAtaɾiVa hiɾI ɣaʁAnViPu βihUʁtuɾik"
+ },
+ {
+  "text": "urtean azaldu zen, Bordelen inprimaturik.",
+  "northern": "uʁtEan asAldu sen boʁdElen impʁImatuɾik"
+ },
+ {
+  "text": "Iñakik errepidean profesionala izan zen Bizkaiko txapelduna izan ostean.",
+  "northern": "iɲAkik eʁEpiðeam pʁofEʂionala isAn sem biskAjko CapElduna isAn oʂtEan"
+ },
+ {
+  "text": "Isiluneak ere doinuaren egituraren parte dira «diskurtso melodikoan» etenaldiak jarriz.",
+  "northern": "iʂIluneak eɾE ðojnUaɾen eɣItuɾaɾem pAʁte ðiɾA ðiʂkUʁPo melOðikoan etEnaldiak ɟaʁIs"
+ },
+ {
+  "text": "Muga den lekuan dela ere, historia izenez aipaturiko aroaren aurreko garaiari historiaurrea deritzo eta historia bera azpi-aro anitzetan banatzen da.",
+  "northern": "mUɣa ðEn lEkuan delA eɾE hiʂtOɾia isEnes ajpAtuɾiko aɾOaɾen awʁEko ɣaɾAjaɾi hiʂtOɾiawʁea ðeɾIVo eta hiʂtOɾia βEɾa aspI aɾO anIVetam bAnaVen dA"
+ },
+ {
+  "text": "Langabeziari dagokionez, Euskal Autonomi Erkidegoko hiriburuetan tasa baxuena dago Donostian.",
+  "northern": "lanɡAβesiaɾi ðaɣOkiones ewʂkAl awtOnomi eʁkIðeɣoko hiɾIβuɾwetan taʂA βaʃwEna ðaɣO ðonOʂtian"
+ },
+ {
+  "text": "Hego zein Ipar Euskal Herriko energia ekoizle eta hornitzaileak enpresa pribatuak dira.",
+  "northern": "heɣO sEjn ipAʁ ewʂkAl heʁIko enEʁɡia ekOjsle eta hoʁnIVajleak empʁEʂa pʁiβAtuak diɾA"
+ },
+ {
+  "text": "Hala ere, adin tarte gazteagoak kontuan hartuta, kopurua handiagoa da.",
+  "northern": "halA eɾE aðIn taʁtE ɣastEaɣoak ontuan haʁtUta kopUɾua handIaɣoa ðA"
+ },
+ {
+  "text": "Nabaria da kirolzaletasuna donostiarren artean.",
+  "northern": "naβAɾia ðA kiɾOlsaletaʂuna ðonOʂtiaʁen aʁtEan"
+ },
+ {
+  "text": "Musika hertsiki antolatutako konposizioetatik (XVIII.",
+  "northern": "muʂIka heʁPIki antOlatutako kompOʂisioetatik hamAsoʁViɣaʁen"
+ },
+ {
+  "text": "Beilarien artean Aymeric Picaud frantsesa dugu ospetsuena gure historian.",
+  "northern": "bejlAɾien aʁtEan ajmEɾik pikAwð fʁanPEʂa ðuɣU oʂpEPwena ɣuɾE hiʂtOɾian"
+ },
+ {
+  "text": "Alde Zaharreko Kriteriuma antolatzen hasi zen eta, urte batzuk geroago, Bilboko Aste Nagusiko Kriterium-a antolatu zuen elkarteak.",
+  "northern": "aldE sahAʁeko kʁitEɾiuma antOlaVen haʂI sEn etA Uʁte βAVuk ɡeɾOaɣo bIlβoko aʂtE naɣUʂiko kʁitEɾium A antOlatu swen elkAʁteak"
+ },
+ {
+  "text": "mendean Viktoria Eugenia erreginak bere oporraldirako hautatu zuenez geroztik, Donostiak hiri turistiko izateari eutsi dio.",
+  "northern": "mendEam biktOɾia ewɟEnja eʁEɣinak beɾE opOʁaldiɾako hawtAtu swenEs ɡeɾOstik donOʂtiak hiɾI tuɾIʂtiko isAteaɾi EwPi ðiO"
+ },
+ {
+  "text": "mende bukaera eta XIX.",
+  "northern": "mendE βukAeɾa eta hemEɾeViɣaʁen"
+ },
+ {
+  "text": "Biarritz Olympique eta Aviron Bayonnais Frantziako txapeldunak izan dira.",
+  "northern": "biAʁiV ole~pIk eta aviʁO bajonE fʁanVIako CapEldunak isAn diɾA"
+ },
+ {
+  "text": "Aldaketa horiek eragina dute diziplinari buruz dugun ikusmoldean.",
+  "northern": "aldAketa hoɾIek eɾAɣina ðutE ðisIplinaɾi βuɾUs duɣUn ikUʂmoldean"
+ },
+ {
+  "text": "mendean ezarri zen, munduko beste hiri askotan bezala.",
+  "northern": "mendEan esAʁi sen mundUko βEʂte hiɾI aʂkOtam besAla"
+ },
+ {
+  "text": "Enpresa askok ateak itxi zituzten eta Bilborako immigrazio itzela emigrazio bihurtu zen.",
+  "northern": "empʁEʂa Aʂkok atEak iCI sitUsten eta βIlβoɾako imIɣʁasio iVEla emIɣʁasio βihUʁtu sen"
+ },
+ {
+  "text": "Hitzen ordena neutroan subjektua objektuaren aurretik doa, eta objektua aditzaren aurretik (SOV ordena).",
+  "northern": "hiVEn oʁdEna newtʁOan ʂubɟEktua obɟEktuaɾen Awʁetik doA eta obɟEktua aðIVaɾen Awʁetik ʂOβ oʁdEna"
+ },
+ {
+  "text": "Frantsestean (1808tik aurrera), armada frantsesa Euskal Herrian zabaldu zen berriz ere; foruak eta gizarte egitura tradizionalak kolokan jarri ziren.",
+  "northern": "fʁanPEʂtean milA soʁVIehun eta soʁVItik Awʁeɾa aʁmAða fʁanPEʂa ewʂkAl heʁIan saβAldu sem beʁIs eɾE foɾUak eta ɣisAʁte eɣItuɾa tʁaðIsionalak Olokan ɟaʁI siɾEn"
+ },
+ {
+  "text": "Bizkaian, bereziki, baina industrializazioaren guneetan modu zabalean ideia sozialisten eta komunisten errotzea sakona izan zen XIX.",
+  "northern": "biskAjan beɾEsiki bajna indUʂtʁialisasioaɾen ɡunEetam moðU saβAlean iðEja ʂosIaliʂten eta komUniʂten eʁOVea ʂakOna isAn sen hemEɾeViɣaʁen"
+ },
+ {
+  "text": "«-alde», izen ugari, sarritan leku batekin lotuta daudenak, sortzeko: «goizalde, sukalde, herrialde, lurralde, etxalde»;",
+  "northern": "aldE isEn uɣAɾi ʂaʁItan lEku βatEkin lotUta ðawðEnak ʂoʁVEko ɡOjsalde ʂukAlde heʁIalde luʁAlde eCAlde"
+ },
+ {
+  "text": "Japonian garrantzi handia izan zuen kabuki eta nô antzerkientzat egindako musikak; XX.",
+  "northern": "ɟapOnian ɡaʁAnVi handIa isAn swen kaβUki eta nO anVEʁkienVat eɣIndako muʂIkak hoɣEjɣaʁen"
+ },
+ {
+  "text": "Gipuzkoan: Eibarko HEO, Irungo HEO, Ordiziako HEO, Donostiako HEO eta Tolosako HEO.",
+  "northern": "ɡipUskoan ejβAʁko heO iɾUnɡo heO oʁdIsiako heO donOʂtiako heO eta tolOʂako heO"
+ },
+ {
+  "text": "Nafarroan: Iruñako HEO, Tuterako HEO eta Iruñako Urrutiko HEO.",
+  "northern": "nafAʁoan iɾUɲako heO tutEɾako heO eta iɾUɲako uʁUtiko heO"
+ },
+ {
+  "text": "Garai hartan, euskarazko poeta nagusia Gabriel Aresti izan zen.",
+  "northern": "ɡaɾAj haʁtAn Ewʂkaɾasko poEta naɣUʂia ɣaβʁIel aɾEʂti isAn sen"
+ },
+ {
+  "text": "Donostiarren jai nagusia Donostiako Danborrada da, urtarrilaren 20an, Donostia zaindariaren egunean hain zuzen.",
+  "northern": "donOʂtiaʁen ɟAj naɣUʂia ðonOʂtiako ðambOʁaða ðA uʁtAʁilaɾen hoɣEjan donOʂtia sajndAɾiaɾen eɣUnean hAjn susEn"
+ },
+ {
+  "text": "Juan Krisostomo de Arriaga Balzola",
+  "northern": "xuAn kʁiʂOʂtomo ðE aʁIaɣa βalsOla"
+ },
+ {
+  "text": "Besteak beste, erronkariera (1991n hil zen azken hiztuna) euskalki berezitzat jo zuen, Bonapartek zubereraren barnean sailkatu arren.",
+  "northern": "bEʂteak bEʂte eʁOnkaɾieɾa milA βeðEɾaViehun eta lawɾOɣejta hamAjkan hil sEn askEn histUna ewʂkAlki βeɾEsiVat ɟo swEn bonApaʁtek suβEɾeɾaɾem baʁnEan ʂajlkAtu aʁEn"
+ },
+ {
+  "text": "Lanaren zatiketak goi klase baten sorrera ekarri zuen, hiriak sortuz.",
+  "northern": "lanAɾen satIketak ɡOj klAʂe βatEn ʂoʁEɾa ekAʁi swen hiɾIak ʂoʁtUs"
+ },
+ {
+  "text": "24 Errege kopa eta 8 liga irabazi ditu historian zehar.",
+  "northern": "hoɣEjta lAw eʁEɣe kopA eta soʁVI liɣA iɾAβasi ðitU hiʂtOɾian sehAʁ"
+ },
+ {
+  "text": "Hala eta guztiz ere, trafiko arazo larriak izaten dira Donostiako kaleetan.",
+  "northern": "halA eta ɣustIs eɾE tʁafIko aɾAso laʁIak isAten diɾA ðonOʂtiako kAleetan"
+ },
+ {
+  "text": "John Cageren lanak dira aipagarriak (Music of Changes, 1951).",
+  "northern": "ɟOn kEjtsʁen lanAk diɾA ajpAɣaʁiak muʂIk Of ʃanɡEʂ milA βeðEɾaViehun eta βeʁOɣejta hamAjka"
+ },
+ {
+  "text": "Barrutia (Deustu): Arangoiti, Deustuko Doneperiaga, Ibarrekolanda, San Ignazio-Elorrieta, Zorrotzaurre.",
+  "northern": "baʁUtia dewʂtU aɾAnɡojti dewʂtUko ðonEpeɾiaɣa iβAʁekolanda ʂAn iɣnAsio elOʁieta soʁOVawʁe"
+ },
+ {
+  "text": "Zinebi, Zinegoak, Zinema Ikusezina eta Fant jaialdiak.",
+  "northern": "sinEβi sinEɣoak sinEma ikUʂesina eta fAnt ɟajAldiak"
+ },
+ {
+  "text": "Horrenbestez, euskarak izan litezkeen aukera tipologiko guztiak dauzka mendeko esaldi erlatiboak osatzeko.",
+  "northern": "hoʁembeʂtes Ewʂkaɾak isAn litEskeen awkEɾa tipOloɣiko ɣustIak dawskA mendEko eʂAldi eʁlAtiβoak oʂAVeko"
+ },
+ {
+  "text": "Donostia ondorengo herri eta hiriekin senidetuta dago:",
+  "northern": "donOʂtia ondOɾenɡo heʁI eta hiɾIekin ʂenIðetuta ðaɣO"
+ },
+ {
+  "text": "Donostiako kostaldea Hondarribitik Oriora Eozenoko hareharrizko flysch delakoak osaturiko mendikateak zeharkatzen du: Ulia, Urgull, Igeldo mendia eta Mendizorrotz ekialdetik mendebaldera.",
+  "northern": "donOʂtiako koʂtAldea hondAʁiβitik oɾIoɾa eOsenoko haɾEhaʁisko flIʂt delAkoak oʂAtuɾiko mendIkateak sehAʁkaVen du ulIa uʁɡUʎ iɣEldo mendIa eta mendIsoʁoV ekIaldetik mendEβaldeɾa"
+ },
+ {
+  "text": "Arroka nagusia kareharria da, baina beste material batzuez osatutakorik ere badago; adibidez, Aiako Harria granitoz osatuta dago.",
+  "northern": "aʁOka naɣUʂia kaɾEhaʁia ðA bajna βEʂte matEɾial βaVwEs oʂAtutakoɾik eɾE βaðAɣo aðIβiðes ajAko haʁIa ɣʁanItos oʂAtuta ðaɣO"
+ },
+ {
+  "text": "Asier, berriz, mendiko bizikletan aritu zen.",
+  "northern": "aʂIeʁ beʁIs mendIko βisIkletan aɾItu sen"
+ },
+ {
+  "text": "Urte askotan beren hizkuntzari eutsi eta testu asko idatzi zituzten.",
+  "northern": "Uʁte aʂkOtam beɾEn hiskUnVaɾi EwPi eta teʂtU Aʂko iðAVi sitUsten"
+ },
+ {
+  "text": "Euskal mitologia Euskal Herriko mitoen multzoa da.",
+  "northern": "ewʂkAl mItoloɣia ewʂkAl heʁIko mItoem mulVOa ðA"
+ },
+ {
+  "text": "Tesi berbera erabili zuen Esteban Garibaik, nahiz eta berak Gaztelako koroaren aldeko gorazarre gisa azaldu.",
+  "northern": "tEʂi βeʁβEɾa eɾAβili swen eʂtEβan ɡaɾIβajk nAhis eta βeɾAk ɡastElako koɾOaɾen aldEko ɣoɾAsaʁe ɣIʂa asAldu"
+ },
+ {
+  "text": "Hala berean, kimika adibidez, ezin da huts-hutsean zientzia deduktibotzat hartu, elementuen ezaugarriak ezagutzea kimikaren atal nagusia delako.",
+  "northern": "halA βeɾEan kImika aðIβiðes esIn da hUP huPEan siEnVia ðeðUktiβoVat haʁtU elEmentwen esAwɣaʁiak esAɣuVea kImikaɾen atAl naɣUʂia ðelAko"
+ },
+ {
+  "text": "Bilbok hazteko daukan aukera bakarra antzinako gune industrial zaharkituak eraberritzea da.",
+  "northern": "bIlβok hastEko ðawkAn awkEɾa βAkaʁa anVInako ɣunE indUʂtʁial sahAʁkituak eɾAβeʁiVea ðA"
+ },
+ {
+  "text": "Historiografia klasikoan, gizakiaren, edo hobe esanda, gizarteen Historia, idazkerarekin hasten da.",
+  "northern": "hiʂtOɾioɣʁafia klAʂikoan ɡisAkiaɾen eðo hoβE eʂAnda ɡisAʁteen hiʂtOɾia iðAskeɾaɾekin hAʂten da"
+ },
+ {
+  "text": "Trafiko trinko honek sortzen duen aire- eta soinu-kutsadura dela-eta kezka badago.",
+  "northern": "tʁafIko tʁinkO honEk ʂOʁVen dwen ajɾE eta ʂojnU kuPAðuɾa ðelA eta kEska βaðAɣo"
+ },
+ {
+  "text": "Barne erlatiboko klausulak dira, seguru asko.",
+  "northern": "baʁnE eʁlAtiβoko klawʂUlak diɾA ʂeɣUɾu Aʂko"
+ },
+ {
+  "text": "La Otxoa kabaret giroa ezarri zuen hirian ere bai, bestela.",
+  "northern": "lA oCOa kaβAɾet ɡIɾoa esAʁi swen hiɾIan eɾE βAj beʂtela"
+ },
+ {
+  "text": "Orokorrean, alderdi abertzaleen artean eskuin politikoak posizio zentristagoak ditu alderdi espainiarzaleen artean baino.",
+  "northern": "oɾOkoʁean aldEʁdi aβEʁValeen aʁtEan eʂkUjm polItikoak poʂIsio sentʁIʂtaɣoak ditU aldEʁdi eʂpAjniaʁsaleen aʁtEam bajnO"
+ },
+ {
+  "text": "Aipatzekoak dira, halaber, hiriko auzoetan zehar ospatzen diren jaiak, hala nola Amara Zaharreko jaiak eta Egiako Porrontxoak.",
+  "northern": "ajpAVekoak diɾA halaβeʁ hiɾIko Awsoetan sehAʁ oʂpAVen diɾEn ɟajAk halA nOla amAɾa sahAʁeko ɟajAk eta Eɣiako poʁOnCoak"
+ },
+ {
+  "text": "Garai goiztiar hartatik hizkuntza haiek idatziaren prestigioa bereganatu zuten, eta euskara, berriz, herri xehearekin lotuta zegoen.",
+  "northern": "ɡaɾAj ɣojstIaʁ haʁtAtik hiskUnVa hAjek iðAViaɾem pʁeʂtIɣioa βeɾEɣanatu sutEn eta Ewʂkaɾa beʁIs heʁI ʃehEaɾekin lotUta seɣOen"
+ },
+ {
+  "text": "Euskal Herrian enpresa pribatuak arduratzen dira energiaren horniduraz eta energia jakin batzuen ekoizpenaz.",
+  "northern": "ewʂkAl heʁIan empʁEʂa pʁiβAtuak aʁdUɾaVen diɾA enEʁɡiaɾen hoʁnIðuɾas eta enEʁɡia ɟAkim baVwEn ekOjspenas"
+ },
+ {
+  "text": "mendean, arabiarrak iritsi ziren Nafarroaren eta euskararen eremuaren hegoaldera.",
+  "northern": "mendEan aɾAβiaʁak iɾIPi siɾEn nafAʁoaɾen eta ewʂkAɾaɾen eɾEmuaɾen heɣOaldeɾa"
+ },
+ {
+  "text": "Eliza Katolikoak izan zuen nagusitasun osoa mende batzuetan zehar, baina XVI.",
+  "northern": "elIsa katOlikoak isAn swen naɣUʂitaʂun oʂOa mendE βaVwEtan sehAʁ bajna hamAʂejɣaʁen"
+ },
+ {
+  "text": "Hala ere, Artxanda mendia Bilboko mendirik adierazgarriena da, Pagasarrirekin batera.",
+  "northern": "halA eɾE aʁCAnda mendIa βIlβoko mendIɾik aðIeɾasɡaʁiena ðA paɣAʂaʁiɾekim batEɾa"
+ },
+ {
+  "text": "urtean, Bilbo Bizkaiko hiriburua izendatua izan zen (Bermeo zen lehen).",
+  "northern": "uʁtEan bIlβo βiskAjko hiɾIβuɾua isEndatua isAn sen beʁmEo sEn lehEn"
+ },
+ {
+  "text": "Donostiari (bertako monasterioari) buruzko lehendabiziko aipamenak X eta XI.",
+  "northern": "donOʂtiaɾi beʁtAko monAʂteɾioaɾi buɾUsko lehEndaβisiko ajpAmenak iʃA eta hamAjkaɣaʁen"
+ },
+ {
+  "text": "Errotaburuko Karlos Santamaria Plazan Jokoenea museoan mundu zabaleko ehunka joko ikus daitezke: bakar-jokoak, dado-jokoak, domino-jokoak, karta-jokoak eta taula-jokoak.",
+  "northern": "eʁOtaβuɾuko kaʁlOʂ Antamaɾia plAsan ɟokOenea muʂEoam mundU saβAleko ehUnka ɟOko ikUʂ dajtEske bAkaʁ ɟokOak daðO ɟokOak domIno ɟokOak kaʁtA ɟokOak eta tawlA ɟokOak"
+ },
+ {
+  "text": "Gerrarekin batera, hau da 1936tik aurrera, hirurogeigarren hamarkada arte, euskal literatura Hegoaldean erbestean edo katakonbetan gelditu zen.",
+  "northern": "ɡeʁAɾekim batEɾa hAw ðA milA βeðEɾaViehun eta hoɣEjta hamAʂejtik Awʁeɾa hiɾUɾoɣejɣaʁen hamAʁkaða aʁtE ewʂkAl litEɾatuɾa heɣOaldean eʁβEʂtean eðo katAkombetan ɡeldItu sen"
+ },
+ {
+  "text": "mendekoa, 1813ko sutearen ondoren aurretik zegoenaren lekuan eraikia, Pedro Ugartemendia eta Alejo Mirandaren proiektuen arabera.",
+  "northern": "mendEkoa milA soʁVIehun eta hamAhiɾuko ʂutEaɾen ondOɾen Awʁetik seɣOenaɾen lEkuan eɾAjkia pEðʁo uɣAʁtemendia eta alEɟo miɾAndaɾem pʁojEktwen aɾAβeɾa"
+ },
+ {
+  "text": "mendean, erromantizismoaren eraginpean, ohiturei eta historiako gaiei buruzko margo-lanak egin ziren batez ere.",
+  "northern": "mendEan eʁOmantisiʂmoaɾen eɾAɣimpean ohItuɾej eta hiʂtOɾiako ɣajEj βuɾUsko maʁɡO lanAk eɣIn siɾEm batEs eɾE"
+ },
+ {
+  "text": "Mundu osoko erakunde nazional guztiek erabiltzen dute, nahiz eta zirkulu akademiko espezializatuetan zaharkitua dagoela onartu.",
+  "northern": "mundU oʂOko eɾAkunde nasIonal ɣustIek eɾAβilVen dutE nAhis eta sIʁkulu akAðemiko eʂpEsialisatwetan sahAʁkitua ðaɣOela onAʁtu"
+ },
+ {
+  "text": "mendetik aurrera garatu zen Euskal Herrian.",
+  "northern": "mendEtik Awʁeɾa ɣaɾAtu sen ewʂkAl heʁIan"
+ },
+ {
+  "text": "mende arte nafar gehienak vascongadoak ziren, eta arabar eta enkartau asko ez ziren vascongadoak, romanzadoak edo latinadoak baizik.",
+  "northern": "mendE aʁtE nafAʁ ɡehIenak baʂkOnɡaðoak siɾEn eta aɾAβaʁ eta enkAʁtaw Aʂko e VIɾem baʂkOnɡaðoak ʁomAnsaðoak eðo latInaðoak bajsIk"
+ },
+ {
+  "text": "nor zen erakutsi nahian.",
+  "northern": "nOʁ sEn eɾAkuPi nahIan"
+ },
+ {
+  "text": "Proiektu hori Severino Atxukarro arkitektoak, eta Pablo Altzola eta Ernesto Hoffmeyer ingeniariek sinatu zuten.",
+  "northern": "pʁojEktu hOɾi ʂeβEɾino aCUkaʁo aʁkItektoak eta pAβlo alVOla eta eʁnEʂto ɟofmEɟeʁ inɡEniaɾiek ʂinAtu sutEn"
+ },
+ {
+  "text": "Errioxa eta Burgos aldeko euskaldun haiek, Erdi Aroan musulmanak lur haietatik egotzi eta gero egindako birpopulaketen ondorio izan zirela dirudi.",
+  "northern": "eʁIoʃa eta βuʁɡOʂ aldEko ewʂkAldun hAjek eʁdI aɾOam muʂUlmanak lUʁ hajEtatik eɣOVi eta ɣeɾO eɣIndako βiʁpOpulaketen ondOɾio isAn siɾEla ðiɾUði"
+ },
+ {
+  "text": "Arte erakusketak egiteaz gain, Bilbon egingo diren hainbat proiekturen erakusketak ere antolatzen dira noizbehinka.",
+  "northern": "aʁtE eɾAkuʂketak eɣIteas ɡAjn bIlβon eɣInɡo ðiɾEn hAjmbat pʁojEktuɾen eɾAkuʂketak eɾE antOlaVen diɾA nojsbEhinka"
+ },
+ {
+  "text": "Nafarroa Garaian, bereziki, prozesu hori oso nabarmena izan da azken mendeetan.",
+  "northern": "nafAʁoa ɣaɾAjan beɾEsiki pʁosEʂu hOɾi oʂO naβAʁmena isAn da askEm mendEetan"
+ },
+ {
+  "text": "Hala ere, ez direla bereizten dio: berdin jan, jantzi eta hitz egiten dutela.",
+  "northern": "halA eɾE es tIɾela βeɾEjsten diO beʁdIn ɟAn ɟanVI eta hIV eɣIten dutEla"
+ },
+ {
+  "text": "Mendebaldean, historialariek historiografia metodo modernoak garatu zituzten XVII.",
+  "northern": "mendEβaldean hiʂtOɾialaɾiek hiʂtOɾioɣʁafia metOðo moðEʁnoak ɡaɾAtu sitUsten hamAsaspiɣaʁen"
+ },
+ {
+  "text": "Harainoko autobus zerbitzua badago.",
+  "northern": "haɾAjnoko awtOβuʂ seʁβIVua βaðAɣo"
+ },
+ {
+  "text": "mendean idazten hasi zenetik, alfabeto latindarra darabil, bere kokaleku geografikoaren eraginez.",
+  "northern": "mendEan iðAsten haʂI senEtik alfAβeto latIndaʁa ðaɾAβil beɾE kokAleku ɣeOɣʁafikoaɾen eɾAɣines"
+ },
+ {
+  "text": "1964an jendaurreko ekitaldian aurkeztu zituzten Baionako Biltzarraren erabakiak.",
+  "northern": "milA βeðEɾaViehun eta hiɾUɾoɣejta lawAn ɟendAwʁeko ekItaldian awʁkEstu sitUstem bajOnako βilVAʁaɾen eɾAβakiak"
+ },
+ {
+  "text": "A ereduak gazteleraz ematen du irakaskuntza osoa, baina euskara ikasgai bat da.",
+  "northern": "A eɾEðuak ɡastEleɾas emAten du iɾAkaʂkunVa oʂOa bajna Ewʂkaɾa ikAʂɡaj βat dA"
+ },
+ {
+  "text": "Hirugarrenik, historia zergatik sortzen den aipa daiteke: historiaren filosofia.",
+  "northern": "hiɾUɣaʁenik hiʂtOɾia seʁɡAtik ʂOʁVen den ajpA ðajtEke hiʂtOɾiaɾen filOʂofia"
+ },
+ {
+  "text": "Asapala Kultur Elkartea Begoña (Mahatserri)",
+  "northern": "aʂApala kultUʁ elkAʁtea βeɣOɲa mahAPeʁi"
+ },
+ {
+  "text": "Garai horretan (1638) idatzi zuen Notitia utriusque Vasconiae Arnaut Oihenartek, euskalduntasuna eta Nafarroa lotuz.",
+  "northern": "ɡaɾAj hoʁEtan milA ʂejEhun eta hoɣEjta hamAsoʁVi iðAVi swen notItia utʁIuʂke βaʂkOniae aʁnAwt ojhEnaʁtek ewʂkAlduntaʂuna eta nafAʁoa lotUs"
+ },
+ {
+  "text": "Bigarren Mundu Gerra ondoren sortu zen historia sozialaren genero bat Alltagsgeschichte (Eguneroko bizitzaren historia) izan zen.",
+  "northern": "biɣAʁem mundU ɣeʁA ondOɾen ʂoʁtU sen hiʂtOɾia ʂosIalaɾen ɡenEɾo βAt altAɣʂɡeʂCiCte eɣUneɾoko βisIVaɾen hiʂtOɾia isAn sen"
+ },
+ {
+  "text": "Historia, sarritan, helburu praktiko edo teoriko batekin ikertu izan da, baina jakin-min intelektual soiletik iker daiteke.",
+  "northern": "hiʂtOɾia ʂaʁItan helβUɾu pʁaktIko eðo teOɾiko βatEkin ikEʁtu isAn dA bajna ɟAkim mIn intElektual ʂojlEtik Ikeʁ dajtEke"
+ },
+ {
+  "text": "Oteizaren planteamenduek berehalako oihartzuna izan zuten euskal artista gazteagoengan eta, oro har, Euskal Herriko arte mugimendu orotan.",
+  "northern": "otEjsaɾem plantEamendwek beɾEhalako ojhAʁVuna isAn sutEn ewʂkAl aʁtIʂta ɣastEaɣoenɡan etA oɾO hAʁ ewʂkAl heʁIko aʁtE muɣImendu oɾOtan"
+ },
+ {
+  "text": "mendearen hasieran hasi zen euskararen gainbehera hirian.",
+  "northern": "mendEaɾen haʂIeɾan hAʂi sen ewʂkAɾaɾen ɡajmbEheɾa hiɾIan"
+ },
+ {
+  "text": "Miarritzekoa Lapurdin, Hondarribiakoa Gipuzkoan, Loiukoa Bizkaian, Forondakoa Araban eta Noaingoa Goi Nafarroan.",
+  "northern": "miAʁiVekoa lapUʁdin hondAʁiβiakoa ɣipUskoan lojUkoa βiskAjan foɾOndakoa aɾAβan eta noAjnɡoa ɣOj nafAʁoan"
+ },
+ {
+  "text": "Euskal Herria izena lehenengoz XVI.",
+  "northern": "ewʂkAl heʁIa isEna lehEnenɡos hamAʂejɣaʁen"
+ },
+ {
+  "text": "1813ko irailean, frantseste ia amaieran, Cadizko agintarien aliatuek, britainiar eta portugaldarrek, Donostia suntsitu zuten.",
+  "northern": "milA soʁVIehun eta hamAhiɾuko iɾAjlean fʁanPEʂte Ia amAjeɾan kaðIsko aɣIntaɾien alIatwek bʁitAjniaʁ eta poʁtUɣaldaʁek donOʂtia ʂunPItu sutEn"
+ },
+ {
+  "text": "Musikari profesionalek autonomo gisa edo saioko musikari gisa egiten dute lan batzuetan, kontratuak eta konpromisoak bilatuz hainbat ingurunetan.",
+  "northern": "muʂIkaɾi pʁofEʂionalek awtOnomo ɣIʂa eðo ʂAjoko muʂIkaɾi ɣIʂa eɣIten dutE lAm baVwEtan kontʁAtuak eta kompʁOmiʂoak bilAtus hAjmbat inɡUɾunetan"
+ },
+ {
+  "text": "Bertan geratutakoek, errepresio bereziki gogorra jasan zuten; ehunka izan ziren luze gabe fusilatuak (400dik gora), eta errepresio gogorrak jarraitu zion.",
+  "northern": "bEʁtan ɡeɾAtutakoek eʁEpʁeʂio βeɾEsiki ɣoɣOʁa ɟaʂAn sutEn ehUnka isAn siɾEn lusE ɣaβE fuʂIlatuak lAw seɾO seɾO ðIk ɡoɾA eta eʁEpʁeʂio ɣoɣOʁak ɟaʁAjtu siOn"
+ },
+ {
+  "text": "Korrika hainbat alditan amaitu da bertan; 22.",
+  "northern": "koʁIka hAjmbat aldItan amAjtu ða βEʁtan hoɣEjta βI"
+ },
+ {
+  "text": "mendean Atlantiko Itsasoko nagusi bihurtzeraino.",
+  "northern": "mendEan atlAntiko iPAʂoko naɣUʂi βihUʁVeɾajno"
+ },
+ {
+  "text": "Hortaz, umeen artean euskaldunen ehunekoa igotzen hasita zegoen.",
+  "northern": "hoʁtas Umeen aʁtEan ewʂkAldunen ehUnekoa iɣOVen hAʂita seɣOen"
+ },
+ {
+  "text": "Kristo aurreko garaietan, iberierarekin eta zelta hizkuntzekin.",
+  "northern": "kʁIʂto awʁEko ɣaɾAjetan iβEɾieɾaɾekin eta seltA hiskUnVekin"
+ },
+ {
+  "text": "New York: Metropolitan Opera.",
+  "northern": "njU ɟOʁk mEtʁopolitan opEɾa"
+ },
+ {
+  "text": "Lagunarenetik, genitiboko -ren- atzizkia eta ablatiboko -tik atzizkia metaturik.",
+  "northern": "laɣUnaɾenetik ɡenItiβoko ʁEn aVIskia eta aβlAtiβoko tIk aVIskia metAtuɾik"
+ },
+ {
+  "text": "Bere kokalekua zela eta, hiria berehala hasi zen garrantzitsuago bihurtzen, Gaztelako produktuen igarobide nagusia baitzen.",
+  "northern": "beɾE kokAlekua sEla etA hiɾIa βeɾEhala hAʂi sen ɡaʁAnViPuaɣo βihUʁVen ɡastElako pʁoðUktwen iɣAɾoβiðe naɣUʂia βajVEn"
+ },
+ {
+  "text": "Hots elektronikoak sortzeko lehen saioak Kanadan eta Estatu Batuetan egin ziren, 1890.",
+  "northern": "hoP elEktʁonikoak ʂoʁVEko lehEn ʂAjoak Anaðan eta eʂtAtu βatwEtan eɣIn siɾEn milA soʁVIehun eta lawɾOɣejta hamAʁ"
+ },
+ {
+  "text": "Lizardi Mintza Taldea (Zazpikaleak)",
+  "northern": "lisAʁdi minVA tAldea sAspikaleak"
+ },
+ {
+  "text": "mendearen bigarren erdian izandako eztabaidekin, modu dramatikoan aldatu zen.",
+  "northern": "mendEaɾem biɣAʁen eʁdIan isAndako Estaβajðekin moðU ðʁamAtikoan aldAtu sen"
+ },
+ {
+  "text": "Turismoari begira eratutako hiri barneko garraiobide bereziak ere badaude.",
+  "northern": "tuɾIʂmoaɾi βeɣIɾa eɾAtutako hiɾI βaʁnEko ɣaʁAjoβiðe βeɾEsiak eɾE βaðAwðe"
+ },
+ {
+  "text": "Hiribilduaren oparoaldiak mendearen bigarren erdira arte iraun zuen.",
+  "northern": "hiɾIβilduaɾen opAɾoaldiak mendEaɾem biɣAʁen eʁdIɾa aʁtE iɾAwn swen"
+ },
+ {
+  "text": "Hala ere, ez dago zazpiak biltzen dituen antolamendu politiko-administratibo egituraturik.",
+  "northern": "halA eɾE es tAɣo sAspiak bIlVen ditwEn antOlamendu polItiko aðmIniʂtʁatiβo eɣItuɾatuɾik"
+ },
+ {
+  "text": "Asteburuetan, gauez ibiltzen den jendearentzat erabilgarri, gau eta goizaldeko Gau Txori izeneko zerbitzuak daude.",
+  "northern": "aʂtEβuɾwetan ɡawEs iβIlVen den ɟendEaɾenVat eɾAβilɣaʁi ɡAw eta ɣOjsaldeko ɣAw CoɾI isEneko seʁβIVuak dawðE"
+ },
+ {
+  "text": "Erdaldunak nagusi dira 40 urtetik gorako adin-taldeetan.",
+  "northern": "eʁdAldunak naɣUʂi ðiɾA βeʁOɣej uʁtEtik ɡoɾAko aðIn tAldeetan"
+ },
+ {
+  "text": "Arkeologia bereziki lagungarria da lurperatutako aztarnategiak eta objektuak azaleratzeko eta historiaren azterketan laguntzen dutenak.",
+  "northern": "aʁkEoloɣia βeɾEsiki laɣUnɡaʁia ðA luʁpEɾatutako astAʁnateɣiak eta obɟEktuak asAleɾaVeko eta hiʂtOɾiaɾen astEʁketan laɣUnVen dutEnak"
+ },
+ {
+  "text": "Dena dela, salbuespenak ere baziren, hala nola San Ignazio auzoa, han kale zuzenak eta eraikin ordenatuak baitira nagusi.",
+  "northern": "dEna ðelA ʂalβwEʂpenak eɾE βasIɾen halA nOla ʂAn iɣnAsio Awsoa hAn kAle susEnak eta eɾAjkin oʁdEnatuak bajtIɾa naɣUʂi"
+ },
+ {
+  "text": "mendearen amaierara arte ere, edozein herritarren oinarrizko hezkuntzarako diziplinarik garrantzitsuenetako bat bezala aitortua izan zelarik.",
+  "northern": "mendEaɾen amAjeɾaɾa aʁtE eɾE eðOsejn heʁItaʁen ojnAʁisko heskUnVaɾako ðisIplinaɾik ɡaʁAnViPwenetako βat besAla ajtOʁtua isAn sElaɾik"
+ },
+ {
+  "text": "Bilboko iparraldean kokaturik dago eta Txorierrirekin egiten du muga.",
+  "northern": "bIlβoko ipAʁaldean kokAtuɾik daɣO eta CoɾIeʁiɾekin eɣIten du mUɣa"
+ },
+ {
+  "text": "Horretarako, Tuterako senide muladiak izan zituzten lagun, Banu Qasi izena hartu zutenak.",
+  "northern": "hoʁEtaɾako tutEɾako ʂenIðe mulAðiak isAn sitUsten laɣUn banU kaʂI isEna haʁtU sutEnak"
+ },
+ {
+  "text": "mendean, musikaren joera ohiko arau formalak eta konposizioarenak haustea izan da, atonalitatea eta dodekafonismoa bezalako joeren bidez.",
+  "northern": "mendEan muʂIkaɾen ɟoEɾa ohIko aɾAw foʁmAlak eta kompOʂisioaɾenak hawʂtEa isAn da atOnalitatea eta ðoðEkafoniʂmoa βesAlako ɟoEɾem biðEs"
+ },
+ {
+  "text": "Pizkundean euskal identitatea purutasunaren identitate gisa azaltzen zen.",
+  "northern": "piskUndean ewʂkAl iðEntitatea puɾUtaʂunaɾen iðEntitate ɣIʂa asAlVen sen"
+ },
+ {
+  "text": "Euskarak hiztegi etimologiko on baten behar gorria du.",
+  "northern": "Ewʂkaɾak histEɣi etImoloɣiko Om batEm behAʁ ɡoʁIa ðU"
+ },
+ {
+  "text": "Batetik, Espainiar Estatuaren menpe dagoen Renfe Operadora enpresa, Renfe Aldiriak eta Renfe Feve marka komertzialen bitartez.",
+  "northern": "batEtik eʂpAjniaʁ eʂtAtuaɾem mempE ðaɣOen ʁenfE opEɾaðoɾa empʁEʂa ʁenfE aldIɾiak eta ʁenfE feβE maʁkA komEʁVialem bitAʁtes"
+ },
+ {
+  "text": "Bestaldetik, Euskotren konpainiak Hendaia eta Bilborainoko bidaiak eskaintzen ditu, baita Donostialdeko metroa ere.",
+  "northern": "beʂtAldetik ewʂkOtʁen kompAjniak hendAja eta βIlβoɾajnoko βiðAjak eʂkAjnVen ditU bajta ðonOʂtialdeko mEtʁoa eɾE"
+ },
+ {
+  "text": "Dena den, egungo landaredia gizakiak gogor eragindakoa da: hiriko urbanizazioak antzinako basoak eta baserri lurrak ordeztu ditu neurri handi batean.",
+  "northern": "dEna ðEn eɣUnɡo landAɾeðia ɣisAkiak ɡoɣOʁ eɾAɣindakoa ðA hiɾIko uʁβAnisasioak anVInako βAʂoak eta βAʂeʁi luʁAk oʁdEstu ðitU nEwʁi handI βatEan"
+ },
+ {
+  "text": "Donostiak joera aurrerazalea hartu zuen gehienean, baita euskal autonomia-estatutuaren aldekoa ere.",
+  "northern": "donOʂtiak ɟoEɾa Awʁeɾasalea haʁtU swen ɡehIenean bajta ewʂkAl awtOnomia eʂtAtutuaɾen aldEkoa eɾE"
+ },
+ {
+  "text": "Historia lehen eta bigarren hezkuntzan irakasten da askotan, eta historiaren ikasketa akademikoa diziplina garrantzitsua da unibertsitateko ikasketetan.",
+  "northern": "hiʂtOɾia lehEn eta βiɣAʁen heskUnVan iɾAkaʂten da aʂkOtan eta hiʂtOɾiaɾen ikAʂketa akAðemikoa ðisIplina ɣaʁAnViPua ðA unIβeʁPitateko ikAʂketetan"
+ },
+ {
+  "text": "Saiakera horietan euskarak XVIII.",
+  "northern": "ʂajAkeɾa hOɾietan Ewʂkaɾak hamAsoʁViɣaʁen"
+ },
+ {
+  "text": "Zerrenda:Ipar Euskal Herriko euskaldunen ehunekoak",
+  "northern": "seʁEnda βI pUntu ipAʁ ewʂkAl heʁIko ewʂkAldunen ehUnekoak"
+ },
+ {
+  "text": "Hala ere, John Cage XX.",
+  "northern": "halA eɾE ɟOn kEjs hoɣEjɣaʁen"
+ },
+ {
+  "text": "Elkarte horien helburua elkarren arteko laguntza eta euskal nortasuna babestea dira.",
+  "northern": "elkAʁte hOɾien helβUɾua elkAʁen aʁtEko laɣUnVa eta ewʂkAl noʁtAʂuna βaβEʂtea ðiɾA"
+ },
+ {
+  "text": "Bideko pausaleku handienetakoa zen Orreagako monasterioak, alderatzeko eran, oraindik XVII.",
+  "northern": "biðEko pawʂAleku handIenetakoa sEn oʁEaɣako monAʂteɾioak aldEɾaVeko eɾAn oɾAjndik hamAsaspiɣaʁen"
+ },
+ {
+  "text": "Horien atzetik musulmanak, budistak, kristau ortodoxoak eta Zazpigarren eguneko eliza adbentista agertu ziren.",
+  "northern": "hOɾien AVetik muʂUlmanak buðIʂtak kʁiʂtAw oʁtOðoʃoak eta sAspiɣaʁen eɣUneko elIsa aðbEntiʂta aɣEʁtu siɾEn"
+ },
+ {
+  "text": "Historiografiak erlazionatutako hainbat esanahi ditu.",
+  "northern": "hiʂtOɾioɣʁafiak eʁlAsionatutako hAjmbat eʂAnahi ðitU"
+ },
+ {
+  "text": "Arnold-ek proposatu zuen historia argudio bat dela, eta horrek aldaketa sortzeko aukera sortzen du.",
+  "northern": "aʁnOld Ek pʁopOʂatu swen hiʂtOɾia aʁɡUðio βat delA eta hoʁEk aldAketa ʂoʁVEko awkEɾa ʂOʁVen du"
+ },
+ {
+  "text": "mendetik aurrera Europara zabaldu zuten arabiarrek beren jakintza, Iberiar Penintsulatik abiatuta.",
+  "northern": "mendEtik Awʁeɾa ewɾOpaɾa saβAldu sutEn aɾAβiaʁek beɾEn ɟakInVa iβEɾiaʁ penInPulatik aβIatuta"
+ },
+ {
+  "text": "Erakunde honek, besteak beste, Korrika antolatu izan du 1980.",
+  "northern": "eɾAkunde honEk bEʂteak bEʂte koʁIka antOlatu isAn dU milA βeðEɾaViehun eta lawɾOɣej"
+ },
+ {
+  "text": "Zientzia matematiko mistoa zen, astronomia edo optika bezala.",
+  "northern": "siEnVia matEmatiko mIʂtoa sEn aʂtʁOnomia eðo optIka βesAla"
+ },
+ {
+  "text": "Zenbat Gara kultura elkartea (Abando)",
+  "northern": "sembAt ɡaɾA kultUɾa elkAʁtea aβAndo"
+ },
+ {
+  "text": "Bere semea, Andres Barrenetxea Ibañez Arbolantza, Bilboko alkatea izan zen, 1616.",
+  "northern": "beɾE ʂEmea andʁEʂ bAʁeneCea iβAɲes aʁβOlanVa bIlβoko alkAtea isAn sen milA ʂejEhun eta hamAʂej"
+ },
+ {
+  "text": "Bilboko gizarte egituran aldaketa ugari egon dira azken bi mendeotan, industriaren muina izatetik zerbitzuetan zentraturiko gizartea izatera igaro da.",
+  "northern": "bIlβoko ɣisAʁte eɣItuɾan aldAketa uɣAɾi eɣOn diɾA askEm bI mendEotan indUʂtʁiaɾem mujnA isAtetik seʁβIVwetan sentʁAtuɾiko ɣisAʁtea isAteɾa iɣAɾo ða"
+ },
+ {
+  "text": "Zerrenda:Hego Euskal Herriko euskaldunen ehunekoak",
+  "northern": "seʁEnda βI pUntu heɣO ewʂkAl heʁIko ewʂkAldunen ehUnekoak"
+ },
+ {
+  "text": "mendean gure literaturaren egoera erabat aldatu zen.",
+  "northern": "mendEan ɡuɾE litEɾatuɾaɾen eɣOeɾa eɾAβat aldAtu sen"
+ },
+ {
+  "text": "Neolitoan Nekazaritza-Iraultza hasi zen, K.a.",
+  "northern": "neOlitoan nekAsaɾiVa iɾAwlVa hAʂi sen k A"
+ },
+ {
+  "text": "Ameriketan egiten zituzten lanbideak ezberdinak dira, baina zenbait garaitan artzaintza nagusia zen.",
+  "northern": "amEɾiketan eɣIten sitUsten lambIðeak esbEʁdinak diɾA bajna sembAjt ɡaɾAjtan aʁVAjnVa naɣUʂia sEn"
+ },
+ {
+  "text": "Udalaren web orrialdean informazio instituzionala eskaintzen da.",
+  "northern": "uðAlaɾen uEβ oʁIaldean infOʁmasio inʂtItusionala eʂkAjnVen da"
+ },
+ {
+  "text": "Ipar Euskal Herrian, Napoleonen Kodearen aplikazioak oinordekotza tradizionala eta herri lurren erabilera errotik aldatu zuen.",
+  "northern": "ipAʁ ewʂkAl heʁIan napOleonen koðEaɾen aplIkasioak ojnOʁdekoVa tʁaðIsionala eta heʁI luʁEn eɾAβileɾa eʁOtik aldAtu swen"
+ },
+ {
+  "text": "mendearen erdialdean, oraindik ere eztabaidan dagoen haustura sakona gertatu zen XIX.",
+  "northern": "mendEaɾen eʁdIaldean oɾAjndik eɾE estAβajðan daɣOen hawʂtUɾa ʂakOna ɣeʁtAtu sen hemEɾeViɣaʁen"
+ },
+ {
+  "text": "Eredu hau edo baliokide bat Trebiñun, Lapurdi, Nafarroa Beherea eta Zuberoan eta Nafarroako Eskualde Ez-euskaldunean ematen da.",
+  "northern": "eɾEðu hAw eðo βalIokiðe βat tʁeβIɲun lapUʁdi nafAʁoa βehEɾea eta suβEɾoan eta nafAʁoako eʂkUalde Es ewʂkAldunean emAten da"
+ },
+ {
+  "text": "«lantegi, hiztegi, oihaltegi, artegi, ehundegi»;",
+  "northern": "lantEɣi histEɣi ojhAlteɣi aʁtEɣi ehUndeɣi"
+ },
+ {
+  "text": "Hala ere, Euskal Herrian badira babestutako ingurune naturalak.",
+  "northern": "halA eɾE ewʂkAl heʁIam baðIɾa βaβEʂtutako inɡUɾune natUɾalak"
+ },
+ {
+  "text": "urtetik, zehazki—, dokumentuetan baskoien berri jasotzen hasi ziren, Baskoniako Dukerriaren inguruan.",
+  "northern": "uʁtEtik sehAski dokUmentwetam baʂkOjem beʁI ɟaʂOVen haʂI siɾEn baʂkOniako ðukEʁiaɾen inɡUɾuan"
+ },
+ {
+  "text": "Azpimarratzekoa da, gainerako hiriburuetan ez bezala, euskaldun hartzaileen ehunekorik txikiena gazteenen artean dagoela.",
+  "northern": "aspImaʁaVekoa ðA ɡajnEɾako hiɾIβuɾwetan Es besAla ewʂkAldun haʁVAjleen ehUnekoɾik CikIena ɣastEenen aʁtEan daɣOela"
+ },
+ {
+  "text": "Beste bi margolari bikainak Juan Barroeta eta Eduardo Zamacois izan ziren.",
+  "northern": "bEʂte βI maʁɡOlaɾi βikAjnak xuAn baʁOeta eta eðUaʁdo sAmakojʂ isAn siɾEn"
+ },
+ {
+  "text": "Goiburuetan, armarriari loturik joan ohi den Zazpiak Bat gaur egun onarpen zabala duenetako bat da.",
+  "northern": "ɡojβUɾwetan aʁmAʁiaɾi lotUɾik ɟOan ohI ðEn sAspiak bAt ɡAwʁ eɣUn onAʁpen saβAla ðwenEtako βAt dA"
+ },
+ {
+  "text": "Lehendabiziko zeharkako ahozko literaturaren aipamenak 1452ko Bizkaiko Foru Zaharrean agertu ziren.",
+  "northern": "lehEndaβisiko sehAʁkako ahOsko litEɾatuɾaɾen ajpAmenak milA lawɾEhun eta βeʁOɣejta hamAβiko βiskAjko fOɾu sahAʁean aɣEʁtu siɾEn"
+ },
+ {
+  "text": "Gaur egun, euskal alfabetoak bost bokal ditu:",
+  "northern": "ɡAwʁ eɣUn ewʂkAl alfAβetoak bOʂt bokAl ditU"
+ },
+ {
+  "text": "Eduardo Txillida ere euskal artista ezaguna bihurtu zen nazioartean.",
+  "northern": "eðUaʁdo CiʎIða eɾE ewʂkAl aʁtIʂta esAɣuna βihUʁtu sen nasIoaʁtean"
+ },
+ {
+  "text": "Ez da ahaztu behar Orendaingo San Sebastian ermitari Jaun Donosti izena eman izan diotela herritarrek.",
+  "northern": "es tA ahAstu βehAʁ oɾEndajnɡo ʂAn ʂeβAʂtian eʁmItaɾi ɟAwn donOʂti isEna emAn isAn diOtela heʁItaʁek"
+ },
+ {
+  "text": "Euskal Herriko Unibertsitateko Ibaetako campusak eta Deustuko Unibertsitateko Mundaitzeko campusak, hainbat fakultaterekin, osatzen dute hiriko unibertsitate-eskaintza nagusia.",
+  "northern": "ewʂkAl heʁIko unIβeʁPitateko iβAetako kampyʂak eta ðewʂtUko unIβeʁPitateko mundAjVeko kampyʂak hAjmbat fakUltateɾekin oʂAVen dutE hiɾIko unIβeʁPitate eʂkAjnVa naɣUʂia"
+ },
+ {
+  "text": "ere hartzen ditu bere baitan).",
+  "northern": "eɾE hAʁVen ditU βeɾE βajtAn"
+ },
+ {
+  "text": "Bertako Kasinoan europar bizitzako pertsonaia ugari agertu ziren: Mata Hari, Leon Trotski, Ravel, etab.",
+  "northern": "beʁtAko kaʂInoan ewɾOpaʁ βisIVako peʁPOnaja uɣAɾi aɣEʁtu siɾEn matA haɾI leO tʁoPkI ʁaβEl etAβ"
+ },
+ {
+  "text": "Esan beharra dago pitagorikoen soinu-zientziaren definizioa «aurkakoen konbinazio harmonikoa, anizkoitzen bateratzea eta aurkakoen adostasuna» dela.",
+  "northern": "eʂAm behAʁa ðaɣO pitAɣoɾikoen ʂojnU siEnViaɾen defInisioa awʁkAkoen kombInasio haʁmOnikoa anIskojVem batEɾaVea eta awʁkAkoen aðOʂtaʂuna ðelA"
+ },
+ {
+  "text": "Orduan 24 ordutan metro koadroko 250 litro baino gehiago bota zuen Bilboko aireportuan, hiriko estazio meteorologikoa dagoen puntuan.",
+  "northern": "oʁduan hoɣEjta lAw Oʁdutam mEtʁo koAðʁoko βeʁEhun eta βeʁOɣejta hamAʁ litʁO βajno ɣEhiaɣo βOta swem bIlβoko ajɾEpoʁtuan hiɾIko eʂtAsio metEoɾoloɣikoa ðaɣOem pUntuan"
+ },
+ {
+  "text": "Aurretik milaka pertsona etorri bezala, orduan milaka pertsona izan ziren Bilbo utzi zutenak;.",
+  "northern": "Awʁetik milAka peʁPOna etOʁi βesAla oʁduam milAka peʁPOna isAn siɾEm bIlβo UVi sutEnak"
+ },
+ {
+  "text": "Lurrun makinaren asmakuntzak eta erabileraren zabaltzeak harrikatzaren ustiaketaren gorakada bortitz bat ekarri zuen.",
+  "northern": "luʁUm mAkinaɾen aʂmAkunVak eta eɾAβileɾaɾen saβAlVeak haʁIkaVaɾen uʂtIaketaɾen ɡoɾAkaða βoʁtIV bAt ekAʁi swen"
+ },
+ {
+  "text": "Euskaltzaindia: erakunde araugile, iradokitzaile eta zuzentzailea.",
+  "northern": "ewʂkAlVajndia eɾAkunde aɾAwɣile iɾAðokiVajle eta susEnVajlea"
+ },
+ {
+  "text": "mendean, aldiz, euskal literaturaren testigua Helgoadera igaro zen.",
+  "northern": "mendEan aldIs ewʂkAl litEɾatuɾaɾen teʂtIɣua helɣOaðeɾa iɣAɾo sen"
+ },
+ {
+  "text": "Casco Viejo txirrindulari elkartea sortu zuen.",
+  "northern": "kaʂkO βiEɟo CiʁIndulaɾi elkAʁtea ʂoʁtU swen"
+ },
+ {
+  "text": "Zientzia denek, beraz, badute alderdi teorikoa eta alderdi esperimentala, harremanetan jartzen dituena, eta sailkapen guztiak behin-behinekotzat bihurtzen dituena.",
+  "northern": "siEnVia ðenEk beɾas baðUte aldEʁdi teOɾikoa eta aldEʁdi eʂpEɾimentala haʁEmanetan ɟAʁVen ditwEna eta ʂajlkApen ɡustIak behIm behInekoVat bihUʁVen ditwEna"
+ },
+ {
+  "text": "Une horretan, hiria hizkuntzaz erabat euskalduna zen, baita elebakar ugari ere tartean.",
+  "northern": "unE hoʁEtan hiɾIa hiskUnVas eɾAβat ewʂkAlduna sEn bajta Eleβakaʁ uɣAɾi eɾE taʁtEan"
+ },
+ {
+  "text": "Negozioa biribila zen, eta Donostia aberastu egin zen urte horietan.",
+  "northern": "neɣOsioa βiɾIβila sEn eta ðonOʂtia aβEɾaʂtu eɣIn sEn Uʁte hOɾietan"
+ },
+ {
+  "text": "Hirigunetik at soroak eta baratzeak dira, baserrien ustiapenen ondorioz, antzinako landaredia ezabatu dutenak.",
+  "northern": "hiɾIɣunetik At ʂoɾOak eta βaɾAVeak diɾA bAʂeʁien uʂtIapenen ondOɾios anVInako landAɾeðia esAβatu ðutEnak"
+ },
+ {
+  "text": "Inkisizioa berrezarri zen, eta ez zuen eragotzi neurri zentralizatzaile berriak ezartzea.",
+  "northern": "inkIʂisioa βeʁEsaʁi sEn eta e VwEn eɾAɣoVi nEwʁi sentʁAlisaVajle βeʁIak esAʁVea"
+ },
+ {
+  "text": "National Geographic Society (1888an sortua)",
+  "northern": "nasjonAl ɣeOɣʁapik ʂosIeti milA soʁVIehun eta lawɾOɣejta soʁVIan ʂoʁtUa"
+ },
+ {
+  "text": "Euskal Iztundeak sustatutako lanak Donostia eta Gipuzkoa osora hedatu ziren, baita Bizkaira ere gero, Resurrecion Maria Azkueren eskutik.",
+  "northern": "ewʂkAl istUndeak ʂuʂtAtutako lanAk donOʂtia eta ɣipUskoa oʂOɾa heðAtu siɾEn bajta βiskAjɾa eɾE ɣeɾO ʁeʂUʁeʂiom maɾIa askwEɾen eʂkUtik"
+ },
+ {
+  "text": "Urbanismo kaotikoaz gain, txabolismoa zabaldu zen Bilbo inguruko mendietan: San Ignazio, La Peña-Abusu eta Errekaldeberri auzoetan, esaterako.",
+  "northern": "uʁβAniʂmo kaOtikoas ɡAjn CaβOliʂmoa saβAldu sem bIlβo inɡUɾuko mendIetan ʂAn iɣnAsio lA peɲA aβUʂu eta eʁEkaldeβeʁi Awsoetan eʂAteɾako"
+ },
+ {
+  "text": "R4 (Bilbo-Concordia – León).",
+  "northern": "eʁE lAw bIlβo konkOʁdia leOn"
+ },
+ {
+  "text": "Haur eta gazte gehienenek euskaraz ikasten dute eta hiztunen kopurua etengabe igotzen ari da.",
+  "northern": "hAwʁ eta ɣastE ɣehIenenek Ewʂkaɾas ikAʂten dutE eta histUnen kopUɾua etEnɡaβe iɣOVen aɾI ðA"
+ },
+ {
+  "text": "Pixkanaka, biztanleria handituz joan ahala, gaur egungo Zazpikaleak eratu ziren.",
+  "northern": "piʃkAnaka bistAnleɾia handItus ɟOan ahAla ɡAwʁ eɣUnɡo sAspikaleak eɾAtu siɾEn"
+ },
+ {
+  "text": "Hiri hartako armarriko goiko ezkerraldeko laurdena Bilboko armarria bera da oraindik.",
+  "northern": "hiɾI haʁtAko aʁmAʁiko ɣojkO eskEʁaldeko lawʁdEna βIlβoko aʁmAʁia βEɾa ðA oɾAjndik"
+ },
+ {
+  "text": "Dena dela, adinean aurrera egin ahala, euskaldunen ehunekoa jaitsiz doa.",
+  "northern": "dEna ðelA aðInean Awʁeɾa eɣIn ahAla ewʂkAldunen ehUnekoa ɟajPIs doA"
+ },
+ {
+  "text": "Independentziarekin, beste estatu batekin bat eginda edo asoziazio askeko estatusa adostuta erdiesten da deskolonizazioa.",
+  "northern": "indEpendenViaɾekin bEʂte eʂtAtu βatEkim bat eɣInda eðo aʂOsiasio aʂkEko eʂtAtuʂa aðOʂtuta eʁdIeʂten da ðeʂkOlonisasioa"
+ },
+ {
+  "text": "Izan ere, musika elektronikoaren garapena teknika berrikuntzei lotu zaio: telefonoa, bozgorailua, mikrofonoa, gramofono grabazioak, etab.",
+  "northern": "isAn eɾE muʂIka elEktʁonikoaɾen ɡaɾApena teknIka βeʁIkunVej lotU sajO telEfonoa bosɡOɾajlua mikʁOfonoa ɡʁamOfono ɣʁaβAsioak etAβ"
+ },
+ {
+  "text": "Iparraldean ez dago administrazioari loturiko hizkuntza eskola ofizialik, baina akademia eta eskolek estatuaren dirulaguntzak ukan ditzakete.",
+  "northern": "ipAʁaldean es tAɣo aðmIniʂtʁasioaɾi lotUɾiko hiskUnVa eʂkOla ofIsialik bajna akAðemia eta eʂkOlek eʂtAtuaɾen diɾUlaɣunVak ukAn diVAkete"
+ },
+ {
+  "text": "mendean urteko 20.000 janari ematen zituen.",
+  "northern": "mendEan uʁtEko hoɣEj milA ɟanAɾi emAten sitwEn"
+ },
+ {
+  "text": "Bilbao, ordea, behin bakarrik ageri da euskaraz, XVI eta XVII.",
+  "northern": "bilβAo oʁdea behIm bakAʁik aɣEɾi ða Ewʂkaɾas hamAʂejɣaʁen eta hamAsaspiɣaʁen"
+ },
+ {
+  "text": "Inguratzen dituen medioak transmititzen du, hau da, oro har, atmosferako aireak.",
+  "northern": "inɡUɾaVen ditwEm mEðioak tʁanʂmItiVen dU hAw ðA oɾO hAʁ atmOʂfeɾako ajɾEak"
+ },
+ {
+  "text": "«galdeketa, ikerketatik ezagutza edo epaile»).",
+  "northern": "ɡaldEketa ikEʁketatik esAɣuVa eðo epAjle"
+ },
+ {
+  "text": "Gaur egun, baina, etimologia horretan inork gutxik sinesten du.",
+  "northern": "ɡAwʁ eɣUn bajnA etImoloɣia hoʁEtan inOʁk ɡUCik ʂinEʂten du"
+ },
+ {
+  "text": "Tabakalera, tabako fabrika izandako eraikina, Kultura Garaikidearen Nazioarteko Gune bilakatu da.",
+  "northern": "taβAkaleɾa taβAko faβʁIka isAndako eɾAjkina kultUɾa ɣaɾAjkiðeaɾen nasIoaʁteko ɣunE βilAkatu ða"
+ },
+ {
+  "text": "Hala ere, eztabaida dago zenbateraino ziren agirietan agertzen diren herritar horiek edo zenbateraino iparraldetik etorriak.",
+  "northern": "halA eɾE estAβajða ðaɣO sembAteɾajno siɾEn aɣIɾietan aɣEʁVen diɾEn heʁItaʁ hoɾIek eðo sembAteɾajno ipAʁaldetik etOʁiak"
+ },
+ {
+  "text": "Bestalde, medikuntzan Hipokrates eta Galeno gailendu ziren, anatomian lehena eta fisiologian bigarrena.",
+  "northern": "beʂtalde meðIkunVan hipOkʁateʂ eta ɣalEno ɣajlEndu siɾEn anAtomian lehEna eta fiʂIoloɣiam biɣAʁena"
+ },
+ {
+  "text": "Diziplina ulertzeko modu garaikidean, giza askatasuna da (Idealismo alemaniarraren eragin handia duena).",
+  "northern": "disIplina ulEʁVeko moðU ɣaɾAjkiðean ɡisA aʂkAtaʂuna ðA iðEaliʂmo alEmaniaʁaɾen eɾAɣin handIa ðwenA"
+ },
+ {
+  "text": "Bilbo izena naro azaltzen da euskarazko dokumentu eta literatura lanetan.",
+  "northern": "bIlβo isEna naɾO asAlVen da Ewʂkaɾasko ðokUmentu eta litEɾatuɾa lanEtan"
+ }
+]

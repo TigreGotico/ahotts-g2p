@@ -8,6 +8,8 @@ Pure-Python, zero-dependency AhoTTS grapheme-to-phoneme for Basque and Spanish.
 - [Usage](usage.md) -- the public API, CLI, and common recipes.
 - [Versions](versions.md) -- the AhoTTS V1/V2/V3 lineage, the upstream source
   and consuming model for each, and the behavioural signatures.
+- [Dialects](dialects.md) -- the Northern (Iparralde / Iparrahotsa) Basque
+  dialect: pronounced /h/, French vowels, uvular r, and how to call it.
 - [Architecture](architecture.md) -- the module layout, the text -> phoneme
   pipeline, and the HDIC dictionary decode.
 - [Methodology](methodology.md) -- how correctness is defined and verified.

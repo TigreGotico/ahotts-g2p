@@ -21,7 +21,9 @@ makefiles) -- no algorithmic difference.
 
 A separate Northern-dialect fork,
 [AhoTTS_Iparrahotsa](https://github.com/aholab/AhoTTS_Iparrahotsa) (pronounced
-`/h/`, French vowels, uvular r), is off the V1->V3 line and is not implemented.
+`/h/`, French vowels, uvular r), is off the V1->V3 line. It is implemented as a
+dialect rather than a version -- `phonemize(..., dialect="northern")`. See
+[dialects.md](dialects.md).
 
 ## How the versions relate
 
