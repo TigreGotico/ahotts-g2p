@@ -7,9 +7,9 @@ model, and how each version's signature is identified. It is the factual basis
 for the version definitions in [versions.md](versions.md).
 
 The public API exposes two engines, `classic` and `modern`. They sit on a real
-chronological lineage of three generations: `classic` is the original,
-first-generation engine; the 2025 `ahotts_common` `transcribe` mode is the
-un-shipped middle generation; and `modern` is the StyleTTS-era build. Below, the
+chronological lineage of three generations. `classic` is the original,
+first-generation engine. The 2025 `ahotts_common` `transcribe` mode is the
+un-shipped middle generation. `modern` is the StyleTTS-era build. Below, the
 generation labels **gen 1 (`classic`)**, **gen 2 (`transcribe`)**, and **gen 3
 (`modern`)** track that timeline, with `classic`/`modern` as the names a caller
 passes to `phonemize(..., version=...)`.
@@ -18,9 +18,9 @@ passes to `phonemize(..., version=...)`.
 
 | id | source | what it is |
 |---|---|---|
-| aholab (gen 1, `classic`) | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine | the canonical AhoTTS C++ source; complete and public |
-| aholab (gen 2, `transcribe`) | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), 2025 rewrite commit | the `ahotts_common` rewrite (same repo, later commit); a superset of the shipped binaries; its `transcribe` mode is the un-shipped middle generation |
-| ekaitz | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) | a packaging fork of the original `aholab/AhoTTS` (CMake/portability only, no algorithmic change); what `pyAhoTTS` builds |
+| aholab (gen 1, `classic`) | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine | the canonical AhoTTS C++ source, complete and public |
+| aholab (gen 2, `transcribe`) | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), 2025 rewrite commit | the `ahotts_common` rewrite (same repo, later commit), a superset of the shipped binaries, whose `transcribe` mode is the un-shipped middle generation |
+| ekaitz | [ekaitz-zarraga/AhoTTS](https://github.com/ekaitz-zarraga/AhoTTS) | a packaging fork of the original `aholab/AhoTTS` (CMake/portability only, no algorithmic change), what `pyAhoTTS` builds |
 | ahoNT | [hitz-zentroa/ahoNT](https://github.com/hitz-zentroa/ahoNT) | Python wrapper + prebuilt `modulo1y2.so` (es/eu/gl/ca). No C source. |
 | aHoTTS | [hitz-zentroa/aHoTTS](https://github.com/hitz-zentroa/aHoTTS) | VITS synth wrapper + prebuilt `ahotts/tts`. No C source. |
 | arrandi | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) | prebuilt `modulo1y2` (es/eu) + `eu_dicc_20250326.dic` + `eu_phonemizer.py` wrapper. No C source. |
@@ -42,9 +42,9 @@ strings, so all descend from `ahotts_common`, whose ancestor is the original
 
 ## Empirical signature table (eu)
 
-Stress is shown as the capitalised vowel; "glide" = diphthong offglide as
-`j`/`w` (or the VITS offglide ids 30/33); "full-vowel" = offglide kept as plain
-`i`/`u`.
+Stress is shown as the capitalised vowel. "Glide" means diphthong offglide as
+`j`/`w` (or the VITS offglide ids 30/33). "Full-vowel" means the offglide is
+kept as plain `i`/`u`.
 
 | word | pyAhoTTS (gen 1, `classic`) | aholab 2025 *transcribe* (gen 2) | aHoTTS `tts` (VITS) | arrandi (gen 3, `modern`) |
 |---|---|---|---|---|
@@ -66,14 +66,14 @@ dictionary leaves to the regular rule.
 * pyAhoTTS and aholab-new are exercised through an added `transcribe_text` C
   export.
 * ahoNT is exercised through `transkripzioa(mode=Phone)`.
-* The aHoTTS `tts` VITS driver does not expose phonemes directly; its
+* The aHoTTS `tts` VITS driver does not expose phonemes directly. Its
   tokenisation is recovered by replacing `vits.onnx` with an identity graph,
   running `-Method=Vits`, reading the int64 token ids, and decoding them through
   the recovered 54-symbol map.
 * arrandi is exercised through `modulo1y2 -Lang=eu`.
 * AhoTTS_Iparrahotsa (the Northern dialect) is exercised through the same
   `transcribe_text` C export, rebuilt against the Iparrahotsa `libhtts` and the
-  Northern `eu_dicc`; this is the oracle for the `dialect="northern"` corpus
+  Northern `eu_dicc`. This is the oracle for the `dialect="northern"` corpus
   (see [dialects.md](dialects.md)).
 
 ## Model -> version mapping
@@ -96,8 +96,11 @@ signature, which the original-dictionary binaries do not produce.
 The full-vowel-diphthong, flat-2nd-syllable output (the `aholab 2025
 transcribe` column above) is the `transcribe`-mode path of the modern engine.
 The VITS tokenisation path of that same engine emits offglides and dictionary
-stress, so **no released model consumes the `transcribe`-mode output** — which
-is why it is not shipped as a public version of this port. The mapping is kept
-here as a research record: if a future model is ever phonemized through that
-mode, re-adding it is an informed change (the column above states exactly what
-it produces) rather than a rediscovery.
+stress, so **no released model consumes the `transcribe`-mode output**. This is
+why it is not shipped as a public version of this port. The mapping is kept
+here as a research record. If a future model is ever phonemized through that
+mode, re-adding it is an informed change, since the column above states exactly
+what it produces, rather than a rediscovery.
+
+---
+[← Methodology](methodology.md) · [Home](README.md) · [Accuracy →](accuracy.md)
