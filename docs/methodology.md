@@ -26,7 +26,7 @@ Two complementary checks back every figure.
    package against these corpora and fails if word parity or exact-line counts
    drop below the verified thresholds.
 
-2. **Distribution check.** The `modern` eu path is additionally checked against the
+2. **Distribution check.** The `modern` eu path is also checked against the
    convention used in the HiTZ/StyleTTS2-eu training distribution (dictionary
    first-syllable stress), confirming the default path matches the data the
    released model was trained on.
@@ -54,3 +54,6 @@ pytest tests/test_oracle.py -q
 The reference corpora were captured from the AhoTTS engines themselves; see
 [reverse-engineering.md](reverse-engineering.md) for the capture method and
 [accuracy.md](accuracy.md) for the figures.
+
+---
+[← Architecture](architecture.md) · [Home](README.md) · [Reverse engineering →](reverse-engineering.md)

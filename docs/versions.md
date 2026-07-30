@@ -4,7 +4,7 @@ AhoTTS is not a single phonemizer -- it has a real engine lineage, and
 different public Basque voices were phonemized by different generations. The
 output differs (most visibly in stress placement and diphthong handling), so
 `ahotts-g2p` is **version-aware**: `phonemize(..., version=...)` selects which
-engine to reproduce. The two public values are `classic` and `modern`; the
+engine to reproduce. The two public values are `classic` and `modern`. The
 default is `modern`.
 
 * **`classic`** is the original AhoTTS engine, the one that phonemized the HiTZ
@@ -16,7 +16,7 @@ default is `modern`.
 
 | Version | Upstream source | Consuming model | Basque dict | Distinctive behaviour |
 |---|---|---|---|---|
-| **`classic`** | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine; complete public C++ source | **HiTZ VITS** voices | original `eu_dicc` | dictionary `STR_MRK` stress through the accentual-group machinery; vowel offglides (`au` -> `aw`, `ai` -> `aj`) |
+| **`classic`** | [aholab/AhoTTS](https://github.com/aholab/AhoTTS), original engine, complete public C++ source | **HiTZ VITS** voices | original `eu_dicc` | dictionary `STR_MRK` stress through the accentual-group machinery, vowel offglides (`au` -> `aw`, `ai` -> `aj`) |
 | **`modern`** | [arrandi/phonemizer-eus-esp](https://huggingface.co/spaces/arrandi/phonemizer-eus-esp) -- `modulo1y2` + `eu_phonemizer.py` wrapper | [**HiTZ/StyleTTS2-eu**](https://huggingface.co/HiTZ) | `eu_dicc_20250326` | dictionary `STR_MRK` stress like `classic` but from the newer dictionary, plus a silent-`h` stress shift, `ʝ` palatalisation, and punctuation emitted as separate tokens |
 
 `pyAhoTTS` builds the `classic` engine from
@@ -38,9 +38,9 @@ engine** (the same `aholab/AhoTTS` repository at different commits): every
 config branches (`phtiparralde` and `StressDicSingleWords`).
 
 * **`classic`** is the original engine. It applies dictionary `STR_MRK` stress
-  through the accentual-group machinery (a marked word like `hori` is stressed on
-  its first syllable; an unmarked word falls back to the regular stress rule) and
-  renders diphthong offglides as `j`/`w`.
+  through the accentual-group machinery. A marked word like `hori` is stressed on
+  its first syllable, and an unmarked word falls back to the regular stress rule.
+  It renders diphthong offglides as `j`/`w`.
 * **`modern`** is the StyleTTS-era `arrandi` build: the same dictionary `STR_MRK`
   stress mechanism as `classic` but driven by the newer `eu_dicc_20250326` (which
   marks a different set of words -- e.g. `horrek`/`honek`/`hizkuntza` gain
@@ -50,8 +50,8 @@ config branches (`phtiparralde` and `StressDicSingleWords`).
 
 ## Behavioural signatures (eu)
 
-Stress is shown as the capitalised vowel; "glide" = diphthong offglide as
-`j`/`w`; "full-vowel" = offglide kept as plain `i`/`u`.
+Stress is shown as the capitalised vowel. "Glide" means diphthong offglide as
+`j`/`w`. "Full-vowel" means the offglide is kept as plain `i`/`u`.
 
 | word | classic | modern |
 |---|---|---|
@@ -72,13 +72,13 @@ but not the `classic` one.
 * **HiTZ/StyleTTS2-eu** was phonemized by **`modern`** (arrandi `modulo1y2`). The
   model's training distribution uses dictionary first-syllable stress
   (`horrek -> Orek`, `hizkuntza -> IʂkunPa`), matching the arrandi binary.
-* **HiTZ VITS** voices were phonemized by the AhoTTS `tts -Method=Vits` driver,
-  whose eu output matches **`classic`**: dictionary `STR_MRK` stress, offglides,
+* The AhoTTS `tts -Method=Vits` driver phonemized **HiTZ VITS** voices. Its eu
+  output matches **`classic`**: dictionary `STR_MRK` stress, offglides,
   the original dictionary.
 
 The modern engine also exposes a flat `transcribe` mode (full-vowel diphthongs,
 2nd-syllable stress that bypasses the dictionary). No released model consumes it,
-so it is not shipped as a public version;
+so it is not shipped as a public version.
 [reverse-engineering.md](reverse-engineering.md) keeps the research record of
 that path for the future.
 
@@ -87,3 +87,6 @@ identified from the binaries, and [accuracy.md](accuracy.md) for the verified
 parity figures.
 </content>
 </invoke>
+
+---
+[← Usage](usage.md) · [Home](README.md) · [Dialects →](dialects.md)

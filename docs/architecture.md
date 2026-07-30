@@ -1,7 +1,7 @@
 # Architecture
 
 `ahotts-g2p` reimplements the AhoTTS linguistic front-end as a straight-line
-pipeline. No C code is involved; the only data input is the binary dictionary,
+pipeline. No C code is involved. The only data input is the binary dictionary,
 read with `struct`.
 
 ## Modules
@@ -35,10 +35,10 @@ text
 
 `phonemize` tokenizes text, collapses runs of `.` , and expands:
 
-- integers (`1870`) -> Basque number words (vigesimal: `hogei`, `berrogei`, ...);
-- ordinals (a number followed by `.`) -> `...garren`;
-- number + declension suffix (`1870eko`, `22an`) -> number words + suffix;
-- roman numerals (`XXI`) -> ordinal Basque number words;
+- integers (`1870`) -> Basque number words (vigesimal: `hogei`, `berrogei`, ...).
+- ordinals (a number followed by `.`) -> `...garren`.
+- number + declension suffix (`1870eko`, `22an`) -> number words + suffix.
+- roman numerals (`XXI`) -> ordinal Basque number words.
 - dictionary acronyms/abbreviations -> their expansion (pronunciation) field.
 
 Punctuation in `.,!?;:` is kept as standalone tokens and acts as a pause
@@ -66,12 +66,12 @@ syllable, otherwise `V-V`). Valid onset clusters are consonant + `l` / `r`.
 Per word, following the AhoTTS stress rules:
 
 - `eta`/`ta`/`edo`/`ala`/`baina`/`baino` (`es_sin_acento`): stressed only when
-  phrase-final;
-- closed clitic/auxiliary words stay unstressed;
+  phrase-final.
+- closed clitic/auxiliary words stay unstressed.
 - first-syllable words: the hardcoded `salbuespena` list **plus** any word
-  carrying the dictionary `STR_MRK` flag (exact-match lookup);
-- bisyllabic `-ko`/`-go`/`-ten`/`-tzen` forms: first syllable;
-- monosyllables: stressed (unless `ez`/`ba`/`bait` non-final);
+  carrying the dictionary `STR_MRK` flag (exact-match lookup).
+- bisyllabic `-ko`/`-go`/`-ten`/`-tzen` forms: first syllable.
+- monosyllables: stressed (unless `ez`/`ba`/`bait` non-final).
 - otherwise: second syllable.
 
 ### SAMPA -> IPA -> single-char
@@ -97,11 +97,11 @@ per entry: UINT16 len | str[slen] | UINT32 ref | [UINT16 explen | exp[exlen]]
 ```
 
 There are 4 sorted-array blocks (blocks 0/1 case-sensitive, 2/3
-case-insensitive; block 3 is the ~17k-word main lexicon). Each entry's 32-bit
+case-insensitive). Block 3 is the ~17k-word main lexicon. Each entry's 32-bit
 `HDicRef` encodes part-of-speech groups and the flags the pipeline consults:
 
-- `STR_MRK` (bit 15) -- first-syllable lexical stress;
-- `SALBTF_N_J_N` (bit 21) -- suppress `n` -> ɲ palatalisation;
+- `STR_MRK` (bit 15) -- first-syllable lexical stress.
+- `SALBTF_N_J_N` (bit 21) -- suppress `n` -> ɲ palatalisation.
 - plus `SALBTF_I_J`, `J_X`, `L_l`, `Z_T`, `TF_MRK`.
 
 Driving stress and palatalisation from the **decoded dictionary flags** (rather
@@ -109,3 +109,6 @@ than a small curated list) is what lets the port generalise across the full
 lexicon: hundreds of words carry these flags. A handful of phonetic-rule /
 romanisation quirks the dictionary does not encode through its bits remain as
 explicit per-word handling.
+
+---
+[← Dialects](dialects.md) · [Home](README.md) · [Methodology →](methodology.md)

@@ -3,7 +3,7 @@
 Correctness is parity with the AhoTTS reference engines, measured per version on
 held-out corpora that ship as test fixtures (`tests/data/eu_corpus.json`,
 `tests/data/es_corpus.json`). Each row pairs a source sentence with the
-reference engine's phonemized output; scoring is positional (space-split) word
+reference engine's phonemized output. Scoring uses positional (space-split) word
 match plus exact-line match.
 
 ## Per-version parity
@@ -19,7 +19,7 @@ parity (418/430 exact lines) against the AhoTTS_Iparrahotsa binary, over the
 
 Each figure is enforced by `tests/test_oracle.py`, which fails if parity drops
 below the verified threshold. Spanish is exact across both versions
-because Spanish g2p and stress are fully rule-driven; the bundled `es_dicc` only
+because Spanish g2p and stress are fully rule-driven. The bundled `es_dicc` only
 respells a short list of foreign words and abbreviations.
 
 ## Reproducing
@@ -35,7 +35,10 @@ pytest tests/test_oracle.py -q
 
 The small number of Basque mismatches are concentrated in out-of-vocabulary
 **foreign / loan words** that AhoTTS romanises with word-specific rules the port
-does not encode bit-for-bit (e.g. some proper names and roman-numeral edge cases
-in mixed numeric contexts). These are an inherent property of OOV foreign-word
-romanisation; native Basque vocabulary is reproduced exactly via the decoded
-dictionary flags.
+does not encode bit-for-bit (for example some proper names and roman-numeral
+edge cases in mixed numeric contexts). These mismatches are an inherent property
+of OOV foreign-word romanisation. Native Basque vocabulary is reproduced exactly
+via the decoded dictionary flags.
+
+---
+[← Reverse engineering](reverse-engineering.md) · [Home](README.md) · [Licensing →](licensing.md)
