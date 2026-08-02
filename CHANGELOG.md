@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0a1](https://github.com/TigreGotico/ahotts-g2p/tree/0.2.0a1) (2026-08-02)
+
+[Full Changelog](https://github.com/TigreGotico/ahotts-g2p/compare/0.1.1a1...0.2.0a1)
+
+**Merged pull requests:**
+
+- feat: multi-alphabet output via scriptconv [\#5](https://github.com/TigreGotico/ahotts-g2p/pull/5) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.1.1a1](https://github.com/TigreGotico/ahotts-g2p/tree/0.1.1a1) (2026-07-30)
 
 [Full Changelog](https://github.com/TigreGotico/ahotts-g2p/compare/0.1.0...0.1.1a1)
