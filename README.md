@@ -86,18 +86,16 @@ engine as their own space-separated token) pass through unchanged in every
 alphabet: they are not phones, and no phonetic notation covers them.
 
 A phone with no mapping in the requested notation raises `ValueError` -- it is
-never silently dropped. Two such gaps exist in scriptconv 0.0.4a13's X-SAMPA
-table and are scriptconv-side, not fixed here:
+never silently dropped. The X-SAMPA trill `r` and plain `h` gaps present in
+older scriptconv releases are both fixed as of scriptconv 0.0.4a16 (the
+alveolar trill and the voiceless glottal fricative now both encode fine).
+ARPABET remains a real, permanent gap for several Basque/Spanish phones --
+it is scoped to English phonology and will never grow entries for them:
 
-- **`r` (alveolar trill)** has no X-SAMPA entry. Standard X-SAMPA spells the
-  trill `r` and the tap `4`; scriptconv's table has the tap (as `4`, and
-  aliased under `r` on the *decode* side) but no encoding for the IPA trill
-  `r`. Any AhoTTS word with a geminate `rr` (which folds to the IPA trill)
-  raises when converted to `alphabet="x-sampa"`.
-- **`h` (voiceless glottal fricative)** has no X-SAMPA entry either --
-  scriptconv's table only has `h\` for breathy-voiced `ɦ`. Basque `/h/`
-  (pronounced in the Northern dialect, silent-but-stress-shifting in
-  `modern`) raises the same way.
+- **`ʂ` (retroflex fricative)**, e.g. Basque `/z/` in "Ez", raises when
+  converted to `alphabet="arpa"`.
+- **`β` (voiced bilabial approximant/fricative)**, intervocalic Basque/
+  Spanish `b`/`v` (e.g. in "ibili"), raises the same way.
 
 ## Versions
 

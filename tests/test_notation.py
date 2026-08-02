@@ -5,17 +5,17 @@
 * IPA spot checks on documented gold lines (README quick-start / oracle
   corpus): stress folds back to the real IPA mark ``ˈ`` (U+02C8), affricates
   and aspirated stops expand to their multi-char IPA sequence.
-* One X-SAMPA check per language (picked to avoid the two scriptconv table
-  gaps documented below).
+* One X-SAMPA check per language.
 * Error path: unsupported alphabet, and phones with no mapping in the
   requested scriptconv notation raise ``ValueError`` (never silently drop).
 
-Known scriptconv X-SAMPA table gaps (out of scope here; scriptconv-side):
-the standard X-SAMPA table is missing plain ``r`` (alveolar trill -- only the
-tap ``4``/``r`` alias is present as IPA ɾ) and plain ``h`` (voiceless glottal
-fricative -- only ``h\\`` for ɦ is present). Any AhoTTS output containing a
-trill (``rr`` -> IPA ``r``) or ``/h/`` raises ``ValueError`` when converted to
-``alphabet="x-sampa"``; this is exercised below as the error-path test.
+ARPABET is scoped to English phonology, so it inherently lacks symbols for
+several Basque/Spanish phones and will never grow them: the retroflex
+fricative ``ʂ`` (Basque /z/, e.g. in "Ez") and the voiced bilabial
+approximant/fricative ``β`` (intervocalic Basque/Spanish b/v, e.g. in
+"ibili"). Any AhoTTS output containing either raises ``ValueError`` when
+converted to ``alphabet="arpa"``; this is exercised below as the error-path
+test.
 """
 import pytest
 
@@ -64,7 +64,6 @@ def test_convert_alphabet_native_is_identity():
 
 
 def test_xsampa_spot_check_basque():
-    # no trill /r/, no /h/ -- clear of the documented scriptconv table gaps
     out = phonemize("Kaixo mundua", lang="eu", version="classic", alphabet="x-sampa")
     assert out == 'kajS"o mund"ua'
 
@@ -80,12 +79,15 @@ def test_unsupported_alphabet_raises():
 
 
 def test_unmapped_symbol_raises_clearly_not_silently():
-    # /h/ has no scriptconv X-SAMPA mapping (table gap, documented above)
-    with pytest.raises(ValueError, match="x-sampa"):
-        phonemize("hori horrek", lang="eu", dialect="northern", alphabet="x-sampa")
+    # /S`/ (retroflex fricative, Basque /z/) has no ARPABET mapping -- an
+    # inherent gap in ARPA's English-scoped inventory (table gap, documented
+    # above), not something scriptconv will ever add.
+    with pytest.raises(ValueError, match="arpa"):
+        phonemize("Ez, horrek ez du balio!", lang="eu", alphabet="arpa")
 
 
-def test_trill_r_unmapped_in_xsampa_raises():
-    # "horrek" folds its geminate rr to the IPA trill /r/, also unmapped
+def test_beta_unmapped_in_arpa_raises():
+    # "ibili" folds intervocalic b to the IPA voiced bilabial
+    # approximant/fricative beta, also inherently unmapped in ARPABET
     with pytest.raises(ValueError):
-        phonemize("horrek", lang="eu", alphabet="x-sampa")
+        phonemize("ibili", lang="eu", alphabet="arpa")
