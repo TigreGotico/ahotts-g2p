@@ -9,7 +9,10 @@ def test_exports():
     assert callable(phonemize)
     assert isinstance(SAMPA_TO_IPA, dict)
     assert isinstance(ahotts_g2p.__version__, str)
-    assert set(ahotts_g2p.__all__) == {"phonemize", "SAMPA_TO_IPA", "__version__"}
+    assert set(ahotts_g2p.__all__) == {
+        "phonemize", "SAMPA_TO_IPA", "SUPPORTED_ALPHABETS",
+        "native_to_ipa", "convert_alphabet", "__version__",
+    }
 
 
 def test_supported_langs_and_versions():
@@ -65,5 +68,5 @@ def test_unsupported_version_raises(version):
 
 
 def test_version_string_is_alpha():
-    assert ahotts_g2p.__version__.startswith("0.1.0")
+    assert ahotts_g2p.__version__.startswith("0.1.")
     assert "a" in ahotts_g2p.__version__

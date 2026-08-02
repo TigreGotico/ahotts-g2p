@@ -24,10 +24,14 @@ Public API
 """
 from .es import phonemize_es as _phonemize_es
 from .g2p import phonemize_eu as _phonemize_eu
+from .notation import SUPPORTED_ALPHABETS, convert_alphabet, native_to_ipa
 from .phones import SAMPA_TO_IPA
 from .version import __version__
 
-__all__ = ["phonemize", "SAMPA_TO_IPA", "__version__"]
+__all__ = [
+    "phonemize", "SAMPA_TO_IPA", "SUPPORTED_ALPHABETS", "native_to_ipa",
+    "convert_alphabet", "__version__",
+]
 
 #: Languages the phonemizer can handle.
 SUPPORTED_LANGS = ("eu", "es")
@@ -41,7 +45,8 @@ _VERSION_KEY = {"classic": "v1", "modern": "v3"}
 SUPPORTED_DIALECTS = ("standard", "northern")
 
 
-def phonemize(text, lang="eu", version="modern", dialect="standard"):
+def phonemize(text, lang="eu", version="modern", dialect="standard",
+              alphabet="native"):
     """Phonemize ``text`` into the AhoTTS single-char IPA training string.
 
     Parameters
@@ -63,19 +68,30 @@ def phonemize(text, lang="eu", version="modern", dialect="standard"):
         Iparrahotsa) engine -- pronounced /h/, French vowels (ü -> /y/), uvular
         /ʁ/, a remapped sibilant system.  See ``docs/dialects.md``.  Only valid
         for ``lang="eu"``.
+    alphabet : str, default ``"native"``
+        Output notation, see ``notation.SUPPORTED_ALPHABETS``.  ``"native"``
+        (the default) is the AhoTTS single-char training string, unchanged
+        from previous releases.  ``"ipa"`` expands the folded affricates,
+        stressed vowels and aspirated stops back to plain IPA. Any other
+        value is a `scriptconv <https://pypi.org/project/scriptconv/>`_
+        phonetic notation (``"x-sampa"``, ``"arpa"``, ``"lexique"``,
+        ``"kirshenbaum"``, ``"cotovia"``, ``"rfe"``, ``"mantoq"``), reached by
+        first expanding to IPA and then converting. See ``notation.py``.
 
     Returns
     -------
     str
-        Space-separated single-char IPA tokens, with stressed vowels and
-        multi-char phonemes folded to single characters, ready for a
-        StyleTTS2-style model.
+        Space-separated phonetic tokens in the requested ``alphabet``.  For
+        the default ``alphabet="native"`` this is single-char IPA, with
+        stressed vowels and multi-char phonemes folded to single characters,
+        ready for a StyleTTS2-style model.
 
     Raises
     ------
     ValueError
-        If ``lang``, ``version`` or ``dialect`` is not supported, or
-        ``dialect="northern"`` is combined with a non-Basque ``lang``.
+        If ``lang``, ``version``, ``dialect`` or ``alphabet`` is not
+        supported, ``dialect="northern"`` is combined with a non-Basque
+        ``lang``, or a phone has no mapping in the requested ``alphabet``.
     """
     lang = (lang or "eu").lower()
     version = (version or "modern").lower()
@@ -97,13 +113,13 @@ def phonemize(text, lang="eu", version="modern", dialect="standard"):
             )
         # The Northern (Iparrahotsa) engine is a single V1-lineage fork, so it
         # does not cross with the v1/v3 versions; `version` is ignored.
-        return _phonemize_eu(text, "eu_northern")
+        native = _phonemize_eu(text, "eu_northern")
+        return convert_alphabet(native, alphabet)
     if version not in SUPPORTED_VERSIONS:
         raise ValueError(
             f"version={version!r} is not supported "
             f"(supported: {', '.join(SUPPORTED_VERSIONS)}; see docs/versions.md)"
         )
     key = _VERSION_KEY[version]
-    if lang == "es":
-        return _phonemize_es(text, key)
-    return _phonemize_eu(text, key)
+    native = _phonemize_es(text, key) if lang == "es" else _phonemize_eu(text, key)
+    return convert_alphabet(native, alphabet)

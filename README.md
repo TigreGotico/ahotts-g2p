@@ -2,14 +2,17 @@
 
 [![license: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
 
-Pure-Python, **zero-dependency**, version-aware grapheme-to-phoneme (G2P) for
-**Basque (euskara)** and **Spanish**, faithfully reproducing the
+Pure-Python, version-aware grapheme-to-phoneme (G2P) for **Basque (euskara)**
+and **Spanish**, faithfully reproducing the
 [AhoTTS](https://aholab.ehu.eus/) text-to-speech front-end.
 
 `ahotts-g2p` turns text into the single-char IPA training string used by
 StyleTTS2/VITS-style models, matching the AhoTTS engines that phonemized the
-public HiTZ Basque voices. It is stdlib-only: no C build, no shared libraries,
-no runtime dependencies.
+public HiTZ Basque voices. The g2p pipeline itself is stdlib-only: no C build,
+no shared libraries. The only runtime dependency is
+[scriptconv](https://pypi.org/project/scriptconv/), used to render output in
+notations other than the native alphabet (see
+[Output alphabets](#output-alphabets)).
 
 ## Install
 
@@ -45,6 +48,56 @@ cat sentences.txt | python -m ahotts_g2p
 ```
 
 Also exported: `SAMPA_TO_IPA`, the ordered SAMPA -> IPA mapping table.
+
+## Output alphabets
+
+`phonemize()` takes an `alphabet` argument. The default, `"native"`, is the
+AhoTTS single-char training string above -- unchanged from previous releases.
+
+```python
+from ahotts_g2p import phonemize, SUPPORTED_ALPHABETS
+
+print(SUPPORTED_ALPHABETS)
+# ('native', 'ipa', 'x-sampa', 'arpa', 'lexique', 'kirshenbaum', 'cotovia', 'rfe', 'mantoq')
+
+phonemize("Bai.", alphabet="ipa")                                        # 'bˈaj .'
+phonemize("Kaixo mundua", version="classic", alphabet="x-sampa")         # 'kajS"o mund"ua'
+phonemize("Hola mundo.", lang="es", version="classic", alphabet="ipa")   # 'ˈola mˈundo'
+```
+
+CLI:
+
+```bash
+python -m ahotts_g2p --alphabet x-sampa "Kaixo mundua"
+```
+
+`alphabet="ipa"` expands the native string back to plain IPA: it reverses the
+folding `phonemize()` applies for the single-char training format (affricates
+`C`/`V`/`P`, stressed vowels `I`/`E`/`A`/`O`/`U`, the Spanish aspirated stops
+`H`/`K`/`T`), and corrects the ASCII apostrophe the AhoTTS dictionaries use
+internally for stress to the real IPA primary-stress mark, `ˈ` (U+02C8). Every
+other native character is already IPA, per `SAMPA_TO_IPA`, so most phones need
+no change at all. Every other `alphabet` value is a
+[scriptconv](https://pypi.org/project/scriptconv/) phonetic notation, reached
+by converting that IPA string with `scriptconv.notation.convert`.
+
+Punctuation tokens (`.`, `,`, `!`, `?`, `;`, `:` -- surfaced by the `modern`
+engine as their own space-separated token) pass through unchanged in every
+alphabet: they are not phones, and no phonetic notation covers them.
+
+A phone with no mapping in the requested notation raises `ValueError` -- it is
+never silently dropped. Two such gaps exist in scriptconv 0.0.4a13's X-SAMPA
+table and are scriptconv-side, not fixed here:
+
+- **`r` (alveolar trill)** has no X-SAMPA entry. Standard X-SAMPA spells the
+  trill `r` and the tap `4`; scriptconv's table has the tap (as `4`, and
+  aliased under `r` on the *decode* side) but no encoding for the IPA trill
+  `r`. Any AhoTTS word with a geminate `rr` (which folds to the IPA trill)
+  raises when converted to `alphabet="x-sampa"`.
+- **`h` (voiceless glottal fricative)** has no X-SAMPA entry either --
+  scriptconv's table only has `h\` for breathy-voiced `ɦ`. Basque `/h/`
+  (pronounced in the Northern dialect, silent-but-stress-shifting in
+  `modern`) raises the same way.
 
 ## Versions
 
