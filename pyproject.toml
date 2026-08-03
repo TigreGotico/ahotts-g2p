@@ -33,7 +33,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "scriptconv>=0.0.4a13",
+    "scriptconv>=0.0.4a18",
 ]
 
 [project.optional-dependencies]

@@ -58,7 +58,7 @@ AhoTTS single-char training string above -- unchanged from previous releases.
 from ahotts_g2p import phonemize, SUPPORTED_ALPHABETS
 
 print(SUPPORTED_ALPHABETS)
-# ('native', 'ipa', 'x-sampa', 'arpa', 'lexique', 'kirshenbaum', 'cotovia', 'rfe', 'mantoq')
+# ('native', 'ipa', 'x-sampa', 'arpa', 'lexique', 'kirshenbaum', 'cotovia', 'rfe', 'halabi')
 
 phonemize("Bai.", alphabet="ipa")                                        # 'bˈaj .'
 phonemize("Kaixo mundua", version="classic", alphabet="x-sampa")         # 'kajS"o mund"ua'
