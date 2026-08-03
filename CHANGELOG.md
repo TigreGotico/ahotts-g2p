@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a1](https://github.com/TigreGotico/ahotts-g2p/tree/0.2.1a1) (2026-08-03)
+
+[Full Changelog](https://github.com/TigreGotico/ahotts-g2p/compare/0.2.0a1...0.2.1a1)
+
+**Merged pull requests:**
+
+- fix: follow scriptconv mantoq→halabi notation rename [\#7](https://github.com/TigreGotico/ahotts-g2p/pull/7) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.0a1](https://github.com/TigreGotico/ahotts-g2p/tree/0.2.0a1) (2026-08-02)
 
 [Full Changelog](https://github.com/TigreGotico/ahotts-g2p/compare/0.1.1a1...0.2.0a1)
