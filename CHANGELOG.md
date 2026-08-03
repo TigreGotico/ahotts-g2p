@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2a1](https://github.com/TigreGotico/ahotts-g2p/tree/0.2.2a1) (2026-08-03)
+
+[Full Changelog](https://github.com/TigreGotico/ahotts-g2p/compare/0.2.1a1...0.2.2a1)
+
+**Merged pull requests:**
+
+- fix: assert prerelease instead of pinning minor version in version test [\#9](https://github.com/TigreGotico/ahotts-g2p/pull/9) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.1a1](https://github.com/TigreGotico/ahotts-g2p/tree/0.2.1a1) (2026-08-03)
 
 [Full Changelog](https://github.com/TigreGotico/ahotts-g2p/compare/0.2.0a1...0.2.1a1)
