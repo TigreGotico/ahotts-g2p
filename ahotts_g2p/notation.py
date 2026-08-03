@@ -17,7 +17,7 @@ training char" alphabet *is* single-char IPA, per ``phones.SAMPA_TO_IPA``, so
 most phones need no translation at all.
 
 IPA -> anything else is delegated entirely to scriptconv (``x-sampa``,
-``arpa``, ``lexique``, ``kirshenbaum``, ``cotovia``, ``rfe``, ``mantoq``).
+``arpa``, ``lexique``, ``kirshenbaum``, ``cotovia``, ``rfe``, ``halabi``).
 Buckwalter/Arabic are excluded: those are orthographic transliteration
 notations, not phonetic ones, and do not apply to a phone string.
 """
@@ -56,7 +56,7 @@ SCRIPTCONV_ALPHABETS = (
     Notation.KIRSHENBAUM.value,
     Notation.COTOVIA.value,
     Notation.RFE.value,
-    Notation.MANTOQ.value,
+    Notation.HALABI.value,
 )
 #: every ``alphabet=`` value ``phonemize()`` accepts.
 SUPPORTED_ALPHABETS = ("native", "ipa") + SCRIPTCONV_ALPHABETS
@@ -90,7 +90,7 @@ def convert_alphabet(native: str, alphabet: str) -> str:
         One of ``SUPPORTED_ALPHABETS``: ``"native"`` (identity), ``"ipa"``
         (`native_to_ipa`), or a scriptconv phonetic notation (``"x-sampa"``,
         ``"arpa"``, ``"lexique"``, ``"kirshenbaum"``, ``"cotovia"``,
-        ``"rfe"``, ``"mantoq"``).
+        ``"rfe"``, ``"halabi"``).
 
         Punctuation tokens -- surfaced by the ``modern`` engine as their own
         space-separated token (``.``/``,``/``!``/``?``/``;``/``:``) -- are

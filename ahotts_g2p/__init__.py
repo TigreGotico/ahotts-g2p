@@ -75,7 +75,7 @@ def phonemize(text, lang="eu", version="modern", dialect="standard",
         stressed vowels and aspirated stops back to plain IPA. Any other
         value is a `scriptconv <https://pypi.org/project/scriptconv/>`_
         phonetic notation (``"x-sampa"``, ``"arpa"``, ``"lexique"``,
-        ``"kirshenbaum"``, ``"cotovia"``, ``"rfe"``, ``"mantoq"``), reached by
+        ``"kirshenbaum"``, ``"cotovia"``, ``"rfe"``, ``"halabi"``), reached by
         first expanding to IPA and then converting. See ``notation.py``.
 
     Returns
