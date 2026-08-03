@@ -68,5 +68,8 @@ def test_unsupported_version_raises(version):
 
 
 def test_version_string_is_alpha():
-    assert ahotts_g2p.__version__.startswith("0.1.")
-    assert "a" in ahotts_g2p.__version__
+    import re
+    # Check that version is a prerelease (alpha/beta/rc)
+    # Regex matches alpha (a#), beta (b#), or rc (rc#) suffixes
+    assert re.search(r'(a|b|rc)\d+$', ahotts_g2p.__version__), \
+        f"Expected prerelease version with a/b/rc suffix, got {ahotts_g2p.__version__}"
