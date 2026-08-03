@@ -33,3 +33,6 @@ The AhoTTS algorithms and the bundled Basque/Spanish dictionaries
 shipped as package data and read at runtime from their on-disk HDIC binary
 format. They are produced by Aholab and distributed here under the same GPL-3.0
 terms as the upstream engine.
+
+---
+[← Accuracy](accuracy.md) · [Home](README.md)

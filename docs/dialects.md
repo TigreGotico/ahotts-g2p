@@ -118,3 +118,6 @@ not approximation hacks:
 See [accuracy.md](accuracy.md) for the methodology shared with the Southern
 figures, and [reverse-engineering.md](reverse-engineering.md) for how the
 Iparrahotsa oracle was captured.
+
+---
+[← Versions](versions.md) · [Home](README.md) · [Architecture →](architecture.md)

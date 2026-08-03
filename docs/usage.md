@@ -75,3 +75,6 @@ Unsupported `lang` (anything but `eu`/`es`) or `version` (anything but
 `classic`/`modern`) raises `ValueError` with a message pointing at what is
 supported. This lets you pin a language/version and get a clear failure rather
 than silent wrong output.
+
+---
+[← Installation](installation.md) · [Home](README.md) · [Versions →](versions.md)
